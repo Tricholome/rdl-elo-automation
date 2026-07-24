@@ -1,5 +1,5 @@
 {% set tier_titles = {
-    'stag': 'Sacred Stag',
+    'stag': 'Sacred Stags',
     'bird': 'Brilliant Birds',
     'fox': 'Fearless Foxes',
     'rabbit': 'Radiant Rabbits',
@@ -37,11 +37,9 @@
 					{% if s.is_section %}
 						<tr class="tier-header-row">
 							<td>
-								<a href="javascript:void(0)" onclick="handleTierClick(event, '{{ s.tier }}')" class="tier-anchor-link">
-									<div class="tier-icon-container">
-										<img src="{{ config.assets.icons[s.tier] }}" alt="{{ s.tier }}">
-									</div>
-								</a>
+								<div class="tier-icon-container">
+									<img src="{{ config.assets.icons[s.tier] }}" alt="{{ s.tier }}">
+								</div>
 							</td>
 							<td>
 								{% set words = tier_titles[s.tier].split(' ') %}
@@ -68,11 +66,9 @@
 			<thead>
 				<tr>
 					<th>
-						<a href="javascript:void(0)" onclick="handleTierClick(event, 'squirrel')" class="tier-anchor-link">
-							<div class="tier-icon-container">
-								<img src="{{ config.assets.icons['squirrel'] }}" alt="squirrel">
-							</div>
-						</a>
+						<div class="tier-icon-container">
+							<img src="{{ config.assets.icons['squirrel'] }}" alt="squirrel">
+						</div>
 					</th>
 					<th>
 						{% set words = tier_titles['squirrel'].split(' ') %}
