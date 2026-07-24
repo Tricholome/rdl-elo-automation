@@ -327,7 +327,6 @@ function updateChart() {
 
     if (name === "" || !allData[name]) {
         if (myChart) myChart.destroy();
-        localStorage.removeItem('selectedPlayer');
         return;
     }
 
@@ -428,18 +427,6 @@ function updateChart() {
 		});
     }
 }
-
-$(document).ready(function() {
-    if ($('#progressionChart').length > 0) {
-        const input = document.getElementById('playerName');
-        const savedPlayer = localStorage.getItem('selectedPlayer');
-
-        if (savedPlayer && CONFIG.chartData[savedPlayer]) {
-            input.value = savedPlayer;
-            updateChart();
-        }
-    }
-});
 
 
 /* =========================================================================
