@@ -755,7 +755,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 .player-name {
     color: var(--text-muted);
     display: inline-block;
-	max-width: 110px; 
+	max-width: clamp(110px, 60%, 300px); 
     overflow: hidden; 
     text-overflow: ellipsis; 
     white-space: nowrap; 
