@@ -45,13 +45,25 @@
 		}
     </style>
 	
+	{% if page_id != 'index' or is_archive %}
+	<meta name="robots" content="noindex, follow">
+	{% endif %}
+
+	{% if seo_description %}
+	<meta name="description" content="{{ seo_description }}">
+	{% elif description %}
+	<meta name="description" content="{{ description }}">
+	{% endif %}
+
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://tricholome.github.io/rootelo">
 	<meta property="og:title" content="ROOTELO">
 	<meta property="og:description" content="A Metric of Woodland Skill and Will">
 	<meta property="og:image" content="https://tricholome.github.io/rootelo/assets/images/rootelo-preview.webp">
 	
+	<link rel="icon" type="image/png" sizes="192x192" href="https://tricholome.github.io/rootelo/assets/icons/favicon.png">
 	<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+	<link rel="apple-touch-icon" href="https://tricholome.github.io/rootelo/assets/icons/favicon.png">
 
     {% block extra_head %}{% endblock %}
 	{% block extra_css %}{% endblock %}
