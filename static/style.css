@@ -6,9 +6,8 @@
    I.   FOUNDATIONS & BASE UTILITIES
    II.  LAYOUT & STRUCTURAL FRAMEWORK
    III. NAVIGATION & GLOBAL CONTROLS
-   IV.  COMPONENTS (Banner, DataTables, Network/Trends, Codex, Modals)
-   V.   THEMES, GAME MECHANICS & ANIMATIONS
-   VI.  UNDERGROWTH (HIDDEN SECRETS & EASTER EGGS)
+   IV. 	COMPONENTS (Banner, DataTables, Chart/Relations, Codex, Modals)
+   V.  	SPECIAL EFFECTS & SECRET CONTENT
    ========================================================================= */
 
 
@@ -16,7 +15,7 @@
    --- I. FOUNDATIONS & BASE UTILITIES ---
    ========================================================================= */
 
-/* --- 1.1 Global Environment & Reset --- */
+/* --- 1.1 Global Environment --- */
 html {
     scroll-behavior: smooth;
     height: 100%;
@@ -45,7 +44,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Ambient Overlay / Vignette */
+/* Ambient Overlay */
 body::after {
     content: "";
     position: fixed;
@@ -60,7 +59,7 @@ body::after {
     opacity: 1; 
 }
 
-/* --- 1.2 Typography Utilities --- */
+/* --- 1.2 Typography & Link Utilities --- */
 .text-left    { text-align: left !important; }
 .text-center  { text-align: center !important; }
 
@@ -103,6 +102,30 @@ a.insta:hover {
     color: var(--main-color); 
 }
 
+/* --- 1.3 Dynamic Tier Color Utilities --- */
+.tier-bird     { color: var(--color-bird) !important; }
+.tier-fox      { color: var(--color-fox) !important; }
+.tier-rabbit   { color: var(--color-rabbit) !important; }
+.tier-mouse    { color: var(--color-mouse) !important; }
+.tier-squirrel { color: var(--color-squirrel) !important; }
+.tier-stag     { color: var(--color-stag) !important; }
+.tier-bear     { color: var(--color-bear) !important; }
+
+table.dataTable tbody tr[data-tier="bird"]     { background-color: var(--color-bird-bg) !important; border-left: 4px solid var(--color-bird) !important; }
+table.dataTable tbody tr[data-tier="fox"]      { background-color: var(--color-fox-bg) !important; border-left: 4px solid var(--color-fox) !important; }
+table.dataTable tbody tr[data-tier="rabbit"]   { background-color: var(--color-rabbit-bg) !important; border-left: 4px solid var(--color-rabbit) !important; }
+table.dataTable tbody tr[data-tier="mouse"]    { background-color: var(--color-mouse-bg) !important; border-left: 4px solid var(--color-mouse) !important; }
+table.dataTable tbody tr[data-tier="squirrel"] { background-color: var(--color-squirrel-bg) !important; border-left: 4px solid var(--color-squirrel) !important; }
+table.dataTable tbody tr[data-tier="stag"]     { background-color: var(--color-stag-bg) !important; border-left: 4px solid var(--color-stag) !important; }
+table.dataTable tbody tr[data-tier="bear"]     { background-color: var(--color-bear-bg) !important; border-left: 4px solid var(--color-bear) !important; }
+
+tr[data-tier="bird"] td:nth-child(4)     { color: var(--color-bird) !important; }
+tr[data-tier="fox"] td:nth-child(4)      { color: var(--color-fox) !important; }
+tr[data-tier="rabbit"] td:nth-child(4)   { color: var(--color-rabbit) !important; }
+tr[data-tier="mouse"] td:nth-child(4)    { color: var(--color-mouse) !important; }
+tr[data-tier="squirrel"] td:nth-child(4) { color: var(--color-squirrel) !important; }
+tr[data-tier="stag"] td:nth-child(4)     { color: var(--color-stag) !important; }
+tr[data-tier="bear"] td:nth-child(4)     { color: var(--color-bear) !important; }
 
 /* =========================================================================
    --- II. LAYOUT & STRUCTURAL FRAMEWORK ---
@@ -536,7 +559,6 @@ nav a.active {
 
 .banner-icons { 
     display: flex; 
-    gap: -10px; 
     align-items: center; 
 }
 
@@ -622,13 +644,6 @@ nav a.active {
     .banner-icons a.tooltip-link, 
     .banner-icons a.tooltip-link.expanded { margin: 0; display: inline-block; }
     
-    body.nut-found:not(.berry-found) .banner-icons a.tooltip-link,
-    body.berry-found:not(.nut-found) .banner-icons a.tooltip-link,
-    body.nut-found:not(.berry-found) .banner-icons a.tooltip-link.expanded,
-    body.berry-found:not(.nut-found) .banner-icons a.tooltip-link.expanded {
-        margin: 0 -5px;
-    }
-    
     .banner-icons a.tooltip-link.expanded img { 
         transform: translateY(-8px) scale(1.4) !important; 
         position: relative; 
@@ -651,7 +666,7 @@ nav a.active {
 
 
 /* -------------------------------------------------------------------------
-   [COMPONENTS] 2. DATATABLES (Global, Leaderboard, Matches, HOF, Visitor)
+   [COMPONENTS] 2. DATATABLES (Global, Leaderboard, Matches)
    ------------------------------------------------------------------------- */
 
 /* Base Structure & Table Layout */
@@ -825,113 +840,6 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     white-space: nowrap !important; 
 }
 
-/* Hall of Fame Table Specifics */
-#hall_of_fame thead { visibility: collapse; }
-#hall_of_fame thead th {
-    padding: 0 !important;
-    border: none !important;
-    line-height: 0 !important;
-    font-size: 0 !important;
-}
-
-#hall_of_fame {
-    border-top: 1px solid var(--glass-border) !important;
-    pointer-events: none !important;
-}
-
-.tier-header-row td,
-#visitor_table thead th { 
-    background: var(--dt-header-bg); 
-    color: var(--text-muted) !important;
-    font-family: var(--font-ui) !important;	
-    font-size: var(--size-xs) !important;
-    font-weight: var(--medium) !important;
-    letter-spacing: var(--track-wide) !important;
-    text-transform: uppercase !important; 
-    padding: 10px !important; 
-    border-bottom: 1px solid var(--border-soft); 
-}
-
-.tier-header-row tr:hover td { background: var(--dt-header-bg) !important; }
-
-#hall_of_fame .tier-anchor-link,
-#hall_of_fame a, 
-#hall_of_fame button {
-    pointer-events: auto !important;
-}
-
-#hall_of_fame td::before, 
-#hall_of_fame td::after {
-    display: none !important;
-    content: "" !important;
-}
-
-#hall_of_fame tr { cursor: default !important; }
-
-.streak-cell {
-    color: var(--text-bright);
-    font-size: var(--size-md);
-    font-weight: var(--bold);
-}
-
-/* Visitor Table Specifics */
-#visitor-recognition { margin-top: 40px; }
-#input-zone { display: none; }
-
-#visitor-name {
-    background: var(--dt-input-bg);
-    color: var(--text-main);
-    border: 1px solid var(--border-soft);
-    padding: 6px 8px;
-    border-radius: 4px;
-    outline: none;
-}
-
-#visitor-name:focus {
-    border-color: var(--main-color) !important;
-    background: var(--dt-row-hover) !important;
-}
-
-#visitor_table {
-    display: none;
-    margin-top: 5px !important;
-}
-
-#visitor_table tr[data-tier] { pointer-events: none !important; }
-
-#hall_of_fame td:first-child,
-#visitor_table td:first-child,
-#hall_of_fame th:first-child,
-#visitor_table th:first-child {
-    width: 60px !important;
-    min-width: 60px !important;
-    max-width: 60px !important;
-    text-align: center !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    box-sizing: border-box !important;
-}
-
-#hall_of_fame .tier-icon-container,
-#visitor_table .tier-icon-container {
-    width: 36px;
-    margin: 0 auto !important;
-}
-
-.visitor-cell {
-    text-align: left;
-    color: var(--text-muted) !important;
-    font-style: italic !important;
-}
-
-.visitor-name {
-    font-weight: var(--medium) !important;
-    color: var(--text-main) !important;
-    font-style: normal !important;
-}
-
-.visitor-date { white-space: nowrap; }
-
 /* Responsive Table Adjustments */
 .hide-mobile { display: inline; }
 
@@ -957,7 +865,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 
 
 /* -------------------------------------------------------------------------
-   [COMPONENTS] 3. TRENDS & NARRATIVE NETWORK VISUALIZATION
+   [COMPONENTS] 3. CHART & RELATIONS VISUALIZATION
    ------------------------------------------------------------------------- */
 
 /* Chart Container Wrapper */
@@ -1280,7 +1188,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 
 
 /* -------------------------------------------------------------------------
-   [COMPONENTS] 5. MODAL DIALOGS & POPUPS
+   [COMPONENTS] 5. TIER MODALS
    ------------------------------------------------------------------------- */
 .modal-overlay {
     display: none; 
@@ -1423,43 +1331,39 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     #modalText, #modalFinal { font-size: var(--size-sm); line-height: 1.4; margin-top: 20px; text-align: left; }
 }
 
-
 /* =========================================================================
-   --- V. THEMES, GAME MECHANICS & ANIMATIONS ---
+   --- V. SPECIAL EFFECTS & SECRET CONTENT ---
    ========================================================================= */
 
-/* --- 5.1 Dynamic Tier Color Utilities --- */
-.tier-bird     { color: var(--color-bird) !important; }
-.tier-fox      { color: var(--color-fox) !important; }
-.tier-rabbit   { color: var(--color-rabbit) !important; }
-.tier-mouse    { color: var(--color-mouse) !important; }
-.tier-squirrel { color: var(--color-squirrel) !important; }
-.tier-stag     { color: var(--color-stag) !important; }
-.tier-bear     { color: var(--color-bear) !important; }
+/* -------------------------------------------------------------------------
+   5.1 Seasonal & Champion Special Effects
+   ------------------------------------------------------------------------- */
 
-/* Table Row Highlights by Tier */
-table.dataTable tbody tr[data-tier="bird"]     { background-color: var(--color-bird-bg) !important; border-left: 4px solid var(--color-bird) !important; }
-table.dataTable tbody tr[data-tier="fox"]      { background-color: var(--color-fox-bg) !important; border-left: 4px solid var(--color-fox) !important; }
-table.dataTable tbody tr[data-tier="rabbit"]   { background-color: var(--color-rabbit-bg) !important; border-left: 4px solid var(--color-rabbit) !important; }
-table.dataTable tbody tr[data-tier="mouse"]    { background-color: var(--color-mouse-bg) !important; border-left: 4px solid var(--color-mouse) !important; }
-table.dataTable tbody tr[data-tier="squirrel"] { background-color: var(--color-squirrel-bg) !important; border-left: 4px solid var(--color-squirrel) !important; }
-table.dataTable tbody tr[data-tier="stag"]     { background-color: var(--color-stag-bg) !important; border-left: 4px solid var(--color-stag) !important; }
-table.dataTable tbody tr[data-tier="bear"]     { background-color: var(--color-bear-bg) !important; border-left: 4px solid var(--color-bear) !important; }
+/* Season Champion: Swaying Crown Animation */
+#modalCrown {
+    position: absolute;
+    width: clamp(70px, 42%, 120px);
+    height: auto;
+    top: clamp(60px, 25%, 70px); 
+    left: 50%;
+    transform: translateX(-50%) rotate(0deg);
+    transform-origin: bottom center;
+    pointer-events: none;
+    z-index: 10;
+    animation: sway-crown 3s ease-in-out infinite;
+}
 
-/* Rating Column Specific Tier Colors */
-tr[data-tier="bird"] td:nth-child(4)     { color: var(--color-bird) !important; }
-tr[data-tier="fox"] td:nth-child(4)      { color: var(--color-fox) !important; }
-tr[data-tier="rabbit"] td:nth-child(4)   { color: var(--color-rabbit) !important; }
-tr[data-tier="mouse"] td:nth-child(4)    { color: var(--color-mouse) !important; }
-tr[data-tier="squirrel"] td:nth-child(4) { color: var(--color-squirrel) !important; }
-tr[data-tier="stag"] td:nth-child(4)     { color: var(--color-stag) !important; }
-tr[data-tier="bear"] td:nth-child(4)     { color: var(--color-bear) !important; }
+@keyframes sway-crown {
+    0%   { transform: translate(-50%, -85%) rotate(-7deg); }
+    50%  { transform: translate(-50%, -85%) rotate(7deg); }
+    100% { transform: translate(-50%, -85%) rotate(-7deg); }
+}
 
-/* --- 5.2 Season Champion Effects & Animations --- */
+/* Bear Tier: Shimmer Animation & Modal Modifiers */
 @keyframes bearShimmer {
-    0% { background-position: 0% 0; }
-    35% { background-position: 100% 0; }
-    70% { background-position: 0% 0; }
+    0%   { background-position: 0% 0; }
+    35%  { background-position: 100% 0; }
+    70%  { background-position: 0% 0; }
     100% { background-position: 0% 0; }
 }
 
@@ -1475,45 +1379,30 @@ body.archive-view table.dataTable tbody tr[data-tier="bear"],
     animation: bearShimmer 7s infinite ease-in-out !important;
 }
 
-#modalFinal strong {
-    color: var(--text-main);
-    font-weight: var(--medium);
-}
-
-#modalFinal a.cl { border-bottom: 1px dotted var(--color-bear); color: var(--text-muted); }
-#modalFinal a.cl:hover { border-bottom: 1px solid var(--color-bear); color: var(--color-bear); }
-
 .bear-shimmer #modalIcon {
     margin-top: 50px;
     margin-bottom: -15px;
 }
 
-/* Crown Sway Animation */
-#modalCrown {
-    position: absolute;
-    width: clamp(70px, 42%, 120px);
-    height: auto;
-    top: clamp(60px, 25%, 70px); 
-    left: 50%;
-    transform: translateX(-50%) rotate(0deg);
-    transform-origin: bottom center;
-    pointer-events: none;
-    z-index: 10;
-    animation: sway-crown 3s ease-in-out infinite;
+#modalFinal strong {
+    color: var(--text-main);
+    font-weight: var(--medium);
 }
 
-@keyframes sway-crown {
-    0% { transform: translate(-50%, -85%) rotate(-7deg); }
-    50% { transform: translate(-50%, -85%) rotate(7deg); }
-    100% { transform: translate(-50%, -85%) rotate(-7deg); }
+#modalFinal a.cl { 
+    border-bottom: 1px dotted var(--color-bear); 
+    color: var(--text-muted); 
+}
+
+#modalFinal a.cl:hover { 
+    border-bottom: 1px solid var(--color-bear); 
+    color: var(--color-bear); 
 }
 
 
-/* =========================================================================
-   --- VI. UNDERGROWTH (HIDDEN SECRETS & EASTER EGGS) ---
-   ========================================================================= */
-
-/* --- 6.1 Entry & Exit Triggers --- */
+/* -------------------------------------------------------------------------
+   5.2 Entry & Exit Secret Triggers
+   ------------------------------------------------------------------------- */
 .secret-btn {
     display: inline-block;
     position: relative;
@@ -1565,7 +1454,13 @@ body.watcher-found #leave-secrets {
     display: inline-block;
 }
 
-/* --- 6.2 Watcher & Warden Enigmas --- */
+.nav-secret { display: none; }
+body.watcher-found .nav-secret { display: inline-block; }
+
+
+/* -------------------------------------------------------------------------
+   5.3 Watcher & Warden Enigmas
+   ------------------------------------------------------------------------- */
 .enigma { text-align: center !important; }
 .enigma-green { margin-top: 0 !important; }
 .enigma span { display: block !important; }
@@ -1638,10 +1533,10 @@ body.watcher-found .footer-credits a.cl:hover {
     }
 }
 
-.nav-secret { display: none; }
-body.watcher-found .nav-secret { display: inline-block; }
 
-/* --- 6.3 Interactive Fruit Mechanics --- */
+/* -------------------------------------------------------------------------
+   5.4 Interactive Fruit Mechanics
+   ------------------------------------------------------------------------- */
 .fruit-interaction-wrapper {
     display: flex;
     justify-content: center;
@@ -1735,6 +1630,14 @@ body.watcher-found .nav-secret { display: inline-block; }
     .fruit-trigger:active {
         transform: scale(1.4);
     }
+
+    /* Adjustments banner spacing for active fruits */
+    body.nut-found:not(.berry-found) .banner-icons a.tooltip-link,
+    body.berry-found:not(.nut-found) .banner-icons a.tooltip-link,
+    body.nut-found:not(.berry-found) .banner-icons a.tooltip-link.expanded,
+    body.berry-found:not(.nut-found) .banner-icons a.tooltip-link.expanded {
+        margin: 0 -5px;
+    }
 }
 
 /* Fruit Specific Variations */
@@ -1780,7 +1683,10 @@ body.berry-found .banner-icons a.tooltip-link.banner-icon-stag {
     display: inline-block;
 }
 
-/* --- 6.4 Ciphers & Interactive Text Secrets --- */
+
+/* -------------------------------------------------------------------------
+   5.5 Ciphers & Interactive Text Secrets
+   ------------------------------------------------------------------------- */
 .cipher {
     cursor: pointer;
     transition: color 0.3s ease;
@@ -1801,7 +1707,7 @@ body.berry-found .banner-icons a.tooltip-link.banner-icon-stag {
 @keyframes cipher-reject {
     0%, 100% { opacity: 1; }
     25%, 75% { opacity: 0; }
-    50% { opacity: 1; }
+    50%      { opacity: 1; }
 }
 
 .cipher-blink {
@@ -1818,7 +1724,10 @@ body.ciphers-found .cipher {
     color: inherit;
 }
 
-/* --- 6.5 Mystic Gate & HOF Access Triggers --- */
+
+/* -------------------------------------------------------------------------
+   5.6 Mystic Gate & HOF Access Triggers
+   ------------------------------------------------------------------------- */
 #mystic-gate {
     position: fixed;
     top: 0;
@@ -1883,5 +1792,116 @@ body.hof-unlocked .hof-section {
         transform: translateY(0);
     }
 }
+
+/* -------------------------------------------------------------------------
+   5.7 HOF & Visitor Tables
+   ------------------------------------------------------------------------- */
+
+/* Hall of Fame Table Specifics */
+#hall_of_fame thead { visibility: collapse; }
+#hall_of_fame thead th {
+    padding: 0 !important;
+    border: none !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+}
+
+#hall_of_fame {
+    border-top: 1px solid var(--glass-border) !important;
+    pointer-events: none !important;
+}
+
+.tier-header-row td,
+#visitor_table thead th { 
+    background: var(--dt-header-bg); 
+    color: var(--text-muted) !important;
+    font-family: var(--font-ui) !important;	
+    font-size: var(--size-xs) !important;
+    font-weight: var(--medium) !important;
+    letter-spacing: var(--track-wide) !important;
+    text-transform: uppercase !important; 
+    padding: 10px !important; 
+    border-bottom: 1px solid var(--border-soft); 
+}
+
+.tier-header-row tr:hover td { background: var(--dt-header-bg) !important; }
+
+#hall_of_fame .tier-anchor-link,
+#hall_of_fame a, 
+#hall_of_fame button {
+    pointer-events: auto !important;
+}
+
+#hall_of_fame td::before, 
+#hall_of_fame td::after {
+    display: none !important;
+    content: "" !important;
+}
+
+#hall_of_fame tr { cursor: default !important; }
+
+.streak-cell {
+    color: var(--text-bright);
+    font-size: var(--size-md);
+    font-weight: var(--bold);
+}
+
+/* Visitor Table Specifics */
+#visitor-recognition { margin-top: 40px; }
+#input-zone { display: none; }
+
+#visitor-name {
+    background: var(--dt-input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-soft);
+    padding: 6px 8px;
+    border-radius: 4px;
+    outline: none;
+}
+
+#visitor-name:focus {
+    border-color: var(--main-color) !important;
+    background: var(--dt-row-hover) !important;
+}
+
+#visitor_table {
+    display: none;
+    margin-top: 5px !important;
+}
+
+#visitor_table tr[data-tier] { pointer-events: none !important; }
+
+#hall_of_fame td:first-child,
+#visitor_table td:first-child,
+#hall_of_fame th:first-child,
+#visitor_table th:first-child {
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+    text-align: center !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    box-sizing: border-box !important;
+}
+
+#hall_of_fame .tier-icon-container,
+#visitor_table .tier-icon-container {
+    width: 36px;
+    margin: 0 auto !important;
+}
+
+.visitor-cell {
+    text-align: left;
+    color: var(--text-muted) !important;
+    font-style: italic !important;
+}
+
+.visitor-name {
+    font-weight: var(--medium) !important;
+    color: var(--text-main) !important;
+    font-style: normal !important;
+}
+
+.visitor-date { white-space: nowrap; }
 
 {% block extra_css %}{% endblock %}

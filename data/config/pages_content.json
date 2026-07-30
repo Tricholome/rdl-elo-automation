@@ -1,8 +1,9 @@
 {
   "index": {
-    "title": "Rootelo • Leaderboard",
+    "title": "Rootelo • Root Digital League Elo Leaderboard",
     "page_heading": "Leaderboard",
-    "description": "Only players with a Tier are ranked. Double-click&nbsp;to&nbsp;see&nbsp;individual&nbsp;journeys."
+    "description": "Only players with a Tier are ranked. Double-click&nbsp;to&nbsp;see&nbsp;individual&nbsp;journeys.",
+	"seo_description": "An Elo ranking system for the digital Root game. See player standings in the Root Digital League and follow individual progress over each season."
   },
   "matches": {
     "title": "Rootelo • Top Tables",
