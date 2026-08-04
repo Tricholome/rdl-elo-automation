@@ -644,24 +644,24 @@ $(document).ready(function() {
 
         // --- A. Mise à jour dynamique du bouton The Root Database ---
         const dbBtn = document.getElementById('root-db-btn');
-        if (dbBtn) {
-            const map = window.PLAYER_DWD_MAP || window.PLAYER_PROFILE_MAP || {};
-            const matchedName = Object.keys(map).find(k => k.toLowerCase() === query.toLowerCase());
-            const slug = matchedName ? map[matchedName] : null;
+		if (dbBtn) {
+			const map = window.PLAYER_PROFILE_MAP || {};
+			const matchedName = Object.keys(map).find(k => k.toLowerCase() === query.toLowerCase());
+			const identifier = matchedName ? map[matchedName] : null;
 
-            if (slug) {
-                const baseUrl = window.PROFILE_BASE_URL || 'https://www.therootdatabase.com/dwd/profile';
-                dbBtn.href = `${baseUrl}/${slug}`;
-                dbBtn.classList.remove('disabled');
-                dbBtn.style.opacity = '1';
-                dbBtn.style.pointerEvents = 'auto';
-            } else {
-                dbBtn.href = '#';
-                dbBtn.classList.add('disabled');
-                dbBtn.style.opacity = '0.4';
-                dbBtn.style.pointerEvents = 'none';
-            }
-        }
+			if (identifier) {
+				const baseUrl = (window.PROFILE_BASE_URL || 'https://www.therootdatabase.com/profile').replace(/\/+$/, '');
+				dbBtn.href = `${baseUrl}/${identifier}`;
+				dbBtn.classList.remove('disabled');
+				dbBtn.style.opacity = '1';
+				dbBtn.style.pointerEvents = 'auto';
+			} else {
+				dbBtn.href = '#';
+				dbBtn.classList.add('disabled');
+				dbBtn.style.opacity = '0.4';
+				dbBtn.style.pointerEvents = 'none';
+			}
+		}
 
         // --- B. Checkbox Leaderboard ---
         const checkbox = $('#tierFilterCheckbox');
