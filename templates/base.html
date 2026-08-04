@@ -253,6 +253,7 @@
     
     <script>
 		window.PLAYER_DWD_MAP = {{ player_dwd_map_json | safe if player_dwd_map_json is defined else '{}' }};
+		window.PROFILE_BASE_URL = "{{ profile_base_url }}";
 	
 		const CONFIG = {
 			colors: {{ config.colors.tiers|tojson }},
