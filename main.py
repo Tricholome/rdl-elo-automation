@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 from collections import Counter
@@ -7,17 +8,36 @@ import pandas as pd
 import requests
 
 # =========================================================================
-# --- 0. CONFIGURATION & CONSTANTS ---
+# --- 0. CLI ARGUMENTS & CONFIGURATION ---
 # =========================================================================
+parser = argparse.ArgumentParser(description="Rootelo Engine")
+parser.add_argument('--league', choices=['rdl', 'hoot'], default='rdl', help="Choose league")
+args = parser.parse_args()
+
+LEAGUE = args.league
+
 DATA_DIR = "data"
 CONFIG_DIR = os.path.join(DATA_DIR, "config")
-ARCHIVES_DIR = os.path.join(DATA_DIR, "archives")
+LEAGUE_DIR = os.path.join(DATA_DIR, LEAGUE)
 
-ARCHIVE_SEASONS = ["lh01", "lh02"]
-CURRENT_SEASON_TAG = "lh03"
-TOURNAMENT_ID = 26
+ARCHIVES_DIR = os.path.join(LEAGUE_DIR, "archives")
+ARCHIVE_SEASONS = sorted([
+    d for d in os.listdir(ARCHIVES_DIR) 
+    if os.path.isdir(os.path.join(ARCHIVES_DIR, d))
+]) if os.path.exists(ARCHIVES_DIR) else []
+
+if LEAGUE == 'rdl':
+    CURRENT_SEASON_TAG = "lh03"
+    OUTPUT_DIR = "."
+    API_OUTPUT = "api/live_elo_rdl.json"
+    PLISKIN_BASE_URL = "https://rootleague.pliskin.dev"
+    TOURNAMENT_ID = 26
+else:
+    CURRENT_SEASON_TAG = "TTS"
+    OUTPUT_DIR = "hoot"
+    API_OUTPUT = "api/live_elo_hoot.json"
+
 BASE_URL = "https://tricholome.github.io/rootelo"
-PLISKIN_BASE_URL = "https://rootleague.pliskin.dev"
 
 TIER_THRESHOLDS = [
     (1600, "stag"),
@@ -55,6 +75,76 @@ def save_json(filepath, data, indent=2):
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=indent, ensure_ascii=False)
+
+def fetch_raw_matches(league):
+    """Fetches and normalizes raw match data from the target league API."""
+    raw_data = []
+
+    if league == 'rdl':
+        api_token = os.getenv('API_TOKEN')
+        headers = {'Authorization': f'Token {api_token}'} if api_token else {}
+        endpoint = f"{PLISKIN_BASE_URL.rstrip('/')}/api/match/"
+        params = {'tournament': TOURNAMENT_ID, 'limit': 500}
+
+        next_url = endpoint
+        all_matches = []
+        while next_url:
+            try:
+                res = requests.get(next_url, headers=headers, params=params)
+                params = None  # Clear params for subsequent paginated URLs
+                if res.status_code == 400:
+                    print(f"ℹ️ Tournament {TOURNAMENT_ID} is not active on API yet.")
+                    break
+                res.raise_for_status()
+                data = res.json()
+                all_matches.extend(data.get('results', []))
+                next_url = data.get('next')
+            except requests.RequestException as e:
+                print(f"📡 RDL API Error: {e}")
+                break
+
+        for m in all_matches:
+            participants = m.get('participants', [])
+            if len(participants) == 4:
+                for p in participants:
+                    raw_data.append({
+                        'GameID': m['id'],
+                        'Player': p.get('player'),
+                        'Score': float(p.get('tournament_score', 0.0)),
+                        'Date_Closed': m.get('date_closed')
+                    })
+
+    elif league == 'hoot':
+        # Handles token for Root Database API (supports ROOTDB_TOKEN or API_TOKEN)
+        api_token = os.getenv('ROOTDB_TOKEN') or os.getenv('API_TOKEN')
+        headers = {'Authorization': f'Token {api_token}'} if api_token else {}
+        endpoint = "https://www.therootdatabase.com/api/games/?elo_system=hoot-rankings"
+
+        next_url = endpoint
+        all_matches = []
+        while next_url:
+            try:
+                res = requests.get(next_url, headers=headers)
+                res.raise_for_status()
+                data = res.json()
+                all_matches.extend(data.get('results', []))
+                next_url = data.get('next')
+            except requests.RequestException as e:
+                print(f"📡 RootDB API Error: {e}")
+                break
+
+        for m in all_matches:
+            participants = m.get('participants', [])
+            if len(participants) == 4:
+                for p in participants:
+                    raw_data.append({
+                        'GameID': m['id'],
+                        'Player': p.get('player'),
+                        'Score': float(p.get('tournament_score', 0.0)),
+                        'Date_Closed': m.get('date_closed')
+                    })
+
+    return raw_data
 
 # =========================================================================
 # --- 2. PLAYER MAPPING & TIER UTILITIES ---
@@ -171,7 +261,7 @@ def prepare_matches_data(matches_list):
             {**p, 'name': player_registry.get_clean_name(p['name'])} for p in m.get('players', [])
         ], key=lambda x: x['is_winner'], reverse=True),
         'match_id': m.get('MatchID'),
-        'match_url': f"{PLISKIN_BASE_URL}/match/{m.get('MatchID')}/"
+        'match_url': f"{PLISKIN_BASE_URL}/match/{m.get('MatchID')}/" if LEAGUE == 'rdl' else f"https://www.therootdatabase.com/game/{m.get('MatchID')}/"
     } for m in matches_list]
 
 def prepare_trends_data(history_dict):
@@ -183,7 +273,7 @@ def prepare_trends_data(history_dict):
         clean_rows = []
         for row in rows:
             match_id = row[2] if len(row) > 2 else None
-            url = f"{PLISKIN_BASE_URL}/match/{match_id}/" if match_id else None
+            url = f"{PLISKIN_BASE_URL}/match/{match_id}/" if (match_id and LEAGUE == 'rdl') else (f"https://www.therootdatabase.com/game/{match_id}/" if match_id else None)
             clean_rows.append([row[0], row[1], match_id, url])
             
         enriched_history[player_registry.get_clean_name(player_raw)] = clean_rows
@@ -346,14 +436,16 @@ def build_hall_of_fame(sources):
 # --- 7. MAIN PIPELINE ---
 # =========================================================================
 def main():
-    print("🚀 Initializing Rootelo generation pipeline...")
+    print(f"🚀 Initializing Rootelo generation pipeline for league: {LEAGUE.upper()}...")
     
-    # --- Load Configurations & Content (from data/config/) ---
+    # --- Load Configurations & Content ---
     config = load_json(os.path.join(CONFIG_DIR, "config.json"))
     pages_content = load_json(os.path.join(CONFIG_DIR, "pages_content.json"))
-    champions_data = load_json(os.path.join(CONFIG_DIR, "champions.json"))
     
-    corrections_file = os.path.join(CONFIG_DIR, "corrections.csv")
+    # League-specific files loaded from data/rdl/ or data/hoot/
+    champions_data = load_json(os.path.join(LEAGUE_DIR, "champions.json"))
+    corrections_file = os.path.join(LEAGUE_DIR, "corrections.csv")
+    
     game_id_mapping = pd.Series(dtype='datetime64[ns]')
     if os.path.exists(corrections_file):
         try:
@@ -366,7 +458,7 @@ def main():
 
     env = setup_jinja_env(config)
 
-    # --- Load Historical Archives (from data/archives/{tag}/) ---
+    # --- Load Historical Archives ---
     archives_raw_data = {}
     elo_ratings = {}
 
@@ -396,44 +488,11 @@ def main():
     archived_player_names = set(elo_ratings.keys())
 
     # --- Fetch Current Season API Data ---
-    all_matches = []
-    api_token = os.getenv('API_TOKEN')
-    headers = {'Authorization': f'Token {api_token}'} if api_token else {}
     today = date.today()
     cutoff_date = today - timedelta(days=1)
     
-    endpoint = f"{PLISKIN_BASE_URL.rstrip('/')}/api/match/"
-    params = {
-        'tournament': TOURNAMENT_ID,
-        'limit': 500
-    }
-
-    print(f"🌐 Requesting data for Tournament {TOURNAMENT_ID}... Filtering matches before: {today}")
-    next_url = endpoint
-    while next_url:
-        try:
-            res = requests.get(next_url, headers=headers, params=params)
-            params = None  # Clear params for pagination pages as DRF includes them in 'next'
-            if res.status_code == 400:
-                print(f"ℹ️ Tournament {TOURNAMENT_ID} is not active on API yet.")
-                break
-            res.raise_for_status()
-            data = res.json()
-            all_matches.extend(data.get('results', []))
-            next_url = data.get('next')
-        except requests.RequestException as e:
-            print(f"📡 API Note: {e}")
-            break
-
-    raw_data = []
-    for m in all_matches:
-        participants = m.get('participants', [])
-        if len(participants) == 4:
-            for p in participants:
-                raw_data.append({
-                    'GameID': m['id'], 'Player': p.get('player'),
-                    'Score': float(p.get('tournament_score', 0.0)), 'Date_Closed': m.get('date_closed')
-                })
+    print(f"🌐 Fetching API data... Filtering matches before: {today}")
+    raw_data = fetch_raw_matches(LEAGUE)
 
     df = pd.DataFrame(raw_data)
     if not df.empty:
@@ -617,11 +676,17 @@ def main():
             "generation_date": datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC'),
             "global_players": global_players_list,
             "player_dwd_map_json": json.dumps(player_dwd_map),
+            "current_league": LEAGUE,
             **kwargs
         }
-        with open(output_name, "w", encoding="utf-8") as f:
+        
+        target_path = os.path.join(OUTPUT_DIR, output_name) if OUTPUT_DIR != "." else output_name
+        if OUTPUT_DIR != "." and not os.path.exists(OUTPUT_DIR):
+            os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+        with open(target_path, "w", encoding="utf-8") as f:
             f.write(template.render(**full_vars))
-        print(f"  > {output_name} generated.")
+        print(f"  > {target_path} generated.")
 
     def render_season_pages(tag, is_archive, lb_data, match_data, trends_data, meta, relations_data=None, champ_match=None, suffix=""):
         season_context = {
@@ -719,8 +784,10 @@ def main():
             "games": item['Games'], "wins": item['Wins'], "win_rate": item['Win_Rate']
         }
 
-    save_json("api/live_elo.json", api_data)
-    print("  > api/live_elo.json generated successfully!")
+    save_json(API_OUTPUT, api_data)
+    if LEAGUE == 'rdl':
+        save_json("api/live_elo.json", api_data)  # Legacy path support
+    print(f"  > {API_OUTPUT} generated successfully!")
 
 if __name__ == "__main__":
     main()
