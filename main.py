@@ -115,10 +115,15 @@ def fetch_raw_matches(league):
                     })
 
     elif league == 'hoot':
-        # Handles token for Root Database API (supports ROOTDB_TOKEN or API_TOKEN)
-        api_token = os.getenv('ROOTDB_TOKEN') or os.getenv('API_TOKEN')
-        headers = {'Authorization': f'Token {api_token}'} if api_token else {}
-        endpoint = "https://www.therootdatabase.com/api/games/?elo_system=hoot-rankings"
+        api_token = os.getenv('ROOTDB_TOKEN')
+        
+        if not api_token:
+            print("⚠️ Aucun ROOTDB_TOKEN trouvé dans l'environnement !")
+            headers = {}
+        else:
+            headers = {'Authorization': f'Api-Key {api_token}'}
+
+        endpoint = "https://www.therootdatabase.com/api/games/?elo_system=hoot-rankings&page_size=500"
 
         next_url = endpoint
         all_matches = []
