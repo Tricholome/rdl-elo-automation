@@ -33,7 +33,7 @@ if LEAGUE == 'rdl':
     PLISKIN_BASE_URL = "https://rootleague.pliskin.dev"
     TOURNAMENT_ID = 26
 else:
-    CURRENT_SEASON_TAG = "TTS"
+    CURRENT_SEASON_TAG = "HOOT 2"
     OUTPUT_DIR = "hoot"
     API_OUTPUT = "api/live_elo_hoot.json"
 
@@ -527,7 +527,20 @@ def main():
     player_registry.initialize(all_raw_names)
 
     global_players_list = sorted(list({player_registry.get_clean_name(name) for name in all_raw_names if name}))
-    player_dwd_map = {player_registry.get_clean_name(n): str(n).strip().replace('+', '-') for n in all_raw_names if n}
+    
+    # --- Player Profile & API Mapping ---
+    if LEAGUE == 'rdl':
+        player_profile_map = {
+            player_registry.get_clean_name(n): str(n).strip().replace('+', '-').replace('#', '-') 
+            for n in all_raw_names if n
+        }
+        PROFILE_BASE_URL = "https://www.therootdatabase.com/dwd/profile"
+    else:
+        player_profile_map = {
+            player_registry.get_clean_name(n): str(n).strip() 
+            for n in all_raw_names if n
+        }
+        PROFILE_BASE_URL = "https://www.therootdatabase.com/profile"
 
     for tag in ARCHIVE_SEASONS:
         if archives_raw_data[tag]['history']:
@@ -680,7 +693,8 @@ def main():
             "nav_items": NAV_ITEMS,
             "generation_date": datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC'),
             "global_players": global_players_list,
-            "player_dwd_map_json": json.dumps(player_dwd_map),
+            "player_profile_map_json": json.dumps(player_profile_map),
+            "profile_base_url": PROFILE_BASE_URL,
             "current_league": LEAGUE,
             **kwargs
         }
@@ -776,14 +790,14 @@ def main():
 
     for item in full_api_leaderboard:
         clean_name = item['display_name']
-        raw_dwd = player_dwd_map.get(clean_name, clean_name)
-        dwd_key = str(raw_dwd).replace('#', '-').lower().strip()
+        raw_identifier = player_profile_map.get(clean_name, clean_name)
+        player_key = str(raw_identifier).replace('#', '-').lower().strip()
         
         tier = item['tier']
         color = tier_colors.get(tier)
         icon_path = tier_icons.get(tier)
 
-        api_data["players"][dwd_key] = {
+        api_data["players"][player_key] = {
             "elo": item['ELO'], "rank": item['Rank'], "tier": tier, "bg_color": color,
             "icon_url": f"{BASE_URL}/{icon_path}" if icon_path else None,
             "games": item['Games'], "wins": item['Wins'], "win_rate": item['Win_Rate']
