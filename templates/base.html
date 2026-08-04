@@ -252,8 +252,8 @@
 	<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     
     <script>
-		window.PLAYER_DWD_MAP = {{ player_dwd_map_json | safe if player_dwd_map_json is defined else '{}' }};
-		window.PROFILE_BASE_URL = "{{ profile_base_url }}";
+		window.PLAYER_PROFILE_MAP = {{ player_profile_map_json | safe if player_profile_map_json is defined else '{}' }};
+		window.PROFILE_BASE_URL = {{ profile_base_url | tojson if profile_base_url is defined else 'null' }};
 	
 		const CONFIG = {
 			colors: {{ config.colors.tiers|tojson }},
