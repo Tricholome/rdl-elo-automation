@@ -36,12 +36,12 @@ jobs:
 
       - name: Prepare site structure
         run: |
-          mkdir build_site
-          # Déplacement du site HOOT sous /hoot/
-          cp -r hoot build_site/
-          # Copie des ressources globales et de l'API JSON
+          mkdir -p build_site/hoot
+          cp -r hoot/* build_site/hoot/
           cp -r static build_site/
           cp -r assets build_site/
+          cp -r static build_site/hoot/
+          cp -r assets build_site/hoot/
           cp -r api build_site/
 
       - name: Deploy to GitHub Pages
