@@ -8,15 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          
+
       - name: Cache Pip
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
@@ -30,14 +30,13 @@ jobs:
       - name: Run ELO calculation and generate HOOT site
         env:
           ROOTDB_TOKEN: ${{ secrets.ROOTDB_TOKEN }}
-          API_TOKEN: ${{ secrets.API_TOKEN }}
         run: |
           python main.py --league hoot
 
       - name: Prepare site structure
         run: |
-          mkdir -p build_site/hoot
-          cp -r hoot/* build_site/hoot/
+          mkdir -p build_site
+          cp -r hoot build_site/
           cp -r static build_site/
           cp -r assets build_site/
           cp -r api build_site/
