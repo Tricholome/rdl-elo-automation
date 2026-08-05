@@ -1,0 +1,18 @@
+{
+  "slug": "hoot",
+  "name": "HOOT Rankings",
+  "enabled": true,
+  "is_default": false,
+  "output_dir": "hoot",
+  "current_season_tag": "HOOT 2",
+  "api_output": "api/live_elo_hoot.json",
+  "legacy_api_output": null,
+  "profile_base_url": "https://www.therootdatabase.com/profile",
+  "profile_format_replace_chars": false,
+  "match_base_url": "https://www.therootdatabase.com/game",
+  "api": {
+    "type": "rootdb",
+    "endpoint": "https://www.therootdatabase.com/api/games/?elo_system=hoot-rankings&page_size=500",
+    "token_env_var": "ROOTDB_TOKEN"
+  }
+}
