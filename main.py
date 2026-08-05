@@ -10,7 +10,7 @@ import requests
 # =========================================================================
 # --- 0. GLOBAL CONSTANTS & HELPERS ---
 # =========================================================================
-BASE_URL = "https://tricholome.github.io/rootelo"
+BASE_URL = "https://tricholome.github.io"
 
 TIER_THRESHOLDS = [
     (1600, "stag"),
