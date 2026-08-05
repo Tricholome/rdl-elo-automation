@@ -1,0 +1,19 @@
+{
+  "slug": "rdl",
+  "name": "Root Digital League",
+  "enabled": true,
+  "is_default": true,
+  "output_dir": ".",
+  "current_season_tag": "lh03",
+  "api_output": "api/live_elo_rdl.json",
+  "legacy_api_output": "api/live_elo.json",
+  "profile_base_url": "https://www.therootdatabase.com/dwd/profile",
+  "profile_format_replace_chars": true,
+  "match_base_url": "https://rootleague.pliskin.dev/match",
+  "api": {
+    "type": "pliskin",
+    "base_url": "https://rootleague.pliskin.dev",
+    "tournament_id": 26,
+    "token_env_var": "API_TOKEN"
+  }
+}
