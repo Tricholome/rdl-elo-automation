@@ -637,22 +637,29 @@ $(document).ready(function() {
 
     const profileMap = window.PLAYER_PROFILE_MAP || {};
 
-    // Map inverse ultra-simple pour lire l'URL : (slug/nom en minuscules -> Nom Propre)
-    const urlLookup = {};
-    Object.entries(profileMap).forEach(([name, slug]) => {
-        urlLookup[name.toLowerCase()] = name;
-        if (slug) urlLookup[String(slug).toLowerCase().replace(/[+#]/g, '-')] = name;
-    });
+    // 1. Trouve le nom propre d'affichage à partir d'un Slug ou d'un Nom
+    function getCanonicalName(query) {
+        if (!query) return "";
+        const q = query.trim().toLowerCase();
 
-    // Application du filtre global
+        // Parcourt profileMap : match soit sur le nom (clé), soit sur le slug (valeur)
+        for (const [name, slug] of Object.entries(profileMap)) {
+            if (name.toLowerCase() === q || (slug && String(slug).toLowerCase() === q)) {
+                return name;
+            }
+        }
+        return query;
+    }
+
+    // 2. Application du filtre et mise à jour des éléments
     function applyGlobalSearch(val) {
         const query = (val || "").trim();
-        const matchedName = Object.keys(profileMap).find(k => k.toLowerCase() === query.toLowerCase());
+        const cleanName = getCanonicalName(query);
+        const slug = profileMap[cleanName];
 
-        // 1. Mise à jour du bouton Root DB
+        // Bouton Root DB
         const dbBtn = document.getElementById('root-db-btn');
         if (dbBtn) {
-            const slug = matchedName ? profileMap[matchedName] : null;
             if (slug) {
                 const baseUrl = (window.PROFILE_BASE_URL || '').replace(/\/+$/, '');
                 dbBtn.href = `${baseUrl}/${slug}`;
@@ -667,38 +674,38 @@ $(document).ready(function() {
             }
         }
 
-        // 2. Persistance
-        if (query) {
-            localStorage.setItem('selectedPlayer', matchedName || query);
+        // Persistance
+        if (cleanName) {
+            localStorage.setItem('selectedPlayer', cleanName);
         } else {
             localStorage.removeItem('selectedPlayer');
         }
 
-        // 3. DataTables & Graphiques
+        // DataTables & Vue Joueur (filtrés sur le Nom d'affichage)
         $('.dataTable').each(function() {
-            if ($.fn.dataTable.isDataTable(this)) $(this).DataTable().search(query).draw();
+            if ($.fn.dataTable.isDataTable(this)) {
+                $(this).DataTable().search(cleanName).draw();
+            }
         });
 
         if (typeof window.updatePlayerView === 'function') window.updatePlayerView();
         if (typeof window.updateChart === 'function' && document.getElementById('progressionChart')) window.updateChart();
     }
 
-    input.addEventListener('input', function() {
+    // Événements
+    $(input).on('input change', function() {
         applyGlobalSearch(this.value);
     });
 
-    // Restauration initiale : URL (?player=...) > LocalStorage
-    const urlParam = new URLSearchParams(window.location.search).get('player')?.trim().toLowerCase();
+    // 3. Initialisation (URL > LocalStorage)
+    const urlParam = new URLSearchParams(window.location.search).get('player');
     const savedPlayer = localStorage.getItem('selectedPlayer');
+    const initialQuery = urlParam || savedPlayer || "";
 
-    // On cherche d'abord dans l'URL, sinon dans le localStorage
-    const initialPlayer = (urlParam ? urlLookup[urlParam.replace(/[+#]/g, '-')] || urlParam : null) 
-                        || savedPlayer 
-                        || "";
-
-    if (initialPlayer) {
-        input.value = initialPlayer;
-        setTimeout(() => applyGlobalSearch(initialPlayer), 50);
+    if (initialQuery) {
+        const cleanName = getCanonicalName(initialQuery);
+        input.value = cleanName;
+        setTimeout(() => applyGlobalSearch(cleanName), 50);
     } else {
         applyGlobalSearch("");
     }
