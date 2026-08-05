@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,10 +28,15 @@ jobs:
       - name: Run ELO calculation and site generation
         env:
           API_TOKEN: ${{ secrets.API_TOKEN }}
+          ROOTDB_TOKEN: ${{ secrets.ROOTDB_TOKEN }}
         run: |
-          python main.py
-          mkdir rootelo_site
+          python main.py --all
+
+      - name: Prepare site structure
+        run: |
+          mkdir -p rootelo_site
           cp *.html rootelo_site/
+          cp -r hoot rootelo_site/
           cp -r static rootelo_site/
           cp -r assets rootelo_site/
           cp -r api rootelo_site/
@@ -42,3 +47,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./rootelo_site
           publish_branch: gh-pages
+          keep_files: false
