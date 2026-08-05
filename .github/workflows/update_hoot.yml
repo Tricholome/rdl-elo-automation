@@ -40,8 +40,6 @@ jobs:
           cp -r hoot/* build_site/hoot/
           cp -r static build_site/
           cp -r assets build_site/
-          cp -r static build_site/hoot/
-          cp -r assets build_site/hoot/
           cp -r api build_site/
 
       - name: Deploy to GitHub Pages
