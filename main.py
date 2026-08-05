@@ -472,7 +472,7 @@ def run_league_pipeline(league_config, all_leagues_list):
     name = league_config['name']
     output_dir = league_config.get('output_dir', '.')
     current_season_tag = league_config.get('current_season_tag', 'Season 1')
-    api_output_path = league_config.get(f'api/{slug}/elo.json')
+    api_output_path = f"api/{slug}/elo.json"
     profile_base_url = league_config.get('profile_base_url', 'https://www.therootdatabase.com/profile')
     format_replace_chars = league_config.get('profile_format_replace_chars', False)
 
