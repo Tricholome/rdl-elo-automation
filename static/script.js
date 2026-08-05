@@ -635,110 +635,71 @@ $(document).ready(function() {
     const input = document.getElementById('playerName');
     if (!input) return;
 
-    // 1. Récupération des joueurs valides (depuis le datalist d'autocomplétion)
-    const validPlayers = Array.from(document.querySelectorAll('#playerAutocompleteList option, #players-list option')).map(opt => opt.value);
+    const profileMap = window.PLAYER_PROFILE_MAP || {};
 
-    // 2. Fonction principale de filtrage, synchronisation et mise à jour des éléments
+    // Map inverse ultra-simple pour lire l'URL : (slug/nom en minuscules -> Nom Propre)
+    const urlLookup = {};
+    Object.entries(profileMap).forEach(([name, slug]) => {
+        urlLookup[name.toLowerCase()] = name;
+        if (slug) urlLookup[String(slug).toLowerCase().replace(/[+#]/g, '-')] = name;
+    });
+
+    // Application du filtre global
     function applyGlobalSearch(val) {
         const query = (val || "").trim();
+        const matchedName = Object.keys(profileMap).find(k => k.toLowerCase() === query.toLowerCase());
 
-        // --- A. Mise à jour dynamique du bouton The Root Database ---
+        // 1. Mise à jour du bouton Root DB
         const dbBtn = document.getElementById('root-db-btn');
-		if (dbBtn) {
-			const map = window.PLAYER_PROFILE_MAP || {};
-			const matchedName = Object.keys(map).find(k => k.toLowerCase() === query.toLowerCase());
-			const identifier = matchedName ? map[matchedName] : null;
-
-			if (identifier) {
-				const baseUrl = (window.PROFILE_BASE_URL || 'https://www.therootdatabase.com/profile').replace(/\/+$/, '');
-				dbBtn.href = `${baseUrl}/${identifier}`;
-				dbBtn.classList.remove('disabled');
-				dbBtn.style.opacity = '1';
-				dbBtn.style.pointerEvents = 'auto';
-			} else {
-				dbBtn.href = '#';
-				dbBtn.classList.add('disabled');
-				dbBtn.style.opacity = '0.4';
-				dbBtn.style.pointerEvents = 'none';
-			}
-		}
-
-        // --- B. Checkbox Leaderboard ---
-        const checkbox = $('#tierFilterCheckbox');
-        if (checkbox.length > 0) {
-            if (query !== "" && !checkbox.is(':checked')) {
-                checkbox.prop('checked', true).trigger('change');
-            } else if (query === "") {
-                const pageName = window.location.pathname.split('/').pop() || '';
-                const defaultStateForPage = !pageName.includes('_');
-                
-                if (checkbox.is(':checked') !== defaultStateForPage) {
-                    checkbox.prop('checked', defaultStateForPage).trigger('change');
-                }
+        if (dbBtn) {
+            const slug = matchedName ? profileMap[matchedName] : null;
+            if (slug) {
+                const baseUrl = (window.PROFILE_BASE_URL || '').replace(/\/+$/, '');
+                dbBtn.href = `${baseUrl}/${slug}`;
+                dbBtn.classList.remove('disabled');
+                dbBtn.style.opacity = '1';
+                dbBtn.style.pointerEvents = 'auto';
+            } else {
+                dbBtn.href = '#';
+                dbBtn.classList.add('disabled');
+                dbBtn.style.opacity = '0.4';
+                dbBtn.style.pointerEvents = 'none';
             }
         }
 
-        // --- C. Persistance dans le localStorage ---
-        const map = window.PLAYER_DWD_MAP || {};
-        const matchedName = Object.keys(map).find(k => k.toLowerCase() === query.toLowerCase()) || query;
-
-        if (validPlayers.includes(matchedName) || map[matchedName]) {
-            localStorage.setItem('selectedPlayer', matchedName);
-        } else if (query === "") {
+        // 2. Persistance
+        if (query) {
+            localStorage.setItem('selectedPlayer', matchedName || query);
+        } else {
             localStorage.removeItem('selectedPlayer');
         }
 
-        // --- D. Filtrage des DataTables ---
+        // 3. DataTables & Graphiques
         $('.dataTable').each(function() {
-            if ($.fn.dataTable.isDataTable(this)) {
-                $(this).DataTable().search(query).draw();
-            }
+            if ($.fn.dataTable.isDataTable(this)) $(this).DataTable().search(query).draw();
         });
 
-        // --- E. Mise à jour de l'Arbre Relationnel & du Graphique ---
-        if (typeof window.updatePlayerView === 'function') {
-            window.updatePlayerView();
-        }
-        if (typeof window.updateChart === 'function' && document.getElementById('progressionChart')) {
-            window.updateChart();
-        }
+        if (typeof window.updatePlayerView === 'function') window.updatePlayerView();
+        if (typeof window.updateChart === 'function' && document.getElementById('progressionChart')) window.updateChart();
     }
 
-    // 3. Écouteur principal sur la barre de recherche
     input.addEventListener('input', function() {
         applyGlobalSearch(this.value);
     });
 
-    // 4. RESTAURATION INITIALE : Priorité URL (?player=...) > LocalStorage
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlQuery = urlParams.get('player')?.trim().toLowerCase();
+    // Restauration initiale : URL (?player=...) > LocalStorage
+    const urlParam = new URLSearchParams(window.location.search).get('player')?.trim().toLowerCase();
+    const savedPlayer = localStorage.getItem('selectedPlayer');
 
-    const map = window.PLAYER_DWD_MAP || {};
-    // Table de correspondance bi-directionnelle (slug DWD -> Nom propre & Nom propre -> Nom propre)
-    const lookupMap = {};
-    Object.entries(map).forEach(([cleanName, slug]) => {
-        lookupMap[slug.toLowerCase()] = cleanName;
-        lookupMap[cleanName.toLowerCase()] = cleanName;
-    });
+    // On cherche d'abord dans l'URL, sinon dans le localStorage
+    const initialPlayer = (urlParam ? urlLookup[urlParam.replace(/[+#]/g, '-')] || urlParam : null) 
+                        || savedPlayer 
+                        || "";
 
-    let targetPlayer = null;
-
-    if (urlQuery && lookupMap[urlQuery]) {
-        targetPlayer = lookupMap[urlQuery];
+    if (initialPlayer) {
+        input.value = initialPlayer;
+        setTimeout(() => applyGlobalSearch(initialPlayer), 50);
     } else {
-        const savedPlayer = localStorage.getItem('selectedPlayer');
-        if (savedPlayer && (validPlayers.includes(savedPlayer) || map[savedPlayer])) {
-            targetPlayer = savedPlayer;
-        }
-    }
-
-    if (targetPlayer) {
-        input.value = targetPlayer;
-        setTimeout(() => {
-            applyGlobalSearch(targetPlayer);
-        }, 50);
-    } else {
-        localStorage.removeItem('selectedPlayer');
         applyGlobalSearch("");
     }
 });
