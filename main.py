@@ -538,7 +538,7 @@ def run_league_pipeline(league_config, all_leagues_list):
             df_updates = pd.read_csv(corrections_file, parse_dates=['New_Date'])
             if not df_updates.empty and 'GameID' in df_updates.columns:
                 game_id_mapping = df_updates.set_index('GameID')['New_Date']
-                Logger.success(f"Loaded manual date corrections from {corrections_file}")
+                Logger.success(f"Loaded {len(game_id_mapping)} manual date corrections")
         except Exception as e:
             Logger.warn(f"Error loading corrections: {e}")
 
@@ -549,7 +549,6 @@ def run_league_pipeline(league_config, all_leagues_list):
     elo_ratings = {}
 
     for tag in archive_seasons:
-        Logger.info(f"Loading archive: {tag.upper()}")
         season_archive_dir = os.path.join(archives_dir, tag)
         archives_raw_data[tag] = {
             'final_df': pd.DataFrame(), 'matches_list': [], 'history': {},
@@ -571,7 +570,15 @@ def run_league_pipeline(league_config, all_leagues_list):
                 df_ratings['Tier'] = None
             archives_raw_data[tag]['final_df'] = df_ratings
 
+        m_count = len(archives_raw_data[tag]['matches_list'])
+        p_count = len(archives_raw_data[tag]['final_df']) if not archives_raw_data[tag]['final_df'].empty else len(archives_raw_data[tag]['history'])
+        Logger.step(f"Archive [{tag.upper()}]: {m_count} matches, {p_count} players loaded")
+
     archived_player_names = set(elo_ratings.keys())
+    
+    if archive_seasons:
+        total_archived_matches = sum(len(a['matches_list']) for a in archives_raw_data.values())
+        Logger.success(f"Total archives: {total_archived_matches} cumulative matches across {len(archive_seasons)} season(s), {len(archived_player_names)} players tracked")
 
     # --- Fetch Current Season API Data ---
     Logger.section("2. MATCH FETCHING & DATE FILTERING")
@@ -725,7 +732,8 @@ def run_league_pipeline(league_config, all_leagues_list):
         current_final_df = current_final_df.drop(columns=['Display_ELO'])
 
     qual_count = len(current_final_df[current_final_df['Qualified'] == True]) if not current_final_df.empty else 0
-    Logger.success(f"Elo computation complete: {len(current_final_df)} total players tracked ({qual_count} qualified on leaderboard)")
+    active_count = len(current_final_df[current_final_df['Games'] > 0]) if not current_final_df.empty else 0
+    Logger.success(f"Elo computation complete: {len(current_final_df)} total players tracked ({active_count} active, {qual_count} qualified)")
 
     # --- Site Asset Preparation ---
     current_meta = {
