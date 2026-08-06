@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import time
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from jinja2 import Environment, FileSystemLoader
@@ -28,6 +29,37 @@ NAV_ITEMS = [
 ]
 
 
+class Logger:
+    @staticmethod
+    def header(title):
+        print(f"\n==================================================")
+        print(f"  {title}")
+        print(f"==================================================")
+
+    @staticmethod
+    def section(title):
+        print(f"\n--- [{title}] ---")
+
+    @staticmethod
+    def info(msg):
+        print(f"  ℹ️  {msg}")
+
+    @staticmethod
+    def success(msg):
+        print(f"  ✅ {msg}")
+
+    @staticmethod
+    def warn(msg):
+        print(f"  ⚠️  {msg}")
+
+    @staticmethod
+    def step(step_name, duration=None):
+        if duration is not None:
+            print(f"  > {step_name} ({duration:.2f}s)")
+        else:
+            print(f"  > {step_name}")
+
+
 def load_json(filepath, default=None):
     """Safely loads a JSON file with a fallback default value."""
     if default is None:
@@ -37,7 +69,7 @@ def load_json(filepath, default=None):
             with open(filepath, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception as e:
-            print(f"⚠️ Error reading {filepath}: {e}")
+            Logger.warn(f"Error reading {filepath}: {e}")
     return default
 
 
@@ -54,7 +86,7 @@ def load_all_league_configs():
     data_dir = "data"
 
     if not os.path.exists(data_dir):
-        print("⚠️ Warning: Data directory does not exist.")
+        Logger.warn("Data directory does not exist.")
         return configs
 
     for entry in os.listdir(data_dir):
@@ -105,14 +137,14 @@ def fetch_raw_matches(league_config):
                 res = requests.get(next_url, headers=headers, params=params)
                 params = None  # Clear params for subsequent paginated URLs
                 if res.status_code == 400:
-                    print(f"ℹ️ Tournament {tournament_id} is not active on API yet.")
+                    Logger.info(f"Tournament {tournament_id} is not active on API yet.")
                     break
                 res.raise_for_status()
                 data = res.json()
                 all_matches.extend(data.get('results', []))
                 next_url = data.get('next')
             except requests.RequestException as e:
-                print(f"📡 API Error ({league_config['name']}): {e}")
+                Logger.warn(f"API Error ({league_config['name']}): {e}")
                 break
 
         for m in all_matches:
@@ -129,7 +161,7 @@ def fetch_raw_matches(league_config):
     elif api_type == 'rootdb':
         endpoint = api_cfg.get('endpoint')
         if not api_token:
-            print(f"⚠️ No {token_var} found in environment variables!")
+            Logger.warn(f"No {token_var} found in environment variables!")
             headers = {}
         else:
             headers = {'Authorization': f'Api-Key {api_token}'}
@@ -144,7 +176,7 @@ def fetch_raw_matches(league_config):
                 all_matches.extend(data.get('results', []))
                 next_url = data.get('next')
             except requests.RequestException as e:
-                print(f"📡 RootDB API Error ({league_config['name']}): {e}")
+                Logger.warn(f"RootDB API Error ({league_config['name']}): {e}")
                 break
 
         for m in all_matches:
@@ -159,7 +191,7 @@ def fetch_raw_matches(league_config):
                     })
                     
     unique_matches_count = len({m['GameID'] for m in raw_data})
-    print(f"  > {unique_matches_count} matches retrieved from API.")
+    Logger.step(f"{unique_matches_count} matches retrieved from API.")
 
     return raw_data
 
@@ -470,6 +502,7 @@ def build_hall_of_fame(sources, player_registry):
 # --- 7. SINGLE LEAGUE PIPELINE ---
 # =========================================================================
 def run_league_pipeline(league_config, all_leagues_list):
+    start_time = time.time()
     slug = league_config['slug']
     name = league_config['name']
     output_dir = league_config['output_dir']
@@ -478,6 +511,9 @@ def run_league_pipeline(league_config, all_leagues_list):
     profile_base_url = league_config['profile_base_url']
     format_replace_chars = league_config.get('profile_format_replace_chars', False)
 
+    Logger.header(f"ROOTELO PIPELINE: {name.upper()} ({slug})")
+
+    Logger.section("1. CONFIGURATION & HISTORICAL DATA")
     data_dir = os.path.join("data", slug)
     archives_dir = os.path.join(data_dir, "archives")
 
@@ -485,8 +521,7 @@ def run_league_pipeline(league_config, all_leagues_list):
         d for d in os.listdir(archives_dir)
         if os.path.isdir(os.path.join(archives_dir, d))
     ]) if os.path.exists(archives_dir) else []
-
-    print(f"\n🚀 Initializing Rootelo generation pipeline for league: {name.upper()} ({slug})...")
+    Logger.info(f"Detected archived seasons ({len(archive_seasons)}): {', '.join(archive_seasons) if archive_seasons else 'None'}")
 
     player_registry = PlayerRegistry()
 
@@ -503,9 +538,9 @@ def run_league_pipeline(league_config, all_leagues_list):
             df_updates = pd.read_csv(corrections_file, parse_dates=['New_Date'])
             if not df_updates.empty and 'GameID' in df_updates.columns:
                 game_id_mapping = df_updates.set_index('GameID')['New_Date']
-                print(f"✅ Loaded corrections from {corrections_file}")
+                Logger.success(f"Loaded manual date corrections from {corrections_file}")
         except Exception as e:
-            print(f"ℹ️ Note: Error loading corrections: {e}")
+            Logger.warn(f"Error loading corrections: {e}")
 
     env = setup_jinja_env(config)
 
@@ -514,7 +549,7 @@ def run_league_pipeline(league_config, all_leagues_list):
     elo_ratings = {}
 
     for tag in archive_seasons:
-        print(f"📂 Loading archive: {tag.upper()}")
+        Logger.info(f"Loading archive: {tag.upper()}")
         season_archive_dir = os.path.join(archives_dir, tag)
         archives_raw_data[tag] = {
             'final_df': pd.DataFrame(), 'matches_list': [], 'history': {},
@@ -539,10 +574,11 @@ def run_league_pipeline(league_config, all_leagues_list):
     archived_player_names = set(elo_ratings.keys())
 
     # --- Fetch Current Season API Data ---
+    Logger.section("2. MATCH FETCHING & DATE FILTERING")
     today = date.today()
     cutoff_date = today - timedelta(days=1)
 
-    print(f"🌐 Fetching API data for {name}... Filtering matches before: {today}")
+    Logger.info(f"Fetching API data for {name}... Filtering matches before: {today}")
     raw_data = fetch_raw_matches(league_config)
 
     df = pd.DataFrame(raw_data)
@@ -572,6 +608,7 @@ def run_league_pipeline(league_config, all_leagues_list):
 
     player_registry.initialize(all_raw_names)
     global_players_list = sorted(list({player_registry.get_clean_name(name) for name in all_raw_names if name}))
+    Logger.success(f"Player registry initialized ({len(global_players_list)} unique player names)")
 
     # --- Player Profile Mapping ---
     if format_replace_chars:
@@ -591,6 +628,7 @@ def run_league_pipeline(league_config, all_leagues_list):
             archives_raw_data[tag]['history'] = {player_registry.get_clean_name(k): v for k, v in raw_hist.items()}
 
     # --- Current Season ELO Calculation ---
+    Logger.section("3. ELO COMPUTATION & RELATIONS EXTRACTION")
     current_final_df = pd.DataFrame()
     match_history_data = []
 
@@ -686,8 +724,10 @@ def run_league_pipeline(league_config, all_leagues_list):
         current_final_df['ELO'] = current_final_df['Display_ELO']
         current_final_df = current_final_df.drop(columns=['Display_ELO'])
 
+    qual_count = len(current_final_df[current_final_df['Qualified'] == True]) if not current_final_df.empty else 0
+    Logger.success(f"Elo computation complete: {len(current_final_df)} total players tracked ({qual_count} qualified on leaderboard)")
+
     # --- Site Asset Preparation ---
-    print("\n=== PREPARING SITE ASSETS ===")
     current_meta = {
         'match_count': df['GameID'].nunique() if not df.empty else 0,
         'cutoff_date': cutoff_date.strftime('%Y-%m-%d')
@@ -730,7 +770,7 @@ def run_league_pipeline(league_config, all_leagues_list):
     hall_of_fame_data = build_hall_of_fame(sources, player_registry)
 
     # --- HTML Page Rendering ---
-    print("\n=== GENERATING HTML PAGES ===")
+    Logger.section("4. HTML RENDERING")
 
     def render_page(template_name, output_name, **kwargs):
         template = env.get_template(template_name)
@@ -752,7 +792,7 @@ def run_league_pipeline(league_config, all_leagues_list):
 
         with open(target_path, "w", encoding="utf-8") as f:
             f.write(template.render(**full_vars))
-        print(f"  > {target_path} generated.")
+        Logger.step(f"Page generated: {target_path}")
 
     def render_season_pages(tag, is_archive, lb_data, match_data, trends_data, meta, relations_data=None, champ_match=None, suffix=""):
         season_context = {
@@ -824,7 +864,7 @@ def run_league_pipeline(league_config, all_leagues_list):
         )
 
     # --- API JSON Generation ---
-    print("\n=== GENERATING API JSON ===")
+    Logger.section("5. REST JSON API EXPORT")
     site_base_url = config.get('site_base_url', '').rstrip('/')
     tier_colors = config.get('colors', {}).get('tiers', {})
     tier_icons = config.get('assets', {}).get('icons', {})
@@ -852,7 +892,10 @@ def run_league_pipeline(league_config, all_leagues_list):
         }
 
     save_json(api_output_path, api_data)
-    print(f"  > {api_output_path} generated successfully!")
+    Logger.success(f"API endpoint exported: {api_output_path} ({len(api_data['players'])} player records)")
+
+    elapsed = time.time() - start_time
+    Logger.header(f"PIPELINE {slug.upper()} FINISHED IN {elapsed:.2f}s")
 
 
 # =========================================================================
@@ -868,17 +911,17 @@ def main():
     all_leagues_list = list(all_league_configs.values())
 
     if not all_league_configs:
-        print("❌ Error: No valid league configuration files found in data/*/")
+        Logger.warn("Error: No valid league configuration files found in data/*/")
         return
 
     if args.all or args.league == 'all':
-        print(f"🔄 Executing full build for all leagues ({len(all_leagues_list)} total)...")
+        Logger.info(f"Executing full build for all leagues ({len(all_leagues_list)} total)...")
         for cfg in all_leagues_list:
             run_league_pipeline(cfg, all_leagues_list)
     else:
         target_slug = args.league if args.league else 'rdl'
         if target_slug not in all_league_configs:
-            print(f"❌ Error: League '{target_slug}' not found in data/{target_slug}/league.json")
+            Logger.warn(f"Error: League '{target_slug}' not found in data/{target_slug}/league.json")
             return
         run_league_pipeline(all_league_configs[target_slug], all_leagues_list)
 
