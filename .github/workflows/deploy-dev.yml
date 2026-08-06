@@ -36,7 +36,7 @@ jobs:
         env:
           API_TOKEN: ${{ secrets.API_TOKEN }}
         run: |
-          python main.py
+          python main.py --league rdl
           mkdir mirror_site
           cp *.html mirror_site/
           cp -r static mirror_site/
