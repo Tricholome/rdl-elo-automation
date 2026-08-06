@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-06 15:00 UTC",
+  "updated_at": "2026-08-06 15:11 UTC",
   "players": {
     "antiproject-7236": {
       "elo": 1615,
@@ -2561,16 +2561,6 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
-    "chosennuttso": {
-      "elo": 1185,
-      "rank": "-",
-      "tier": "unranked",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 0,
-      "wins": 0.0,
-      "win_rate": "0.0%"
-    },
     "nuttsy-5282": {
       "elo": 1185,
       "rank": "-",
@@ -2582,6 +2572,16 @@
       "win_rate": "0.0%"
     },
     "julien-5506": {
+      "elo": 1185,
+      "rank": "-",
+      "tier": "unranked",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 0,
+      "wins": 0.0,
+      "win_rate": "0.0%"
+    },
+    "chosennuttso": {
       "elo": 1185,
       "rank": "-",
       "tier": "unranked",
@@ -2781,7 +2781,7 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
-    "welllll-4899": {
+    "azdontek-1234": {
       "elo": 1183,
       "rank": "-",
       "tier": "unranked",
@@ -2791,7 +2791,7 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
-    "azdontek-1234": {
+    "welllll-4899": {
       "elo": 1183,
       "rank": "-",
       "tier": "unranked",
