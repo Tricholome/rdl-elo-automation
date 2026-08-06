@@ -10,7 +10,6 @@ import requests
 # =========================================================================
 # --- 0. GLOBAL CONSTANTS & HELPERS ---
 # =========================================================================
-BASE_URL = "https://tricholome.github.io"
 
 TIER_THRESHOLDS = [
     (1600, "stag"),
@@ -93,7 +92,7 @@ def fetch_raw_matches(league_config):
     api_token = os.getenv(token_var) if token_var else None
 
     if api_type == 'pliskin':
-        base_url = api_cfg.get('base_url', '').rstrip('/')
+        base_url = api_cfg['base_url'].rstrip('/')
         tournament_id = api_cfg.get('tournament_id')
         headers = {'Authorization': f'Token {api_token}'} if api_token else {}
         endpoint = f"{base_url}/api/match/"
@@ -158,6 +157,9 @@ def fetch_raw_matches(league_config):
                         'Score': float(p.get('tournament_score', 0.0)),
                         'Date_Closed': m.get('date_closed')
                     })
+                    
+    unique_matches_count = len({m['GameID'] for m in raw_data})
+    print(f"  > {unique_matches_count} matches retrieved from API.")
 
     return raw_data
 
@@ -166,7 +168,7 @@ def get_match_url(match_id, league_config):
     """Builds the detail match URL for the specified league."""
     if not match_id:
         return None
-    base_url = league_config.get("match_base_url", "").rstrip('/')
+    base_url = league_config['match_base_url'].rstrip('/')
     return f"{base_url}/{match_id}/"
 
 
@@ -470,10 +472,10 @@ def build_hall_of_fame(sources, player_registry):
 def run_league_pipeline(league_config, all_leagues_list):
     slug = league_config['slug']
     name = league_config['name']
-    output_dir = league_config.get('output_dir', '.')
-    current_season_tag = league_config.get('current_season_tag', 'Season 1')
+    output_dir = league_config['output_dir']
+    current_season_tag = league_config['current_season_tag']
     api_output_path = f"api/{slug}/elo.json"
-    profile_base_url = league_config.get('profile_base_url', 'https://www.therootdatabase.com/profile')
+    profile_base_url = league_config['profile_base_url']
     format_replace_chars = league_config.get('profile_format_replace_chars', False)
 
     data_dir = os.path.join("data", slug)
@@ -823,6 +825,7 @@ def run_league_pipeline(league_config, all_leagues_list):
 
     # --- API JSON Generation ---
     print("\n=== GENERATING API JSON ===")
+    site_base_url = config.get('site_base_url', '').rstrip('/')
     tier_colors = config.get('colors', {}).get('tiers', {})
     tier_icons = config.get('assets', {}).get('icons', {})
 
@@ -844,7 +847,7 @@ def run_league_pipeline(league_config, all_leagues_list):
 
         api_data["players"][player_key] = {
             "elo": item['ELO'], "rank": item['Rank'], "tier": tier, "bg_color": color,
-            "icon_url": f"{BASE_URL}{icon_path}" if icon_path else None,
+            "icon_url": f"{site_base_url}{icon_path}" if icon_path else None,
             "games": item['Games'], "wins": item['Wins'], "win_rate": item['Win_Rate']
         }
 
