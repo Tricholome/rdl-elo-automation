@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import time
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from jinja2 import Environment, FileSystemLoader
@@ -8,9 +9,8 @@ import pandas as pd
 import requests
 
 # =========================================================================
-# --- 0. GLOBAL CONSTANTS & HELPERS ---
+# --- 0. GLOBAL CONSTANTS & LOGGING ---
 # =========================================================================
-BASE_URL = "https://tricholome.github.io"
 
 TIER_THRESHOLDS = [
     (1600, "stag"),
@@ -29,6 +29,41 @@ NAV_ITEMS = [
 ]
 
 
+class Logger:
+    @staticmethod
+    def header(title):
+        print(f"\n==================================================")
+        print(f"  {title}")
+        print(f"==================================================")
+
+    @staticmethod
+    def section(title):
+        print(f"\n--- [{title}] ---")
+
+    @staticmethod
+    def info(msg):
+        print(f"  ℹ️  {msg}")
+
+    @staticmethod
+    def success(msg):
+        print(f"  ✅ {msg}")
+
+    @staticmethod
+    def warn(msg):
+        print(f"  ⚠️  {msg}")
+
+    @staticmethod
+    def step(step_name, duration=None):
+        if duration is not None:
+            print(f"  > {step_name} ({duration:.2f}s)")
+        else:
+            print(f"  > {step_name}")
+
+
+# =========================================================================
+# --- 1. CORE UTILITIES & HELPERS ---
+# =========================================================================
+
 def load_json(filepath, default=None):
     """Safely loads a JSON file with a fallback default value."""
     if default is None:
@@ -38,7 +73,7 @@ def load_json(filepath, default=None):
             with open(filepath, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception as e:
-            print(f"⚠️ Error reading {filepath}: {e}")
+            Logger.warn(f"Error reading {filepath}: {e}")
     return default
 
 
@@ -55,7 +90,7 @@ def load_all_league_configs():
     data_dir = "data"
 
     if not os.path.exists(data_dir):
-        print("⚠️ Warning: Data directory does not exist.")
+        Logger.warn("Data directory does not exist.")
         return configs
 
     for entry in os.listdir(data_dir):
@@ -69,7 +104,6 @@ def load_all_league_configs():
                     cfg["slug"] = slug
                     configs[slug] = cfg
             else:
-                # Fallback check for config.json if league.json is missing
                 alt_config_file = os.path.join(entry_path, "config.json")
                 if os.path.exists(alt_config_file):
                     cfg = load_json(alt_config_file)
@@ -81,98 +115,6 @@ def load_all_league_configs():
     return configs
 
 
-# =========================================================================
-# --- 1. DATA FETCHING & API HELPERS ---
-# =========================================================================
-def fetch_raw_matches(league_config):
-    """Fetches and normalizes raw match data using the specified league API configuration."""
-    raw_data = []
-    api_cfg = league_config.get('api', {})
-    api_type = api_cfg.get('type')
-    token_var = api_cfg.get('token_env_var')
-    api_token = os.getenv(token_var) if token_var else None
-
-    if api_type == 'pliskin':
-        base_url = api_cfg.get('base_url', '').rstrip('/')
-        tournament_id = api_cfg.get('tournament_id')
-        headers = {'Authorization': f'Token {api_token}'} if api_token else {}
-        endpoint = f"{base_url}/api/match/"
-        params = {'tournament': tournament_id, 'limit': 500}
-
-        next_url = endpoint
-        all_matches = []
-        while next_url:
-            try:
-                res = requests.get(next_url, headers=headers, params=params)
-                params = None  # Clear params for subsequent paginated URLs
-                if res.status_code == 400:
-                    print(f"ℹ️ Tournament {tournament_id} is not active on API yet.")
-                    break
-                res.raise_for_status()
-                data = res.json()
-                all_matches.extend(data.get('results', []))
-                next_url = data.get('next')
-            except requests.RequestException as e:
-                print(f"📡 API Error ({league_config['name']}): {e}")
-                break
-
-        for m in all_matches:
-            participants = m.get('participants', [])
-            if len(participants) == 4:
-                for p in participants:
-                    raw_data.append({
-                        'GameID': m['id'],
-                        'Player': p.get('player'),
-                        'Score': float(p.get('tournament_score', 0.0)),
-                        'Date_Closed': m.get('date_closed')
-                    })
-
-    elif api_type == 'rootdb':
-        endpoint = api_cfg.get('endpoint')
-        if not api_token:
-            print(f"⚠️ No {token_var} found in environment variables!")
-            headers = {}
-        else:
-            headers = {'Authorization': f'Api-Key {api_token}'}
-
-        next_url = endpoint
-        all_matches = []
-        while next_url:
-            try:
-                res = requests.get(next_url, headers=headers)
-                res.raise_for_status()
-                data = res.json()
-                all_matches.extend(data.get('results', []))
-                next_url = data.get('next')
-            except requests.RequestException as e:
-                print(f"📡 RootDB API Error ({league_config['name']}): {e}")
-                break
-
-        for m in all_matches:
-            participants = m.get('participants', [])
-            if len(participants) == 4:
-                for p in participants:
-                    raw_data.append({
-                        'GameID': m['id'],
-                        'Player': p.get('player'),
-                        'Score': float(p.get('tournament_score', 0.0)),
-                        'Date_Closed': m.get('date_closed')
-                    })
-
-    return raw_data
-
-
-def get_match_url(match_id, league_config):
-    """Builds the detail match URL for the specified league."""
-    if not match_id:
-        return None
-    base_url = league_config.get("match_base_url", "").rstrip('/')
-    return f"{base_url}/{match_id}/"
-
-
-# =========================================================================
-# --- 2. PLAYER MAPPING & TIER UTILITIES ---
-# =========================================================================
 class PlayerRegistry:
     """Handles cleaning and unique mapping for player names."""
     def __init__(self):
@@ -216,9 +158,6 @@ def get_tier_name(rating, games):
     return "squirrel"
 
 
-# =========================================================================
-# --- 3. JINJA2 ENVIRONMENT SETUP ---
-# =========================================================================
 def setup_jinja_env(config):
     env = Environment(loader=FileSystemLoader('templates'))
     env.globals['config'] = config
@@ -243,77 +182,104 @@ def setup_jinja_env(config):
 
 
 # =========================================================================
-# --- 4. DATA PREPARATION HELPERS ---
+# --- 2. API FETCHING & DATA INGESTION ---
 # =========================================================================
-def prepare_leaderboard_data(df, player_registry, champion_name=None, is_archive=False):
-    if df.empty:
-        return []
 
-    data = []
-    clean_champ = player_registry.get_clean_name(champion_name) if champion_name else None
+def fetch_raw_matches(league_config):
+    """Fetches and normalizes raw match data using the specified league API configuration."""
+    raw_data = []
+    api_cfg = league_config.get('api', {})
+    api_type = api_cfg.get('type')
+    token_var = api_cfg.get('token_env_var')
+    api_token = os.getenv(token_var) if token_var else None
 
-    for _, row in df.iterrows():
-        clean_name = player_registry.get_clean_name(row['Player'])
-        is_champ = (clean_champ is not None and clean_name == clean_champ)
-        rank_display = "♔" if (is_champ and is_archive) else row['Rank']
-        tier = "bear" if is_champ else get_tier_name(row['ELO'], row['Games'])
+    if api_type == 'pliskin':
+        base_url = api_cfg['base_url'].rstrip('/')
+        tournament_id = api_cfg.get('tournament_id')
+        headers = {'Authorization': f'Token {api_token}'} if api_token else {}
+        endpoint = f"{base_url}/api/match/"
+        params = {'tournament': tournament_id, 'limit': 500}
 
-        data.append({
-            'Rank': rank_display,
-            'tier': tier,
-            'is_champion': is_champ,
-            'display_name': clean_name,
-            'ELO': int(row['ELO']),
-            'Games': row['Games'],
-            'Wins': row['Wins'],
-            'Win_Rate': row['Win Rate'],
-            'Peak': row['Peak'],
-            'Last': row['Last']
-        })
+        next_url = endpoint
+        all_matches = []
+        while next_url:
+            try:
+                res = requests.get(next_url, headers=headers, params=params)
+                params = None  # Clear params for subsequent paginated URLs
+                if res.status_code == 400:
+                    Logger.info(f"Tournament {tournament_id} is not active on API yet.")
+                    break
+                res.raise_for_status()
+                data = res.json()
+                all_matches.extend(data.get('results', []))
+                next_url = data.get('next')
+            except requests.RequestException as e:
+                Logger.warn(f"API Error ({league_config['name']}): {e}")
+                break
 
-    if clean_champ and is_archive:
-        data.sort(key=lambda x: not x['is_champion'])
+        for m in all_matches:
+            participants = m.get('participants', [])
+            if len(participants) == 4:
+                for p in participants:
+                    raw_data.append({
+                        'GameID': m['id'],
+                        'Player': p.get('player'),
+                        'Score': float(p.get('tournament_score', 0.0)),
+                        'Date_Closed': m.get('date_closed')
+                    })
 
-    return data
+    elif api_type == 'rootdb':
+        endpoint = api_cfg.get('endpoint')
+        if not api_token:
+            Logger.warn(f"No {token_var} found in environment variables!")
+            headers = {}
+        else:
+            headers = {'Authorization': f'Api-Key {api_token}'}
+
+        next_url = endpoint
+        all_matches = []
+        while next_url:
+            try:
+                res = requests.get(next_url, headers=headers)
+                res.raise_for_status()
+                data = res.json()
+                all_matches.extend(data.get('results', []))
+                next_url = data.get('next')
+            except requests.RequestException as e:
+                Logger.warn(f"RootDB API Error ({league_config['name']}): {e}")
+                break
+
+        for m in all_matches:
+            participants = m.get('participants', [])
+            if len(participants) == 4:
+                for p in participants:
+                    raw_data.append({
+                        'GameID': m['id'],
+                        'Player': p.get('player'),
+                        'Score': float(p.get('tournament_score', 0.0)),
+                        'Date_Closed': m.get('date_closed')
+                    })
+                    
+    unique_matches_count = len({m['GameID'] for m in raw_data})
+    Logger.step(f"{unique_matches_count} matches retrieved from API.")
+
+    return raw_data
 
 
-def prepare_matches_data(matches_list, player_registry, league_config):
-    return [{
-        'rank': m.get('Rank'),
-        'elo_sum': m.get('ELO_Sum'),
-        'date': m.get('Date'),
-        'players': sorted([
-            {**p, 'name': player_registry.get_clean_name(p['name'])} for p in m.get('players', [])
-        ], key=lambda x: x['is_winner'], reverse=True),
-        'match_id': m.get('MatchID'),
-        'match_url': get_match_url(m.get('MatchID'), league_config)
-    } for m in matches_list]
-
-
-def prepare_trends_data(history_dict, player_registry, league_config):
-    if not history_dict:
-        return {"history_json": "{}", "player_names": []}
-
-    enriched_history = {}
-    for player_raw, rows in history_dict.items():
-        clean_rows = []
-        for row in rows:
-            match_id = row[2] if len(row) > 2 else None
-            url = get_match_url(match_id, league_config)
-            clean_rows.append([row[0], row[1], match_id, url])
-
-        enriched_history[player_registry.get_clean_name(player_raw)] = clean_rows
-
-    player_names = sorted(list(enriched_history.keys()), key=lambda x: x.lower())
-    return {
-        "history_json": json.dumps(enriched_history),
-        "player_names": player_names
-    }
+def get_match_url(match_id, league_config):
+    """Builds the detail match URL for the specified league."""
+    if not match_id:
+        return None
+    base_url = league_config['match_base_url'].rstrip('/')
+    return f"{base_url}/{match_id}/"
 
 
 # =========================================================================
-# --- 5. ELO & RELATIONS ENGINE ---
+# --- 3. ENGINE & DATA TRANSFORMATIONS ---
 # =========================================================================
+
+# --- ELO & Relations Engine ---
+
 def get_elo_for_match(player_name, game_id, full_history, player_registry):
     clean_p = player_registry.get_clean_name(player_name)
     history = full_history.get(clean_p, [])
@@ -398,9 +364,8 @@ def prepare_archive_relations(raw_relations, player_registry):
     return prepared
 
 
-# =========================================================================
-# --- 6. HALL OF FAME ENGINE ---
-# =========================================================================
+# --- Hall of Fame Engine ---
+
 def extract_all_streaks(history, player_full_name, player_registry):
     streaks = []
     if len(history) < 11:
@@ -464,18 +429,91 @@ def build_hall_of_fame(sources, player_registry):
     return hall_of_fame_data
 
 
+# --- Page Formatting Helpers ---
+
+def prepare_leaderboard_data(df, player_registry, champion_name=None, is_archive=False):
+    if df.empty:
+        return []
+
+    data = []
+    clean_champ = player_registry.get_clean_name(champion_name) if champion_name else None
+
+    for _, row in df.iterrows():
+        clean_name = player_registry.get_clean_name(row['Player'])
+        is_champ = (clean_champ is not None and clean_name == clean_champ)
+        rank_display = "♔" if (is_champ and is_archive) else row['Rank']
+        tier = "bear" if is_champ else get_tier_name(row['ELO'], row['Games'])
+
+        data.append({
+            'Rank': rank_display,
+            'tier': tier,
+            'is_champion': is_champ,
+            'display_name': clean_name,
+            'ELO': int(row['ELO']),
+            'Games': row['Games'],
+            'Wins': row['Wins'],
+            'Win_Rate': row['Win Rate'],
+            'Peak': row['Peak'],
+            'Last': row['Last']
+        })
+
+    if clean_champ and is_archive:
+        data.sort(key=lambda x: not x['is_champion'])
+
+    return data
+
+
+def prepare_matches_data(matches_list, player_registry, league_config):
+    return [{
+        'rank': m.get('Rank'),
+        'elo_sum': m.get('ELO_Sum'),
+        'date': m.get('Date'),
+        'players': sorted([
+            {**p, 'name': player_registry.get_clean_name(p['name'])} for p in m.get('players', [])
+        ], key=lambda x: x['is_winner'], reverse=True),
+        'match_id': m.get('MatchID'),
+        'match_url': get_match_url(m.get('MatchID'), league_config)
+    } for m in matches_list]
+
+
+def prepare_trends_data(history_dict, player_registry, league_config):
+    if not history_dict:
+        return {"history_json": "{}", "player_names": []}
+
+    enriched_history = {}
+    for player_raw, rows in history_dict.items():
+        clean_rows = []
+        for row in rows:
+            match_id = row[2] if len(row) > 2 else None
+            url = get_match_url(match_id, league_config)
+            clean_rows.append([row[0], row[1], match_id, url])
+
+        enriched_history[player_registry.get_clean_name(player_raw)] = clean_rows
+
+    player_names = sorted(list(enriched_history.keys()), key=lambda x: x.lower())
+    return {
+        "history_json": json.dumps(enriched_history),
+        "player_names": player_names
+    }
+
+
 # =========================================================================
-# --- 7. SINGLE LEAGUE PIPELINE ---
+# --- 4. SINGLE LEAGUE PIPELINE ---
 # =========================================================================
+
 def run_league_pipeline(league_config, all_leagues_list):
+    start_time = time.time()
     slug = league_config['slug']
     name = league_config['name']
-    output_dir = league_config.get('output_dir', '.')
-    current_season_tag = league_config.get('current_season_tag', 'Season 1')
+    output_dir = league_config['output_dir']
+    current_season_tag = league_config['current_season_tag']
     api_output_path = f"api/{slug}/elo.json"
-    profile_base_url = league_config.get('profile_base_url', 'https://www.therootdatabase.com/profile')
+    profile_base_url = league_config['profile_base_url']
     format_replace_chars = league_config.get('profile_format_replace_chars', False)
 
+    Logger.header(f"ROOTELO PIPELINE: {name.upper()} ({slug})")
+
+    Logger.section("1. CONFIGURATION & HISTORICAL DATA")
     data_dir = os.path.join("data", slug)
     archives_dir = os.path.join(data_dir, "archives")
 
@@ -483,12 +521,11 @@ def run_league_pipeline(league_config, all_leagues_list):
         d for d in os.listdir(archives_dir)
         if os.path.isdir(os.path.join(archives_dir, d))
     ]) if os.path.exists(archives_dir) else []
-
-    print(f"\n🚀 Initializing Rootelo generation pipeline for league: {name.upper()} ({slug})...")
+    Logger.info(f"Detected archived seasons ({len(archive_seasons)}): {', '.join(archive_seasons) if archive_seasons else 'None'}")
 
     player_registry = PlayerRegistry()
 
-    # --- Load Global & League Configurations ---
+    # Load Global & League Configurations
     config = load_json(os.path.join("data", "config", "config.json"))
     pages_content = load_json(os.path.join("data", "config", "pages_content.json"))
 
@@ -501,18 +538,17 @@ def run_league_pipeline(league_config, all_leagues_list):
             df_updates = pd.read_csv(corrections_file, parse_dates=['New_Date'])
             if not df_updates.empty and 'GameID' in df_updates.columns:
                 game_id_mapping = df_updates.set_index('GameID')['New_Date']
-                print(f"✅ Loaded corrections from {corrections_file}")
+                Logger.success(f"Loaded {len(game_id_mapping)} manual date corrections")
         except Exception as e:
-            print(f"ℹ️ Note: Error loading corrections: {e}")
+            Logger.warn(f"Error loading corrections: {e}")
 
     env = setup_jinja_env(config)
 
-    # --- Load Historical Archives ---
+    # Load Historical Archives
     archives_raw_data = {}
     elo_ratings = {}
 
     for tag in archive_seasons:
-        print(f"📂 Loading archive: {tag.upper()}")
         season_archive_dir = os.path.join(archives_dir, tag)
         archives_raw_data[tag] = {
             'final_df': pd.DataFrame(), 'matches_list': [], 'history': {},
@@ -534,13 +570,21 @@ def run_league_pipeline(league_config, all_leagues_list):
                 df_ratings['Tier'] = None
             archives_raw_data[tag]['final_df'] = df_ratings
 
-    archived_player_names = set(elo_ratings.keys())
+        m_count = len(archives_raw_data[tag]['matches_list'])
+        p_count = len(archives_raw_data[tag]['final_df']) if not archives_raw_data[tag]['final_df'].empty else len(archives_raw_data[tag]['history'])
+        Logger.step(f"Archive [{tag.upper()}]: {m_count} matches, {p_count} players loaded")
 
-    # --- Fetch Current Season API Data ---
+    archived_player_names = set(elo_ratings.keys())
+    if archive_seasons:
+        total_archived_matches = sum(len(a['matches_list']) for a in archives_raw_data.values())
+        Logger.success(f"Total archives: {total_archived_matches} cumulative matches across {len(archive_seasons)} season(s), {len(archived_player_names)} players tracked")
+
+    # Fetch Current Season API Data
+    Logger.section("2. MATCH FETCHING & DATE FILTERING")
     today = date.today()
     cutoff_date = today - timedelta(days=1)
 
-    print(f"🌐 Fetching API data for {name}... Filtering matches before: {today}")
+    Logger.info(f"Fetching API data for {name}... Filtering matches before: {today}")
     raw_data = fetch_raw_matches(league_config)
 
     df = pd.DataFrame(raw_data)
@@ -557,7 +601,7 @@ def run_league_pipeline(league_config, all_leagues_list):
         df = df[df['Date_Closed'].dt.date <= cutoff_date].copy()
         df = df.sort_values(by='Date_Closed').reset_index(drop=True)
 
-    # --- Player Registry Initialization ---
+    # Player Registry Initialization
     all_raw_names = set()
     if not df.empty:
         all_raw_names.update(df['Player'].unique())
@@ -570,8 +614,9 @@ def run_league_pipeline(league_config, all_leagues_list):
 
     player_registry.initialize(all_raw_names)
     global_players_list = sorted(list({player_registry.get_clean_name(name) for name in all_raw_names if name}))
+    Logger.success(f"Player registry initialized ({len(global_players_list)} unique player names)")
 
-    # --- Player Profile Mapping ---
+    # Player Profile Mapping
     if format_replace_chars:
         player_profile_map = {
             player_registry.get_clean_name(n): str(n).strip().replace('+', '-').replace('#', '-')
@@ -588,7 +633,8 @@ def run_league_pipeline(league_config, all_leagues_list):
             raw_hist = archives_raw_data[tag]['history']
             archives_raw_data[tag]['history'] = {player_registry.get_clean_name(k): v for k, v in raw_hist.items()}
 
-    # --- Current Season ELO Calculation ---
+    # Current Season ELO Calculation
+    Logger.section("3. ELO COMPUTATION & RELATIONS EXTRACTION")
     current_final_df = pd.DataFrame()
     match_history_data = []
 
@@ -684,8 +730,11 @@ def run_league_pipeline(league_config, all_leagues_list):
         current_final_df['ELO'] = current_final_df['Display_ELO']
         current_final_df = current_final_df.drop(columns=['Display_ELO'])
 
-    # --- Site Asset Preparation ---
-    print("\n=== PREPARING SITE ASSETS ===")
+    qual_count = len(current_final_df[current_final_df['Qualified'] == True]) if not current_final_df.empty else 0
+    active_count = len(current_final_df[current_final_df['Games'] > 0]) if not current_final_df.empty else 0
+    Logger.success(f"Elo computation complete: {len(current_final_df)} total players tracked ({active_count} active this season, {qual_count} qualified on leaderboard)")
+
+    # Site Asset Preparation
     current_meta = {
         'match_count': df['GameID'].nunique() if not df.empty else 0,
         'cutoff_date': cutoff_date.strftime('%Y-%m-%d')
@@ -719,7 +768,7 @@ def run_league_pipeline(league_config, all_leagues_list):
             'trends': prepare_trends_data(raw['history'], player_registry, league_config)
         }
 
-    # --- Hall of Fame Compilation ---
+    # Hall of Fame Compilation
     sources = [(row['Player'], player_history.get(row['Player'], [])) for _, row in current_final_df.iterrows()] if not current_final_df.empty else []
     for tag in archive_seasons:
         for p_name, h in archives_raw_data.get(tag, {}).get('history', {}).items():
@@ -727,8 +776,8 @@ def run_league_pipeline(league_config, all_leagues_list):
 
     hall_of_fame_data = build_hall_of_fame(sources, player_registry)
 
-    # --- HTML Page Rendering ---
-    print("\n=== GENERATING HTML PAGES ===")
+    # HTML Page Rendering
+    Logger.section("4. HTML RENDERING")
 
     def render_page(template_name, output_name, **kwargs):
         template = env.get_template(template_name)
@@ -750,7 +799,7 @@ def run_league_pipeline(league_config, all_leagues_list):
 
         with open(target_path, "w", encoding="utf-8") as f:
             f.write(template.render(**full_vars))
-        print(f"  > {target_path} generated.")
+        Logger.step(f"Page generated: {target_path}")
 
     def render_season_pages(tag, is_archive, lb_data, match_data, trends_data, meta, relations_data=None, champ_match=None, suffix=""):
         season_context = {
@@ -762,7 +811,6 @@ def run_league_pipeline(league_config, all_leagues_list):
             "cutoff_date": meta.get('cutoff_date', 'N/A'),
         }
 
-        # 1. Leaderboard (Index)
         render_page(
             "index.html", f"index{suffix}.html",
             page_id="index",
@@ -773,7 +821,6 @@ def run_league_pipeline(league_config, all_leagues_list):
             **season_context
         )
 
-        # 2. Matches
         render_page(
             "matches.html", f"matches{suffix}.html",
             page_id="matches",
@@ -783,7 +830,6 @@ def run_league_pipeline(league_config, all_leagues_list):
             **season_context
         )
 
-        # 3. Trends
         render_page(
             "trends.html", f"trends{suffix}.html",
             page_id="trends",
@@ -821,8 +867,9 @@ def run_league_pipeline(league_config, all_leagues_list):
             title=p_info.get("title", ""), page_heading=p_info.get("page_heading", ""), description=p_info.get("description", ""), **extra
         )
 
-    # --- API JSON Generation ---
-    print("\n=== GENERATING API JSON ===")
+    # API JSON Generation
+    Logger.section("5. REST JSON API EXPORT")
+    site_base_url = config.get('site_base_url', '').rstrip('/')
     tier_colors = config.get('colors', {}).get('tiers', {})
     tier_icons = config.get('assets', {}).get('icons', {})
 
@@ -844,17 +891,21 @@ def run_league_pipeline(league_config, all_leagues_list):
 
         api_data["players"][player_key] = {
             "elo": item['ELO'], "rank": item['Rank'], "tier": tier, "bg_color": color,
-            "icon_url": f"{BASE_URL}{icon_path}" if icon_path else None,
+            "icon_url": f"{site_base_url}{icon_path}" if icon_path else None,
             "games": item['Games'], "wins": item['Wins'], "win_rate": item['Win_Rate']
         }
 
     save_json(api_output_path, api_data)
-    print(f"  > {api_output_path} generated successfully!")
+    Logger.success(f"API endpoint exported: {api_output_path} ({len(api_data['players'])} player records)")
+
+    elapsed = time.time() - start_time
+    Logger.header(f"PIPELINE {slug.upper()} FINISHED IN {elapsed:.2f}s")
 
 
 # =========================================================================
-# --- 8. CLI ENTRYPOINT ---
+# --- 5. CLI ENTRYPOINT ---
 # =========================================================================
+
 def main():
     parser = argparse.ArgumentParser(description="Rootelo Multi-League Engine")
     parser.add_argument('--league', help="Choose specific league (e.g. 'rdl', 'hoot')")
@@ -865,17 +916,17 @@ def main():
     all_leagues_list = list(all_league_configs.values())
 
     if not all_league_configs:
-        print("❌ Error: No valid league configuration files found in data/*/")
+        Logger.warn("Error: No valid league configuration files found in data/*/")
         return
 
     if args.all or args.league == 'all':
-        print(f"🔄 Executing full build for all leagues ({len(all_leagues_list)} total)...")
+        Logger.info(f"Executing full build for all leagues ({len(all_leagues_list)} total)...")
         for cfg in all_leagues_list:
             run_league_pipeline(cfg, all_leagues_list)
     else:
         target_slug = args.league if args.league else 'rdl'
         if target_slug not in all_league_configs:
-            print(f"❌ Error: League '{target_slug}' not found in data/{target_slug}/league.json")
+            Logger.warn(f"Error: League '{target_slug}' not found in data/{target_slug}/league.json")
             return
         run_league_pipeline(all_league_configs[target_slug], all_leagues_list)
 

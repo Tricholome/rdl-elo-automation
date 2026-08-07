@@ -1,4 +1,5 @@
 {
+  "site_base_url": "https://tricholome.github.io",
   "page_tiers": {
     "index": "bird",
     "matches": "fox",
@@ -67,10 +68,10 @@
   },
   "assets": {
     "icons": {
-      "bird":     "/rootelo/assets/icons/bird_new.webp",
-      "fox":      "/rootelo/assets/icons/fox_new.webp",
-      "rabbit":   "/rootelo/assets/icons/rabbit_new.webp",
-      "mouse":    "/rootelo/assets/icons/mouse_new.webp",
+      "bird":     "/rootelo/assets/icons/bird.webp",
+      "fox":      "/rootelo/assets/icons/fox.webp",
+      "rabbit":   "/rootelo/assets/icons/rabbit.webp",
+      "mouse":    "/rootelo/assets/icons/mouse.webp",
       "squirrel": "/rootelo/assets/icons/squirrel.webp",
       "stag":     "/rootelo/assets/icons/stag.webp",
       "bear":     "/rootelo/assets/icons/bear.webp"
