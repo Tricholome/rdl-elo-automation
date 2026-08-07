@@ -705,17 +705,10 @@ def run_league_pipeline(league_config, all_leagues_list):
 
                 # Facteur moyen d'atténuation pour ce joueur dans ce match
                 avg_decay_factor = sum(decay_factors) / len(decay_factors)
+                k_effective = k_base * avg_decay_factor
 
-                # Calcul du delta d'Elo brut (avec le K normal)
-                raw_change = k_base * (actual - expected)
-
-                # Opponent Decay Asymétrique :
-                # - Si c'est un GAIN (> 0) : on freine le farm avec le decay.
-                # - Si c'est une PERTE (<= 0) : on applique la perte intégrale à 100%.
-                if raw_change > 0:
-                    change = raw_change * avg_decay_factor
-                else:
-                    change = raw_change
+                # Calcul du delta d'Elo
+                change = k_effective * (actual - expected)
 
                 elo_ratings[name] += change
                 last_diff[name] = change
