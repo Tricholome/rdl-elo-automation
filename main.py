@@ -653,8 +653,8 @@ def run_league_pipeline(league_config, all_leagues_list):
         player_history[p] = [[label, round(r), None]]
 
     # Configuration de l'Opponent Decay
-    DECAY_WINDOW_DAYS = 3      # Fenêtre glissante en jours (72h)
-    DECAY_ALPHA = 0.5          # Intensité de la pénalité
+    DECAY_WINDOW_DAYS = 7      # Fenêtre glissante en jours (72h)
+    DECAY_ALPHA = 0.4          # Intensité de la pénalité
 
     # Suivi des rencontres : { player_name: [(timestamp, opponent_name), ...] }
     from collections import defaultdict
