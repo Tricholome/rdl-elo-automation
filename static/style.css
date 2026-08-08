@@ -773,7 +773,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 }
 
 /* Leaderboard Table Specifics */
-.unassigned { 
+.unranked { 
     opacity: 0.4; 
     font-style: italic; 
     filter: grayscale(1); 
