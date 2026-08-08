@@ -30,7 +30,7 @@
                            onclick="handleTierClick(event, '{{ player.tier }}')" 
                            class="tier-anchor-link">
                             <div class="tier-icon-container">
-                                <img src="{{ config.assets.icons[player.tier] }}" alt="{{ player.tier }}">
+                                <img src="{{ path_prefix }}{{ config.assets.icons[player.tier] }}" alt="{{ player.tier }}">
                             </div>
                         </a>
                     {% endif %}
