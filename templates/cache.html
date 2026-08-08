@@ -1,5 +1,5 @@
 {% set tier_titles = {
-    'stag': 'Sacred Stags',
+    'stag': 'Sacred Stag',
     'bird': 'Brilliant Birds',
     'fox': 'Fearless Foxes',
     'rabbit': 'Radiant Rabbits',
@@ -37,9 +37,11 @@
 					{% if s.is_section %}
 						<tr class="tier-header-row">
 							<td>
-								<div class="tier-icon-container">
-									<img src="{{ config.assets.icons[s.tier] }}" alt="{{ s.tier }}">
-								</div>
+								<a href="javascript:void(0)" onclick="handleTierClick(event, '{{ s.tier }}')" class="tier-anchor-link">
+									<div class="tier-icon-container">
+										<img src="{{ path_prefix }}{{ config.assets.icons[s.tier] }}" alt="{{ s.tier }}">
+									</div>
+								</a>
 							</td>
 							<td>
 								{% set words = tier_titles[s.tier].split(' ') %}
@@ -66,9 +68,11 @@
 			<thead>
 				<tr>
 					<th>
-						<div class="tier-icon-container">
-							<img src="{{ config.assets.icons['squirrel'] }}" alt="squirrel">
-						</div>
+						<a href="javascript:void(0)" onclick="handleTierClick(event, 'squirrel')" class="tier-anchor-link">
+							<div class="tier-icon-container">
+								<img src="{{ path_prefix }}{{ config.assets.icons['squirrel'] }}" alt="squirrel">
+							</div>
+						</a>
 					</th>
 					<th>
 						{% set words = tier_titles['squirrel'].split(' ') %}
@@ -105,7 +109,7 @@
 	
     <div class="artist-story-green">
         <h2>The <span class="cipher" data-word="silent">Silent</span> Chronicler</h2>
-        <p>Here, where <span class="cipher" data-word="roots">roots</span> run deep and the wild grows dense, <a class="cl" href="https://www.instagram.com/xluevi.art/">𝕩𝕝𝕦𝕖𝕧𝕚</a> sits hidden in the green. He captures <span class="cipher" data-word="every">every</span> fluttering wing and <span class="cipher" data-word="every">every</span> twitching whisker. He breathes life into the Woodland’s teeming diversity with <span class="cipher" data-word="every">every</span> stroke. It is a quiet call to <span class="cipher" data-word="remember">remember</span>: beyond the League’s grand stakes, nothing small goes unseen.</p>
+        <p>Here, where <span class="cipher" data-word="roots">roots</span> run deep and the wild grows dense, <strong>𝕩𝕝𝕦𝕖𝕧𝕚</strong> sits hidden in the green. He captures <span class="cipher" data-word="every">every</span> fluttering wing and <span class="cipher" data-word="every">every</span> twitching whisker. He breathes life into the Woodland’s teeming diversity with <span class="cipher" data-word="every">every</span> stroke. It is a quiet call to <span class="cipher" data-word="remember">remember</span>: beyond the League’s grand stakes, nothing small goes unseen.</p>
     </div>
 	
 	<div class="fruit-container">
@@ -115,7 +119,7 @@
 			<div class="fruit-interaction-wrapper">
 				<a href="javascript:void(0)" id="berry-secret" onclick="openTierModal('stag')" class="fruit-trigger js-double-tap">
 					<span class="tooltip-text fruit-tooltip">Squish it!</span>
-					<img src="assets/images/berry.webp" alt="Berry" class="fruit-sprite">
+					<img src="{{ path_prefix }}assets/images/berry.webp" alt="Berry" class="fruit-sprite">
 				</a>
 			</div>
 		</div>
@@ -126,7 +130,7 @@
 			<div class="fruit-interaction-wrapper">
 				<a href="javascript:void(0)" id="nut-secret" onclick="openTierModal('squirrel')" class="fruit-trigger js-double-tap">
 					<span class="tooltip-text fruit-tooltip">Crack it!</span>
-					<img src="assets/images/nut.webp" alt="Nut" class="fruit-sprite">
+					<img src="{{ path_prefix }}assets/images/nut.webp" alt="Nut" class="fruit-sprite">
 				</a>
 			</div>
 		</div>
