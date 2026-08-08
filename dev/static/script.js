@@ -212,18 +212,14 @@ $(document).ready(function() {
 
 		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
 			if (settings.nTable.id !== 'leaderboard') return true;
-
 			const showTierless = $('#tierFilterCheckbox').is(':checked');
 			if (showTierless) return true;
-
-			const rowNode = settings.aoData[dataIndex].nTr;
+			const rowNode = settings.aoData[dataIndex] ? settings.aoData[dataIndex].nTr : null;
 			if (!rowNode) return true;
-
-			const isUnassigned = $(rowNode).attr('data-tier') === 'unassigned';
-
-			return !isUnassigned;
+			const tier = rowNode.getAttribute('data-tier');
+			return tier !== 'unassigned';
 		});
-
+		
 		const leaderboardTable = $('#leaderboard').DataTable({
 			"order": [],
 			"responsive": true, 
