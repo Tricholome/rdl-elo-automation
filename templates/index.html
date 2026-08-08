@@ -2,50 +2,48 @@
 
 {% block content %}
     <div class="unranked-toggle-container">
-		<input type="checkbox" id="tierFilterCheckbox" {% if not is_archive %}checked{% endif %} autocomplete="off">
-		<label for="tierFilterCheckbox">Show tierless players</label>
-	</div>
+        <input type="checkbox" id="tierFilterCheckbox" {% if not is_archive %}checked{% endif %} autocomplete="off">
+        <label for="tierFilterCheckbox">Show tierless players</label>
+    </div>
 
-	<table id="leaderboard" class="display nowrap" style="width:100%">
-		<thead>
-			<tr>
-				<th>Rank</th>
-				<th>Tier</th>
-				<th>Player</th>
-				<th>ELO</th>
-				<th>Games</th>
-				<th>Wins</th>
-				<th>Win Rate</th>
-				<th>Peak</th>
-				<th>Last</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for player in players %}
-			<tr data-tier="{{ player.tier }}" class="{{ 'unassigned' if player.tier == 'unassigned' else '' }}">
-				<td data-order="{% if player.Rank == '♔' %}0{% elif player.Rank == '-' or not player.Rank %}999999{% else %}{{ player.Rank }}{% endif %}">
-					{{ player.Rank }}
-				</td>
-				<td>
-					{% if player.tier and player.tier != 'unassigned' %}
-						<a href="javascript:void(0)" 
-						   onclick="handleTierClick(event, '{{ player.tier }}')" 
-						   class="tier-anchor-link">
-							<div class="tier-icon-container">
-								<img src="{{ config.assets.icons[player.tier] }}" alt="{{ player.tier }}">
-							</div>
-						</a>
-					{% endif %}
-				</td>
-				<td>{{ player.display_name }}</td>
-				<td>{{ player.ELO }}</td>
-				<td>{{ player.Games }}</td>
-				<td>{{ player.Wins }}</td>
-				<td>{{ player.Win_Rate }}</td>
-				<td>{{ player.Peak }}</td>
-				<td>{{ player.Last }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+    <table id="leaderboard" class="display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Tier</th>
+                <th>Player</th>
+                <th>ELO</th>
+                <th>Games</th>
+                <th>Wins</th>
+                <th>Win Rate</th>
+                <th>Peak</th>
+                <th>Last</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+            <tr data-tier="{{ player.tier }}">
+                <td>{{ player.Rank }}</td>
+                <td>
+                    {% if player.tier and player.tier != 'unassigned' %}
+                        <a href="javascript:void(0)" 
+                           onclick="handleTierClick(event, '{{ player.tier }}')" 
+                           class="tier-anchor-link">
+                            <div class="tier-icon-container">
+                                <img src="{{ config.assets.icons[player.tier] }}" alt="{{ player.tier }}">
+                            </div>
+                        </a>
+                    {% endif %}
+                </td>
+                <td>{{ player.display_name }}</td>
+                <td>{{ player.ELO }}</td>
+                <td>{{ player.Games }}</td>
+                <td>{{ player.Wins }}</td>
+                <td>{{ player.Win_Rate }}</td>
+                <td>{{ player.Peak }}</td>
+                <td>{{ player.Last }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
