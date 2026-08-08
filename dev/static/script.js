@@ -219,9 +219,9 @@ $(document).ready(function() {
 			const rowNode = settings.aoData[dataIndex].nTr;
 			if (!rowNode) return true;
 
-			const tier = $(rowNode).attr('data-tier');
-			
-			return tier !== 'unassigned';
+			const isUnassigned = $(rowNode).hasClass('unassigned') || $(rowNode).attr('data-tier') === 'unassigned';
+
+			return !isUnassigned;
 		});
 
 		const leaderboardTable = $('#leaderboard').DataTable({
