@@ -16,8 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
-    
-    <link rel="stylesheet" href="/rootelo/static/style.css">
+
+    <link rel="stylesheet" href="static/style.css">
     
     <style>
         :root {
@@ -161,7 +161,8 @@
 	<meta property="og:image" content="https://tricholome.github.io/rootelo/assets/meta/rootelo-preview.webp">
 	
 	<link rel="icon" type="image/png" sizes="192x192" href="https://tricholome.github.io/rootelo/assets/meta/favicon.png">
-	<link rel="icon" type="image/svg+xml" href="/rootelo/assets/meta/favicon.svg">
+	<!-- Chemin dynamique pour le Favicon SVG -->
+	<link rel="icon" type="image/svg+xml" href="assets/meta/favicon.svg">
 	<link rel="apple-touch-icon" href="https://tricholome.github.io/rootelo/assets/meta/favicon.png">
 
     
@@ -177,15 +178,15 @@
             <div class="banner-container">
                 <div class="banner-icons left">
                     <a href="javascript:void(0)" onclick="openTierModal('stag')" class="tooltip-link js-double-tap banner-icon-stag">
-                        <img src="/rootelo/assets/icons/stag.webp" alt="Stag">
+                        <img src="assets/icons/stag.webp" alt="Stag">
                         <span class="tooltip-text"><strong class="tier-stag">Stag (1600+)</strong> — The Legend</span>
                     </a>
 					<a href="javascript:void(0)" onclick="openTierModal('bird')" class="tooltip-link js-double-tap">
-                        <img src="/rootelo/assets/icons/bird.webp" alt="Bird">
+                        <img src="assets/icons/bird.webp" alt="Bird">
                         <span class="tooltip-text"><strong class="tier-bird">Bird (1500+)</strong> — The Grandmasters</span>
                     </a>
                     <a href="javascript:void(0)" onclick="openTierModal('fox')" class="tooltip-link js-double-tap">
-                        <img src="/rootelo/assets/icons/fox.webp" alt="Fox">
+                        <img src="assets/icons/fox.webp" alt="Fox">
                         <span class="tooltip-text"><strong class="tier-fox">Fox (1400+)</strong> — The Cunning Tacticians</span>
                     </a>
                 </div>
@@ -195,15 +196,15 @@
                 </div>
                 <div class="banner-icons right">
                     <a href="javascript:void(0)" onclick="openTierModal('rabbit')" class="tooltip-link js-double-tap">
-                        <img src="/rootelo/assets/icons/rabbit.webp" alt="Rabbit">
+                        <img src="assets/icons/rabbit.webp" alt="Rabbit">
                         <span class="tooltip-text"><strong class="tier-rabbit">Rabbit (1300+)</strong> — The Agile Contenders</span>
                     </a>
                     <a href="javascript:void(0)" onclick="openTierModal('mouse')" class="tooltip-link js-double-tap">
-                        <img src="/rootelo/assets/icons/mouse.webp" alt="Mouse">
+                        <img src="assets/icons/mouse.webp" alt="Mouse">
                         <span class="tooltip-text"><strong class="tier-mouse">Mouse (1200+)</strong> — The Steady Foragers</span>
                     </a>
 					<a href="javascript:void(0)" onclick="openTierModal('squirrel')" class="tooltip-link js-double-tap banner-icon-squirrel">
-                        <img src="/rootelo/assets/icons/squirrel.webp" alt="Squirrel">
+                        <img src="assets/icons/squirrel.webp" alt="Squirrel">
                         <span class="tooltip-text"><strong class="tier-squirrel">Squirrel (&lt; 1200)</strong> — The Hapless Stragglers</span>
                     </a>
                 </div>
@@ -242,7 +243,7 @@
         
         <div class="screen-deco right-deco">
 			
-				<img src="/rootelo/assets/images/cache_img_right.webp" alt="Decoration Right">
+				<img src="assets/images/cache_img_right.webp" alt="Decoration Right">
 			
 		</div>
 
@@ -255,1109 +256,7 @@
 				
 					
 
-					<div class="season-selector">
-						<span class="season-label">Player</span>
-						<div class="search-box">
-							<input type="search" id="playerName" list="playerAutocompleteList" value="" placeholder="Search..." autocomplete="off">
-							<datalist id="playerAutocompleteList">
-								
-									
-										<option value="0thers1der"></option>
-									
-										<option value="100pctskillz"></option>
-									
-										<option value="1coolguy"></option>
-									
-										<option value="2eaasley"></option>
-									
-										<option value="AERotters"></option>
-									
-										<option value="AJIJIi"></option>
-									
-										<option value="Acecreamsundae"></option>
-									
-										<option value="Acelet"></option>
-									
-										<option value="Aceosd"></option>
-									
-										<option value="AcolyteOfRoot"></option>
-									
-										<option value="Actionman2222"></option>
-									
-										<option value="Aeliott"></option>
-									
-										<option value="Akayami"></option>
-									
-										<option value="Akriuss"></option>
-									
-										<option value="Aleph"></option>
-									
-										<option value="Alexispc"></option>
-									
-										<option value="Antiproject"></option>
-									
-										<option value="Anton"></option>
-									
-										<option value="ArionGekkota"></option>
-									
-										<option value="AroN64"></option>
-									
-										<option value="Awesem"></option>
-									
-										<option value="AxelMcKenzie"></option>
-									
-										<option value="AxlPrototype"></option>
-									
-										<option value="Axolatal"></option>
-									
-										<option value="Azdontek"></option>
-									
-										<option value="BLULOBSTR"></option>
-									
-										<option value="BMPerJMPer"></option>
-									
-										<option value="BaconBoy"></option>
-									
-										<option value="BadScra"></option>
-									
-										<option value="BaliHoo"></option>
-									
-										<option value="BalintusMaxi"></option>
-									
-										<option value="Banzai7000"></option>
-									
-										<option value="Bapgo"></option>
-									
-										<option value="Baradhas"></option>
-									
-										<option value="BareGammon"></option>
-									
-										<option value="Bengal3"></option>
-									
-										<option value="BennyJ"></option>
-									
-										<option value="BetterPools"></option>
-									
-										<option value="BigHat"></option>
-									
-										<option value="Biggins96"></option>
-									
-										<option value="Bitto"></option>
-									
-										<option value="BjarkeHuse"></option>
-									
-										<option value="Bjoda"></option>
-									
-										<option value="Blank"></option>
-									
-										<option value="Blepblep"></option>
-									
-										<option value="BloodMuffin"></option>
-									
-										<option value="Blurr"></option>
-									
-										<option value="BoMa85"></option>
-									
-										<option value="Bodnamax"></option>
-									
-										<option value="Bodoby"></option>
-									
-										<option value="BuckeyeNation"></option>
-									
-										<option value="BugMuff44"></option>
-									
-										<option value="BuliBaka"></option>
-									
-										<option value="BusinessPancake"></option>
-									
-										<option value="CWise"></option>
-									
-										<option value="Cabbage0642"></option>
-									
-										<option value="CaptainBork"></option>
-									
-										<option value="Cheesecake271"></option>
-									
-										<option value="Cheetah32"></option>
-									
-										<option value="ChippZamoose"></option>
-									
-										<option value="ChrD99"></option>
-									
-										<option value="ChrisW0022"></option>
-									
-										<option value="ChusGG"></option>
-									
-										<option value="Clink"></option>
-									
-										<option value="Cloudere"></option>
-									
-										<option value="CocoMocoMan"></option>
-									
-										<option value="CodPieceZ"></option>
-									
-										<option value="ColPop"></option>
-									
-										<option value="CommonGibbon"></option>
-									
-										<option value="ConeMan"></option>
-									
-										<option value="Cookies"></option>
-									
-										<option value="CosmicCant"></option>
-									
-										<option value="Cotton"></option>
-									
-										<option value="CowOnAPlane"></option>
-									
-										<option value="CoxyNormus"></option>
-									
-										<option value="CptAlex"></option>
-									
-										<option value="CroCroCro"></option>
-									
-										<option value="Ctfox"></option>
-									
-										<option value="Cuagodking"></option>
-									
-										<option value="Cutoopen"></option>
-									
-										<option value="DGDKami"></option>
-									
-										<option value="Dandel"></option>
-									
-										<option value="Daniel"></option>
-									
-										<option value="DanielDandaniel"></option>
-									
-										<option value="DanielJeun"></option>
-									
-										<option value="DanzigMF"></option>
-									
-										<option value="DarkOwl"></option>
-									
-										<option value="DarkPortents"></option>
-									
-										<option value="Darkwonderer"></option>
-									
-										<option value="DarthOblivius"></option>
-									
-										<option value="DarthPuniceus"></option>
-									
-										<option value="DawnDiVito"></option>
-									
-										<option value="Daz257"></option>
-									
-										<option value="DegenerateIan"></option>
-									
-										<option value="Dekiru"></option>
-									
-										<option value="DelSol"></option>
-									
-										<option value="DemaRogue"></option>
-									
-										<option value="Demand"></option>
-									
-										<option value="DevilUnfiltered"></option>
-									
-										<option value="Diyana"></option>
-									
-										<option value="Dizzz"></option>
-									
-										<option value="Doordecat"></option>
-									
-										<option value="DrCheeseFiend"></option>
-									
-										<option value="DrFrog"></option>
-									
-										<option value="Dramsss"></option>
-									
-										<option value="Drinken"></option>
-									
-										<option value="Dumbledore"></option>
-									
-										<option value="Durian"></option>
-									
-										<option value="EarlofEarl"></option>
-									
-										<option value="EdacM"></option>
-									
-										<option value="Elijah"></option>
-									
-										<option value="EmbryoticDeth"></option>
-									
-										<option value="Emperia"></option>
-									
-										<option value="Evenorodds"></option>
-									
-										<option value="Excitedteapot"></option>
-									
-										<option value="ExecutedByGromp"></option>
-									
-										<option value="Extortionator"></option>
-									
-										<option value="FVMLion"></option>
-									
-										<option value="Fabius"></option>
-									
-										<option value="FaceofEvil"></option>
-									
-										<option value="FakeSki"></option>
-									
-										<option value="FalconBird"></option>
-									
-										<option value="FamilyTuber"></option>
-									
-										<option value="FatBoyyy"></option>
-									
-										<option value="FausDav"></option>
-									
-										<option value="FavorOfTheRabbits"></option>
-									
-										<option value="Fearteiler"></option>
-									
-										<option value="FelipeRocha"></option>
-									
-										<option value="Fenetix"></option>
-									
-										<option value="Fidss"></option>
-									
-										<option value="FireFox"></option>
-									
-										<option value="Fluffy"></option>
-									
-										<option value="ForkMaster"></option>
-									
-										<option value="FrancescoBr"></option>
-									
-										<option value="FungusMouse"></option>
-									
-										<option value="Furry0329"></option>
-									
-										<option value="GAFE15"></option>
-									
-										<option value="Gabobs"></option>
-									
-										<option value="Gaborever"></option>
-									
-										<option value="Gagneto"></option>
-									
-										<option value="GameProfit"></option>
-									
-										<option value="GamerTower"></option>
-									
-										<option value="GardenLily"></option>
-									
-										<option value="Gibbs"></option>
-									
-										<option value="GlandorHooverstein"></option>
-									
-										<option value="Glasypress"></option>
-									
-										<option value="GlisteningGeetus"></option>
-									
-										<option value="Gregoola"></option>
-									
-										<option value="GuyNXS"></option>
-									
-										<option value="Hadjiya"></option>
-									
-										<option value="Hammad"></option>
-									
-										<option value="Harriet"></option>
-									
-										<option value="Hasan"></option>
-									
-										<option value="Hazelnut19"></option>
-									
-										<option value="HeatBeats"></option>
-									
-										<option value="Hiyoshi"></option>
-									
-										<option value="HobGungan"></option>
-									
-										<option value="HollyKat902"></option>
-									
-										<option value="HoosierDaddy"></option>
-									
-										<option value="Hossain2020"></option>
-									
-										<option value="HowDoYouDrew"></option>
-									
-										<option value="HungryJeff"></option>
-									
-										<option value="Hurple"></option>
-									
-										<option value="Hydro033"></option>
-									
-										<option value="HyenaDon"></option>
-									
-										<option value="IMPERATOR"></option>
-									
-										<option value="ImEpy"></option>
-									
-										<option value="ImJustExisting"></option>
-									
-										<option value="IndifferentFish"></option>
-									
-										<option value="Intraceptor"></option>
-									
-										<option value="Ironic"></option>
-									
-										<option value="Jack432"></option>
-									
-										<option value="Jalapeno"></option>
-									
-										<option value="Jasiuńcio"></option>
-									
-										<option value="Jboooooooooooooooooooom"></option>
-									
-										<option value="Jerry"></option>
-									
-										<option value="Jilduhn"></option>
-									
-										<option value="JointedRumble60"></option>
-									
-										<option value="Joshi69"></option>
-									
-										<option value="Jsn13"></option>
-									
-										<option value="Julien"></option>
-									
-										<option value="JumboSalca"></option>
-									
-										<option value="JustABurntBird"></option>
-									
-										<option value="KFull"></option>
-									
-										<option value="Karcher"></option>
-									
-										<option value="KargDemiau"></option>
-									
-										<option value="KarmaBurn"></option>
-									
-										<option value="Kdos15"></option>
-									
-										<option value="KeyserSoze"></option>
-									
-										<option value="Killerstorm17"></option>
-									
-										<option value="Kirien"></option>
-									
-										<option value="Klishu"></option>
-									
-										<option value="Kmahussier"></option>
-									
-										<option value="Knightochan"></option>
-									
-										<option value="Komasan"></option>
-									
-										<option value="KorbohneD"></option>
-									
-										<option value="Krooter"></option>
-									
-										<option value="KuperMeister"></option>
-									
-										<option value="KyloBot"></option>
-									
-										<option value="LHlegend"></option>
-									
-										<option value="Lambo"></option>
-									
-										<option value="Lante"></option>
-									
-										<option value="Led_Slash"></option>
-									
-										<option value="LegendsAbyss"></option>
-									
-										<option value="Lex25"></option>
-									
-										<option value="Libitina114"></option>
-									
-										<option value="Lifeye"></option>
-									
-										<option value="LilSoup"></option>
-									
-										<option value="LittleHalo (9882)"></option>
-									
-										<option value="LittleHalo (9982)"></option>
-									
-										<option value="Ljaz7"></option>
-									
-										<option value="Lobber"></option>
-									
-										<option value="Lobster"></option>
-									
-										<option value="Lokfok"></option>
-									
-										<option value="Lucat"></option>
-									
-										<option value="LucianTheFak"></option>
-									
-										<option value="Luclid"></option>
-									
-										<option value="Lufire"></option>
-									
-										<option value="LutherStr"></option>
-									
-										<option value="Lynxtek"></option>
-									
-										<option value="MOMOGA"></option>
-									
-										<option value="MagZeppelin"></option>
-									
-										<option value="Maladay"></option>
-									
-										<option value="MangoBlade11"></option>
-									
-										<option value="Manpanzee"></option>
-									
-										<option value="Marcus"></option>
-									
-										<option value="Mariv"></option>
-									
-										<option value="MarquiseDeGyatt"></option>
-									
-										<option value="Mati92"></option>
-									
-										<option value="Matthew"></option>
-									
-										<option value="Mazrim"></option>
-									
-										<option value="McMayo"></option>
-									
-										<option value="Mcauthor"></option>
-									
-										<option value="MelodiCat"></option>
-									
-										<option value="MikaelsBlessing"></option>
-									
-										<option value="Mindger"></option>
-									
-										<option value="MinePokemine"></option>
-									
-										<option value="MisterGume"></option>
-									
-										<option value="Mohammad"></option>
-									
-										<option value="Montes"></option>
-									
-										<option value="Mopey"></option>
-									
-										<option value="Mossfusion"></option>
-									
-										<option value="Mouseman"></option>
-									
-										<option value="MoxJet"></option>
-									
-										<option value="MrDrouf"></option>
-									
-										<option value="MrRiceGuy"></option>
-									
-										<option value="Munchking"></option>
-									
-										<option value="MunkeyBrewster"></option>
-									
-										<option value="Musicalwoofy"></option>
-									
-										<option value="MylesMoose"></option>
-									
-										<option value="Nadav253"></option>
-									
-										<option value="NadtyLite"></option>
-									
-										<option value="Napalminthebirdsong"></option>
-									
-										<option value="Nate-inator"></option>
-									
-										<option value="NattyKash"></option>
-									
-										<option value="NaySmith"></option>
-									
-										<option value="Nefkano"></option>
-									
-										<option value="Nickpappa"></option>
-									
-										<option value="Nierxlelx"></option>
-									
-										<option value="NightTsuki"></option>
-									
-										<option value="Nightfury1089"></option>
-									
-										<option value="Niruu"></option>
-									
-										<option value="NonStInc."></option>
-									
-										<option value="NotTheThreat"></option>
-									
-										<option value="Nudraxon"></option>
-									
-										<option value="Nuttsy"></option>
-									
-										<option value="Nymmer"></option>
-									
-										<option value="OUSlaughter"></option>
-									
-										<option value="Octavius"></option>
-									
-										<option value="Odinius"></option>
-									
-										<option value="Olymp"></option>
-									
-										<option value="Onninn"></option>
-									
-										<option value="Oppapi"></option>
-									
-										<option value="Oriol"></option>
-									
-										<option value="PacificCold"></option>
-									
-										<option value="PajaroTronador"></option>
-									
-										<option value="Pandapapst"></option>
-									
-										<option value="Pantuxd"></option>
-									
-										<option value="Peppy"></option>
-									
-										<option value="Perdita"></option>
-									
-										<option value="PeskyPaul"></option>
-									
-										<option value="PestoEmporium"></option>
-									
-										<option value="Pi314"></option>
-									
-										<option value="Piechu"></option>
-									
-										<option value="PlagueCarrier"></option>
-									
-										<option value="Plasma"></option>
-									
-										<option value="Pliskin"></option>
-									
-										<option value="Plush2"></option>
-									
-										<option value="Podge0303"></option>
-									
-										<option value="PokerFace126"></option>
-									
-										<option value="Potatosgonnacrushya"></option>
-									
-										<option value="Potet"></option>
-									
-										<option value="PsychologicalBox"></option>
-									
-										<option value="Ptitmxz"></option>
-									
-										<option value="Quisyo"></option>
-									
-										<option value="QuixArtagnan"></option>
-									
-										<option value="RFMerlo"></option>
-									
-										<option value="Rabbi"></option>
-									
-										<option value="Rabbitwarlord"></option>
-									
-										<option value="Rachel997"></option>
-									
-										<option value="Raineweather05"></option>
-									
-										<option value="RangerEpic"></option>
-									
-										<option value="RaveAnt"></option>
-									
-										<option value="Raybit"></option>
-									
-										<option value="RedPanda"></option>
-									
-										<option value="ReoWulf"></option>
-									
-										<option value="RexCow"></option>
-									
-										<option value="Rhyno"></option>
-									
-										<option value="RiverKawaii"></option>
-									
-										<option value="Riverman"></option>
-									
-										<option value="Roldan"></option>
-									
-										<option value="Rootenthusiast"></option>
-									
-										<option value="RootingForYou"></option>
-									
-										<option value="RootiredRooter"></option>
-									
-										<option value="RubyRosemary"></option>
-									
-										<option value="RustySpruce"></option>
-									
-										<option value="SMenefee"></option>
-									
-										<option value="SSR_Mike"></option>
-									
-										<option value="Salitance"></option>
-									
-										<option value="Samven"></option>
-									
-										<option value="Schkitz"></option>
-									
-										<option value="Scipio"></option>
-									
-										<option value="Sebby"></option>
-									
-										<option value="Seiza"></option>
-									
-										<option value="Shadyferret"></option>
-									
-										<option value="Sharkskln"></option>
-									
-										<option value="ShowStopperW"></option>
-									
-										<option value="Shrek"></option>
-									
-										<option value="Shrimpster"></option>
-									
-										<option value="ShuShuBana"></option>
-									
-										<option value="Shuuhey"></option>
-									
-										<option value="Silver"></option>
-									
-										<option value="SimulatedBeehive"></option>
-									
-										<option value="Sirius"></option>
-									
-										<option value="Sjepeal"></option>
-									
-										<option value="Skumfi"></option>
-									
-										<option value="Skyr02"></option>
-									
-										<option value="SlickAngel"></option>
-									
-										<option value="Snivylover12"></option>
-									
-										<option value="Sodaface"></option>
-									
-										<option value="Soluna"></option>
-									
-										<option value="SpaceNugget"></option>
-									
-										<option value="Spuddy"></option>
-									
-										<option value="Starcore6"></option>
-									
-										<option value="StarhardFishrinse"></option>
-									
-										<option value="Starhasfallen"></option>
-									
-										<option value="StatzoryTheMad"></option>
-									
-										<option value="StellarHermit"></option>
-									
-										<option value="StoneOfShame"></option>
-									
-										<option value="StrikeOrca"></option>
-									
-										<option value="Supersingalong"></option>
-									
-										<option value="TAKSpx"></option>
-									
-										<option value="Tad604"></option>
-									
-										<option value="Tagatu"></option>
-									
-										<option value="TempExtremal"></option>
-									
-										<option value="Temperz87"></option>
-									
-										<option value="TenchRinggold"></option>
-									
-										<option value="Thanhdat"></option>
-									
-										<option value="TheDolphinman"></option>
-									
-										<option value="TheFourthJesse"></option>
-									
-										<option value="TheIndustrialRevoloution"></option>
-									
-										<option value="TheRedViper"></option>
-									
-										<option value="TheSillyBilly"></option>
-									
-										<option value="TheWiseFox"></option>
-									
-										<option value="ThoseTeeff"></option>
-									
-										<option value="TimidTailwind"></option>
-									
-										<option value="ToasterTrash"></option>
-									
-										<option value="Tolfan"></option>
-									
-										<option value="TonyDeloreanESQ"></option>
-									
-										<option value="ToughHazelnut"></option>
-									
-										<option value="Traestaree"></option>
-									
-										<option value="TreyTheNomad"></option>
-									
-										<option value="Tricholome"></option>
-									
-										<option value="Trumpet"></option>
-									
-										<option value="Tseka"></option>
-									
-										<option value="TurkeyNoNo"></option>
-									
-										<option value="TurtleJawz"></option>
-									
-										<option value="Ultcyber"></option>
-									
-										<option value="Vagabond Glazer"></option>
-									
-										<option value="Vak123"></option>
-									
-										<option value="Valzaan"></option>
-									
-										<option value="VanKaiserman"></option>
-									
-										<option value="Viggs"></option>
-									
-										<option value="Vitsky"></option>
-									
-										<option value="Vxdaa"></option>
-									
-										<option value="WWren"></option>
-									
-										<option value="Waferseeker95"></option>
-									
-										<option value="WehrleDominance"></option>
-									
-										<option value="Welllll"></option>
-									
-										<option value="Whats02"></option>
-									
-										<option value="WillRevolt"></option>
-									
-										<option value="Wolvane"></option>
-									
-										<option value="Wrathbone"></option>
-									
-										<option value="Wrestler"></option>
-									
-										<option value="Wriggleroom"></option>
-									
-										<option value="Wubba"></option>
-									
-										<option value="WyvernElement"></option>
-									
-										<option value="Xar149"></option>
-									
-										<option value="Xerof"></option>
-									
-										<option value="Xman1997"></option>
-									
-										<option value="XxD4RK_W0LFxX"></option>
-									
-										<option value="Yojimbo"></option>
-									
-										<option value="Yoten"></option>
-									
-										<option value="Youdge"></option>
-									
-										<option value="Yragael"></option>
-									
-										<option value="Yucca"></option>
-									
-										<option value="ZachB"></option>
-									
-										<option value="Zeldamon"></option>
-									
-										<option value="ZimaBlue"></option>
-									
-										<option value="aaronmaik88"></option>
-									
-										<option value="aelisheneithlon"></option>
-									
-										<option value="alevGO"></option>
-									
-										<option value="alex0"></option>
-									
-										<option value="amjohnson636"></option>
-									
-										<option value="anoretu"></option>
-									
-										<option value="balonthebold"></option>
-									
-										<option value="benruff"></option>
-									
-										<option value="benssoon"></option>
-									
-										<option value="bigcathedral"></option>
-									
-										<option value="blasonmyphemous"></option>
-									
-										<option value="bluegill"></option>
-									
-										<option value="bobbyknuckles"></option>
-									
-										<option value="bootle"></option>
-									
-										<option value="brrrlinguist"></option>
-									
-										<option value="budynzsmalcem"></option>
-									
-										<option value="buurn"></option>
-									
-										<option value="byzeke"></option>
-									
-										<option value="catscat"></option>
-									
-										<option value="chibimori"></option>
-									
-										<option value="chosennuttso"></option>
-									
-										<option value="chux88"></option>
-									
-										<option value="cjahwon"></option>
-									
-										<option value="cliuless"></option>
-									
-										<option value="clp10033"></option>
-									
-										<option value="complexartichoke"></option>
-									
-										<option value="cookain"></option>
-									
-										<option value="creapy01"></option>
-									
-										<option value="cringelordirl"></option>
-									
-										<option value="darkcat"></option>
-									
-										<option value="deejaythink"></option>
-									
-										<option value="deriokle"></option>
-									
-										<option value="dindane"></option>
-									
-										<option value="doejurko"></option>
-									
-										<option value="eef99"></option>
-									
-										<option value="ellbelle"></option>
-									
-										<option value="elmoo"></option>
-									
-										<option value="ermactually"></option>
-									
-										<option value="evancomposer"></option>
-									
-										<option value="fadingnovel"></option>
-									
-										<option value="fbd117"></option>
-									
-										<option value="goodgamepat"></option>
-									
-										<option value="gord20"></option>
-									
-										<option value="hakoo"></option>
-									
-										<option value="halzyen"></option>
-									
-										<option value="hanban"></option>
-									
-										<option value="hauntedpebbles2"></option>
-									
-										<option value="idk123"></option>
-									
-										<option value="ionou21"></option>
-									
-										<option value="kaiser"></option>
-									
-										<option value="kamomileTea"></option>
-									
-										<option value="kayajam"></option>
-									
-										<option value="kesitron"></option>
-									
-										<option value="kingslime"></option>
-									
-										<option value="kurtfisto"></option>
-									
-										<option value="lazarus210"></option>
-									
-										<option value="legrandgrand"></option>
-									
-										<option value="lgtw3450"></option>
-									
-										<option value="lumpyprol"></option>
-									
-										<option value="marksoz00"></option>
-									
-										<option value="matemato"></option>
-									
-										<option value="maxlovesyou"></option>
-									
-										<option value="metalnooze"></option>
-									
-										<option value="micherin"></option>
-									
-										<option value="mishaelh1"></option>
-									
-										<option value="mkcy3"></option>
-									
-										<option value="mouseinabox"></option>
-									
-										<option value="mrkent"></option>
-									
-										<option value="mwcrabtree"></option>
-									
-										<option value="mysti"></option>
-									
-										<option value="nathanbraun"></option>
-									
-										<option value="nikkan"></option>
-									
-										<option value="ninjacat536"></option>
-									
-										<option value="nmyers2"></option>
-									
-										<option value="nutrimentia"></option>
-									
-										<option value="nyosh8484"></option>
-									
-										<option value="ominouscat"></option>
-									
-										<option value="optimusprawn"></option>
-									
-										<option value="osche"></option>
-									
-										<option value="oshwott2844"></option>
-									
-										<option value="pashatherussian"></option>
-									
-										<option value="pheobii"></option>
-									
-										<option value="pigdog"></option>
-									
-										<option value="pikeline"></option>
-									
-										<option value="pizzamagican"></option>
-									
-										<option value="plushcultist"></option>
-									
-										<option value="polyphemur"></option>
-									
-										<option value="pooge"></option>
-									
-										<option value="pwarren8590"></option>
-									
-										<option value="radiantchaos"></option>
-									
-										<option value="rathyAro"></option>
-									
-										<option value="re_al_"></option>
-									
-										<option value="residentevil"></option>
-									
-										<option value="rhino"></option>
-									
-										<option value="saintstonet"></option>
-									
-										<option value="sasquatch"></option>
-									
-										<option value="scaled"></option>
-									
-										<option value="sda1611"></option>
-									
-										<option value="secretpaths"></option>
-									
-										<option value="sedlak87"></option>
-									
-										<option value="shurgs"></option>
-									
-										<option value="silverfox"></option>
-									
-										<option value="sleepylabone"></option>
-									
-										<option value="solisofmistrel"></option>
-									
-										<option value="sontei5"></option>
-									
-										<option value="sourdoh"></option>
-									
-										<option value="sparrowhawk"></option>
-									
-										<option value="spirit"></option>
-									
-										<option value="strypeez"></option>
-									
-										<option value="stxr444"></option>
-									
-										<option value="swiftsusan"></option>
-									
-										<option value="themikeman"></option>
-									
-										<option value="time2orush"></option>
-									
-										<option value="tippop"></option>
-									
-										<option value="tjudge"></option>
-									
-										<option value="tobin"></option>
-									
-										<option value="tofuwater"></option>
-									
-										<option value="trollone1993"></option>
-									
-										<option value="tubaking"></option>
-									
-										<option value="tunnndz"></option>
-									
-										<option value="uFancyHUH"></option>
-									
-										<option value="udon66"></option>
-									
-										<option value="uwtron"></option>
-									
-										<option value="vanillapoppy"></option>
-									
-										<option value="vinnie"></option>
-									
-										<option value="voltigeur"></option>
-									
-										<option value="wearegang"></option>
-									
-										<option value="weirdone"></option>
-									
-										<option value="wherestonks"></option>
-									
-										<option value="xozzziii"></option>
-									
-										<option value="yoyot1"></option>
-									
-								
-							</datalist>
-							<a id="root-db-btn" 
-							   href="#" 
-							   target="_blank" 
-							   rel="noopener noreferrer" 
-							   class="db-btn js-double-tap disabled" 
-							   aria-label="View profile on The Root Database">
-							   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-								 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-								 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-							   </svg>
-							   <span class="tooltip-text">View profile on The Root Database</span>
-							</a>
-						</div>
-					</div>
+					
 				</div>
 			</header>
 			
@@ -1391,7 +290,7 @@
 						<tr class="tier-header-row">
 							<td>
 								<div class="tier-icon-container">
-									<img src="/rootelo/assets/icons/stag.webp" alt="stag">
+									<img src="assets/icons/stag.webp" alt="stag">
 								</div>
 							</td>
 							<td>
@@ -1448,7 +347,7 @@
 						<tr class="tier-header-row">
 							<td>
 								<div class="tier-icon-container">
-									<img src="/rootelo/assets/icons/bird.webp" alt="bird">
+									<img src="assets/icons/bird.webp" alt="bird">
 								</div>
 							</td>
 							<td>
@@ -1515,7 +414,7 @@
 						<tr class="tier-header-row">
 							<td>
 								<div class="tier-icon-container">
-									<img src="/rootelo/assets/icons/fox.webp" alt="fox">
+									<img src="assets/icons/fox.webp" alt="fox">
 								</div>
 							</td>
 							<td>
@@ -1582,7 +481,7 @@
 						<tr class="tier-header-row">
 							<td>
 								<div class="tier-icon-container">
-									<img src="/rootelo/assets/icons/rabbit.webp" alt="rabbit">
+									<img src="assets/icons/rabbit.webp" alt="rabbit">
 								</div>
 							</td>
 							<td>
@@ -1649,7 +548,7 @@
 						<tr class="tier-header-row">
 							<td>
 								<div class="tier-icon-container">
-									<img src="/rootelo/assets/icons/mouse.webp" alt="mouse">
+									<img src="assets/icons/mouse.webp" alt="mouse">
 								</div>
 							</td>
 							<td>
@@ -1720,7 +619,7 @@
 				<tr>
 					<th>
 						<div class="tier-icon-container">
-							<img src="/rootelo/assets/icons/squirrel.webp" alt="squirrel">
+							<img src="assets/icons/squirrel.webp" alt="squirrel">
 						</div>
 					</th>
 					<th>
@@ -1818,7 +717,7 @@
         
         <div class="screen-deco left-deco">
 			
-				<img src="/rootelo/assets/images/cache_img_left.webp" alt="Decoration Left">
+				<img src="assets/images/cache_img_left.webp" alt="Decoration Left">
 			
 		</div>
 
@@ -1837,7 +736,7 @@
 						</a>
 					</span>
 				</div>
-				<div class="footer-date">Updated on 2026-08-08 00:27 UTC</div>
+				<div class="footer-date">Updated on 2026-08-08 15:40 UTC</div>
 			</div>
 		</footer>
     </div>
@@ -1872,12 +771,30 @@
 	<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     
     <script>
-		window.PLAYER_PROFILE_MAP = {"uwtron": "uwtron-573", "Sjepeal": "Sjepeal-9206", "DegenerateIan": "DegenerateIan-7146", "bluegill": "bluegill-307", "marksoz00": "marksoz00-1780", "Fenetix": "Fenetix-9243", "chosennuttso": "chosennuttso", "Montes": "Montes-8263", "polyphemur": "polyphemur-3699", "Furry0329": "Furry0329-6442", "chibimori": "chibimori-1707", "Mopey": "Mopey-1052", "Excitedteapot": "Excitedteapot-2857", "Rachel997": "Rachel997", "HungryJeff": "HungryJeff-6786", "Daz257": "Daz257-7505", "budynzsmalcem": "budynzsmalcem-3790", "kaiser": "kaiser-8343", "Antiproject": "Antiproject-7236", "Diyana": "Diyana-933", "JointedRumble60": "JointedRumble60-7541", "LucianTheFak": "LucianTheFak-3697", "nyosh8484": "nyosh8484-1627", "nathanbraun": "nathanbraun-7726", "ConeMan": "ConeMan-3213", "kayajam": "kayajam-9348", "LilSoup": "LilSoup-6064", "Xerof": "Xerof-7582", "Actionman2222": "Actionman2222-4303", "Kdos15": "Kdos15-1623", "NightTsuki": "NightTsuki-7092", "Temperz87": "Temperz87-4696", "Nightfury1089": "Nightfury1089-500", "TheDolphinman": "TheDolphinman-2630", "Clink": "Clink-5884", "WyvernElement": "WyvernElement-1816", "AxlPrototype": "AxlPrototype-5016", "EarlofEarl": "EarlofEarl-908", "ninjacat536": "ninjacat536-1220", "Tad604": "Tad604-8004", "Nymmer": "Nymmer-3243", "fadingnovel": "fadingnovel-7335", "pheobii": "pheobii-5175", "secretpaths": "secretpaths-8130", "Acelet": "Acelet", "Lifeye": "Lifeye-4414", "TreyTheNomad": "TreyTheNomad-8345", "mkcy3": "mkcy3-8006", "Onninn": "Onninn-8321", "blasonmyphemous": "blasonmyphemous-8394", "Fabius": "Fabius-5370", "cookain": "cookain-4752", "Lynxtek": "Lynxtek-4186", "LegendsAbyss": "LegendsAbyss-6443", "ReoWulf": "ReoWulf-5368", "Lante": "Lante-1268", "wearegang": "wearegang-8837", "kamomileTea": "kamomileTea-4472", "deriokle": "deriokle-4319", "Seiza": "Seiza-6137", "Shrek": "Shrek-876", "Lucat": "Lucat-9382", "Aleph": "Aleph-9548", "Banzai7000": "Banzai7000-1191", "Killerstorm17": "Killerstorm17-3440", "mwcrabtree": "mwcrabtree", "RootiredRooter": "RootiredRooter-4390", "GAFE15": "GAFE15-7357", "Potet": "Potet-3500", "kingslime": "kingslime-8836", "Lambo": "Lambo-7524", "cringelordirl": "cringelordirl-3838", "Ironic": "Ironic-3891", "Munchking": "Munchking-5998", "MagZeppelin": "MagZeppelin-4248", "WehrleDominance": "WehrleDominance-8011", "PestoEmporium": "PestoEmporium-6690", "Intraceptor": "Intraceptor-5437", "tjudge": "tjudge-8299", "Traestaree": "Traestaree-7134", "StatzoryTheMad": "StatzoryTheMad-7951", "Aeliott": "Aeliott-7118", "Starcore6": "Starcore6-817", "sourdoh": "sourdoh-5225", "swiftsusan": "swiftsusan-8662", "lazarus210": "lazarus210", "dindane": "dindane-250", "elmoo": "elmoo-6190", "Napalminthebirdsong": "Napalminthebirdsong-5528", "TempExtremal": "TempExtremal-1625", "Hossain2020": "Hossain2020-1837", "ForkMaster": "ForkMaster-8694", "ominouscat": "ominouscat-4065", "MangoBlade11": "MangoBlade11-7548", "Plush2": "Plush2-8334", "TheRedViper": "TheRedViper-1596", "CroCroCro": "CroCroCro-9495", "hanban": "hanban-3911", "KuperMeister": "KuperMeister-8518", "0thers1der": "0thers1der-5053", "TAKSpx": "TAKSpx-9156", "Jasiu\u0144cio": "Jasiu\u0144cio-3892", "BadScra": "BadScra-3199", "NaySmith": "NaySmith-3702", "BareGammon": "BareGammon-82", "Knightochan": "Knightochan-8069", "Nefkano": "Nefkano-8780", "MoxJet": "MoxJet-3716", "Piechu": "Piechu-7320", "nikkan": "nikkan-7933", "Awesem": "Awesem-1966", "CommonGibbon": "CommonGibbon-5852", "alevGO": "alevGO-2990", "PeskyPaul": "PeskyPaul-5583", "Mossfusion": "Mossfusion-6189", "radiantchaos": "radiantchaos-5523", "ZachB": "ZachB-8726", "AERotters": "AERotters-5277", "cliuless": "cliuless-2304", "HobGungan": "HobGungan-2914", "sontei5": "sontei5-3678", "OUSlaughter": "OUSlaughter-3653", "Viggs": "Viggs-9470", "BennyJ": "BennyJ-6079", "Darkwonderer": "Darkwonderer-1035", "ColPop": "ColPop-9146", "Cheetah32": "Cheetah32-6800", "Xman1997": "Xman1997-3777", "Supersingalong": "Supersingalong-6545", "Gibbs": "Gibbs-3656", "Nadav253": "Nadav253-6419", "1coolguy": "1coolguy-6294", "Hadjiya": "Hadjiya-4475", "pigdog": "pigdog-4355", "buurn": "buurn-343", "DGDKami": "DGDKami-9860", "aaronmaik88": "aaronmaik88-3890", "Fidss": "Fidss-3013", "halzyen": "halzyen-4113", "Silver": "Silver-6850", "Hiyoshi": "Hiyoshi-2879", "KyloBot": "KyloBot-6508", "pashatherussian": "pashatherussian-5688", "McMayo": "McMayo-5829", "Bengal3": "Bengal3-6710", "Kirien": "Kirien-375", "PokerFace126": "PokerFace126-7192", "Gregoola": "Gregoola-1424", "TheFourthJesse": "TheFourthJesse-9103", "tippop": "tippop-7531", "CaptainBork": "CaptainBork-7195", "stxr444": "stxr444-8143", "Rabbitwarlord": "Rabbitwarlord-1983", "ChippZamoose": "ChippZamoose-906", "Cloudere": "Cloudere-8085", "shurgs": "shurgs-6277", "SlickAngel": "SlickAngel-9821", "Acecreamsundae": "Acecreamsundae-1472", "alex0": "alex0-3804", "Rootenthusiast": "Rootenthusiast-6637", "time2orush": "time2orush-2871", "RFMerlo": "RFMerlo-6470", "PlagueCarrier": "PlagueCarrier-5718", "silverfox": "silverfox-4551", "FavorOfTheRabbits": "FavorOfTheRabbits-9523", "QuixArtagnan": "QuixArtagnan-7824", "TurtleJawz": "TurtleJawz-3309", "DelSol": "DelSol-6479", "RaveAnt": "RaveAnt-1236", "sasquatch": "sasquatch-9509", "Whats02": "Whats02-5282", "Rhyno": "Rhyno-5128", "TimidTailwind": "TimidTailwind-2597", "FakeSki": "FakeSki-4232", "optimusprawn": "optimusprawn-9866", "Akriuss": "Akriuss-573", "GuyNXS": "GuyNXS-7023", "AxelMcKenzie": "AxelMcKenzie-19", "Quisyo": "Quisyo-8653", "Jboooooooooooooooooooom": "Jboooooooooooooooooooom-4776", "FausDav": "FausDav-5901", "BaliHoo": "BaliHoo-3674", "kesitron": "kesitron-187", "GlandorHooverstein": "GlandorHooverstein-602", "maxlovesyou": "maxlovesyou-9434", "CocoMocoMan": "CocoMocoMan-3134", "darkcat": "darkcat-794", "Dumbledore": "Dumbledore-1135", "pwarren8590": "pwarren8590-4047", "DarkOwl": "DarkOwl-5198", "themikeman": "themikeman-4306", "LittleHalo (9982)": "LittleHalo-9982", "HyenaDon": "HyenaDon-4502", "strypeez": "strypeez-6330", "Shrimpster": "Shrimpster-8461", "Snivylover12": "Snivylover12-1064", "LHlegend": "LHlegend-5313", "amjohnson636": "amjohnson636-3986", "Tseka": "Tseka-4826", "Mcauthor": "Mcauthor-181", "Cheesecake271": "Cheesecake271-5205", "Ultcyber": "Ultcyber-1551", "brrrlinguist": "brrrlinguist-929", "Hasan": "Hasan-1782", "RustySpruce": "RustySpruce-2483", "micherin": "micherin-7972", "GlisteningGeetus": "GlisteningGeetus-4225", "Jalapeno": "Jalapeno-9238", "Raineweather05": "Raineweather05-2319", "BugMuff44": "BugMuff44-9091", "Led_Slash": "Led_Slash-3579", "Valzaan": "Valzaan-3564", "TonyDeloreanESQ": "TonyDeloreanESQ-4756", "Glasypress": "Glasypress-9650", "lumpyprol": "lumpyprol-3206", "Wriggleroom": "Wriggleroom-4502", "JustABurntBird": "JustABurntBird-3221", "Yojimbo": "Yojimbo-9872", "pooge": "pooge-6189", "DemaRogue": "DemaRogue-7727", "Bapgo": "Bapgo-7254", "Blurr": "Blurr-1887", "nmyers2": "nmyers2-8426", "IMPERATOR": "IMPERATOR-2570", "Musicalwoofy": "Musicalwoofy-7712", "udon66": "udon66-6395", "Raybit": "Raybit-2953", "Luclid": "Luclid-298", "Komasan": "Komasan-7739", "AcolyteOfRoot": "AcolyteOfRoot-4294", "eef99": "eef99-8799", "benssoon": "benssoon-802", "FalconBird": "FalconBird-7701", "PajaroTronador": "PajaroTronador-9221", "RootingForYou": "RootingForYou-7246", "Riverman": "Riverman-1204", "MrDrouf": "MrDrouf-3826", "matemato": "matemato-5004", "AJIJIi": "AJIJIi", "StellarHermit": "StellarHermit-3326", "MarquiseDeGyatt": "MarquiseDeGyatt-202", "ZimaBlue": "ZimaBlue-5729", "yoyot1": "yoyot1-5057", "Klishu": "Klishu-3272", "hakoo": "hakoo", "Mohammad": "Mohammad-8142", "Daniel": "Daniel-9756", "mishaelh1": "mishaelh1-6045", "BaconBoy": "BaconBoy-9689", "SMenefee": "SMenefee-4066", "Welllll": "Welllll-4899", "Jilduhn": "Jilduhn-6197", "Ptitmxz": "Ptitmxz-6986", "VanKaiserman": "VanKaiserman-5269", "Hydro033": "Hydro033-5014", "StarhardFishrinse": "StarhardFishrinse-1675", "ExecutedByGromp": "ExecutedByGromp-3925", "MelodiCat": "MelodiCat-8385", "PacificCold": "PacificCold-7409", "Schkitz": "Schkitz-8222", "sleepylabone": "sleepylabone-1003", "Peppy": "Peppy-6321", "Maladay": "Maladay-6079", "HowDoYouDrew": "HowDoYouDrew-716", "BloodMuffin": "BloodMuffin-4386", "Mariv": "Mariv-2352", "uFancyHUH": "uFancyHUH-8404", "RedPanda": "RedPanda-336", "XxD4RK_W0LFxX": "XxD4RK_W0LFxX-9534", "Matthew": "Matthew-8325", "Mindger": "Mindger-7576", "Ljaz7": "Ljaz7-6925", "BuliBaka": "BuliBaka-6658", "FatBoyyy": "FatBoyyy-6258", "MikaelsBlessing": "MikaelsBlessing-8102", "evancomposer": "evancomposer-2898", "Hurple": "Hurple-6007", "FungusMouse": "FungusMouse-7883", "Tagatu": "Tagatu-7056", "BoMa85": "BoMa85-9812", "bobbyknuckles": "bobbyknuckles-6793", "NattyKash": "NattyKash-316", "SimulatedBeehive": "SimulatedBeehive-1517", "RubyRosemary": "RubyRosemary-8390", "saintstonet": "saintstonet-7390", "Julien": "Julien-5506", "hauntedpebbles2": "hauntedpebbles2-8720", "Tolfan": "Tolfan", "Bitto": "Bitto-476", "SSR_Mike": "SSR_Mike-6444", "Thanhdat": "Thanhdat-1146", "StoneOfShame": "StoneOfShame-5048", "DevilUnfiltered": "DevilUnfiltered-380", "clp10033": "clp10033-4124", "ImEpy": "ImEpy-9148", "tubaking": "tubaking-4200", "Hammad": "Hammad-766", "LittleHalo (9882)": "LittleHalo-9882", "Jack432": "Jack432-6277", "DarthPuniceus": "DarthPuniceus-9605", "Karcher": "Karcher-6280", "Wrestler": "Wrestler-3756", "DarkPortents": "DarkPortents-1248", "Manpanzee": "Manpanzee-265", "re_al_": "re_al_-5392", "KorbohneD": "KorbohneD-2930", "Perdita": "Perdita-9449", "voltigeur": "voltigeur-3314", "NotTheThreat": "NotTheThreat-4569", "oshwott2844": "oshwott2844-9258", "Wubba": "Wubba-9310", "Mati92": "Mati92-4633", "Dramsss": "Dramsss-3", "gord20": "gord20-7161", "Gaborever": "Gaborever-8187", "Niruu": "Niruu-622", "sparrowhawk": "sparrowhawk-9374", "Nickpappa": "Nickpappa-2149", "GardenLily": "GardenLily-4780", "FireFox": "FireFox-7079", "FrancescoBr": "FrancescoBr-4009", "TheWiseFox": "TheWiseFox-8428", "Marcus": "Marcus-9032", "Wrathbone": "Wrathbone-7116", "ShowStopperW": "ShowStopperW-549", "BjarkeHuse": "BjarkeHuse-2923", "HoosierDaddy": "HoosierDaddy-4463", "Joshi69": "Joshi69-4249", "Sodaface": "Sodaface-4859", "CWise": "CWise-6651", "FVMLion": "FVMLion-1706", "lgtw3450": "lgtw3450-6602", "catscat": "catscat-1327", "Scipio": "Scipio-8842", "Plasma": "Plasma-7413", "Yoten": "Yoten-6060", "rathyAro": "rathyAro-1512", "KeyserSoze": "KeyserSoze-1044", "EmbryoticDeth": "EmbryoticDeth", "Sharkskln": "Sharkskln-6071", "MrRiceGuy": "MrRiceGuy-5849", "BalintusMaxi": "BalintusMaxi-1951", "DanielDandaniel": "DanielDandaniel-7434", "2eaasley": "2eaasley-6663", "Cookies": "Cookies-3700", "doejurko": "doejurko-3088", "Nudraxon": "Nudraxon-7640", "osche": "osche-990", "Azdontek": "Azdontek-1234", "ChrD99": "ChrD99-1022", "HollyKat902": "HollyKat902-1703", "Harriet": "Harriet-1445", "CowOnAPlane": "CowOnAPlane-3405", "Anton": "Anton-562", "residentevil": "residentevil-6828", "Starhasfallen": "Starhasfallen-2910", "Odinius": "Odinius-897", "Rabbi": "Rabbi-7", "Mouseman": "Mouseman-7870", "Dandel": "Dandel-3128", "CoxyNormus": "CoxyNormus-5176", "Jsn13": "Jsn13-1881", "Tricholome": "Tricholome-4276", "LutherStr": "LutherStr-1358", "Jerry": "Jerry", "vanillapoppy": "vanillapoppy-9303", "pizzamagican": "pizzamagican-4983", "Demand": "Demand-3288", "ellbelle": "ellbelle-9011", "tobin": "tobin-8390", "ChrisW0022": "ChrisW0022-717", "Skyr02": "Skyr02-9346", "mrkent": "mrkent-9273", "Hazelnut19": "Hazelnut19-2913", "Axolatal": "Axolatal", "SpaceNugget": "SpaceNugget-7305", "RexCow": "RexCow-93848049", "pikeline": "pikeline-9847", "Krooter": "Krooter-8646", "byzeke": "byzeke-7830", "IndifferentFish": "IndifferentFish-2547", "Sebby": "Sebby-9924", "MinePokemine": "MinePokemine-7899", "Wolvane": "Wolvane-1704", "Bodnamax": "Bodnamax-6783", "Gagneto": "Gagneto-8499", "sda1611": "sda1611-3493", "Roldan": "Roldan-1152", "Octavius": "Octavius-8289", "Soluna": "Soluna-2127", "Doordecat": "Doordecat-1475", "Lex25": "Lex25-415", "Oriol": "Oriol-2638", "ChusGG": "ChusGG-6807", "BigHat": "BigHat-3791", "CosmicCant": "CosmicCant-3836", "Vagabond Glazer": "Vagabond Glazer-6268", "Samven": "Samven-4822", "tofuwater": "tofuwater-4853", "Kmahussier": "Kmahussier-2186", "DarthOblivius": "DarthOblivius-1339", "Cabbage0642": "Cabbage0642-3776", "Podge0303": "Podge0303-8578", "Oppapi": "Oppapi-9478", "Nierxlelx": "Nierxlelx-7709", "StrikeOrca": "StrikeOrca-4455", "Alexispc": "Alexispc-6921", "benruff": "benruff-449", "ermactually": "ermactually-9395", "deejaythink": "deejaythink-9834", "balonthebold": "balonthebold-1851", "mouseinabox": "mouseinabox-992", "MOMOGA": "MOMOGA-5135", "Shadyferret": "Shadyferret-9636", "bigcathedral": "bigcathedral-1133", "DanielJeun": "DanielJeun-8467", "metalnooze": "metalnooze-4817", "Cotton": "Cotton-4951", "WillRevolt": "WillRevolt-5749", "Fluffy": "Fluffy-189", "Cutoopen": "Cutoopen-2335", "Drinken": "Drinken-3181", "Evenorodds": "Evenorodds-2809", "Baradhas": "Baradhas-8593", "CodPieceZ": "CodPieceZ-7710", "AroN64": "AroN64-3271", "Emperia": "Emperia-9282", "Sirius": "Sirius-9323", "RiverKawaii": "RiverKawaii-4578", "anoretu": "anoretu-9881", "Blank": "Blank-7029", "complexartichoke": "complexartichoke-1699", "Bodoby": "Bodoby-7221", "Ctfox": "Ctfox-5431", "HeatBeats": "HeatBeats-9767", "idk123": "idk123-6079", "Yragael": "Yragael-5413", "weirdone": "weirdone-8473", "creapy01": "creapy01-439", "GamerTower": "GamerTower-410", "ToasterTrash": "ToasterTrash-8502", "BuckeyeNation": "BuckeyeNation-0", "Lobber": "Lobber-171819", "Vitsky": "Vitsky-1201", "Pantuxd": "Pantuxd-4629", "FaceofEvil": "FaceofEvil-8545", "GameProfit": "GameProfit-8226", "DrFrog": "DrFrog-6075", "KarmaBurn": "KarmaBurn-1193", "Skumfi": "Skumfi-5761", "KFull": "KFull-1226", "chux88": "chux88-4717", "Spuddy": "Spuddy-6193", "fbd117": "fbd117-324", "BetterPools": "BetterPools-6450", "wherestonks": "wherestonks-4878", "NonStInc.": "NonStInc.-6190", "MisterGume": "MisterGume-9687", "KargDemiau": "KargDemiau-7823", "Salitance": "Salitance-3491", "Shuuhey": "Shuuhey-6535", "xozzziii": "xozzziii-6390", "Olymp": "Olymp-9823", "Lokfok": "Lokfok-5204", "ImJustExisting": "ImJustExisting-9170", "DanzigMF": "DanzigMF-6351", "plushcultist": "plushcultist-9901", "Cuagodking": "Cuagodking-3670", "100pctskillz": "100pctskillz-6186", "Bjoda": "Bjoda-2731", "Aceosd": "Aceosd-1686", "TheSillyBilly": "TheSillyBilly-6135", "Extortionator": "Extortionator-4951", "Nuttsy": "Nuttsy-5282", "FelipeRocha": "FelipeRocha-9451", "Libitina114": "Libitina114-7177", "Pliskin": "Pliskin-7357", "legrandgrand": "legrandgrand-9040", "cjahwon": "cjahwon-6865", "aelisheneithlon": "aelisheneithlon-4087", "Mazrim": "Mazrim-9295", "Xar149": "Xar149-9374", "CptAlex": "CptAlex-2928", "MunkeyBrewster": "MunkeyBrewster-2527", "BLULOBSTR": "BLULOBSTR-1510", "EdacM": "EdacM-9189", "Gabobs": "Gabobs-7758", "ionou21": "ionou21-8459", "Lobster": "Lobster-5525", "Akayami": "Akayami-8372", "NadtyLite": "NadtyLite-7330", "FamilyTuber": "FamilyTuber-3701", "trollone1993": "trollone1993-1106", "ToughHazelnut": "ToughHazelnut-1523", "TurkeyNoNo": "TurkeyNoNo-9522", "ArionGekkota": "ArionGekkota-7361", "Lufire": "Lufire-7855", "sedlak87": "sedlak87-8418", "spirit": "spirit-8777", "PsychologicalBox": "PsychologicalBox-5812", "Fearteiler": "Fearteiler-8050", "Vxdaa": "Vxdaa-3835", "RangerEpic": "RangerEpic-3948", "tunnndz": "tunnndz-4720", "rhino": "rhino-3915", "goodgamepat": "goodgamepat-6980", "ShuShuBana": "ShuShuBana-2889", "Yucca": "Yucca-8041", "JumboSalca": "JumboSalca-6618", "vinnie": "vinnie-746", "Potatosgonnacrushya": "Potatosgonnacrushya-428", "Durian": "Durian-959", "Trumpet": "Trumpet-4282", "bootle": "bootle-7207", "Nate-inator": "Nate-inator-8253", "TheIndustrialRevoloution": "TheIndustrialRevoloution-3880", "MylesMoose": "MylesMoose-6850", "TenchRinggold": "TenchRinggold-1755", "ThoseTeeff": "ThoseTeeff-4061", "Blepblep": "Blepblep-6970", "Youdge": "Youdge-8117", "DrCheeseFiend": "DrCheeseFiend-3515", "WWren": "WWren-25", "Zeldamon": "Zeldamon-7946", "solisofmistrel": "solisofmistrel-7075", "Biggins96": "Biggins96-3792", "Vak123": "Vak123-5225", "Elijah": "Elijah-6615", "kurtfisto": "kurtfisto-6674", "Waferseeker95": "Waferseeker95-4351", "mysti": "mysti-7857", "Dizzz": "Dizzz-246", "nutrimentia": "nutrimentia-2965", "DawnDiVito": "DawnDiVito-5802", "Pandapapst": "Pandapapst-8323", "BusinessPancake": "BusinessPancake-5194", "Pi314": "Pi314-6815", "Dekiru": "Dekiru-4451", "scaled": "scaled-326", "BMPerJMPer": "BMPerJMPer-9145"};
+		window.PLAYER_PROFILE_MAP = {"Harriet": "Harriet-1445", "oshwott2844": "oshwott2844-9258", "Aleph": "Aleph-9548", "TheWiseFox": "TheWiseFox-8428", "Clink": "Clink-5884", "HollyKat902": "HollyKat902-1703", "Hadjiya": "Hadjiya-4475", "Daniel": "Daniel-9756", "Hazelnut19": "Hazelnut19-2913", "Aeliott": "Aeliott-7118", "Plasma": "Plasma-7413", "DemaRogue": "DemaRogue-7727", "KuperMeister": "KuperMeister-8518", "WWren": "WWren-25", "Killerstorm17": "Killerstorm17-3440", "Marcus": "Marcus-9032", "2eaasley": "2eaasley-6663", "Klishu": "Klishu-3272", "LucianTheFak": "LucianTheFak-3697", "xozzziii": "xozzziii-6390", "LittleHalo (9882)": "LittleHalo-9882", "balonthebold": "balonthebold-1851", "PajaroTronador": "PajaroTronador-9221", "DarthOblivius": "DarthOblivius-1339", "blasonmyphemous": "blasonmyphemous-8394", "Mopey": "Mopey-1052", "ChrisW0022": "ChrisW0022-717", "NattyKash": "NattyKash-316", "Hydro033": "Hydro033-5014", "Wubba": "Wubba-9310", "GamerTower": "GamerTower-410", "DawnDiVito": "DawnDiVito-5802", "PeskyPaul": "PeskyPaul-5583", "RootiredRooter": "RootiredRooter-4390", "Sirius": "Sirius-9323", "ForkMaster": "ForkMaster-8694", "swiftsusan": "swiftsusan-8662", "RiverKawaii": "RiverKawaii-4578", "AERotters": "AERotters-5277", "matemato": "matemato-5004", "BareGammon": "BareGammon-82", "aelisheneithlon": "aelisheneithlon-4087", "Acelet": "Acelet", "MunkeyBrewster": "MunkeyBrewster-2527", "Jack432": "Jack432-6277", "Lifeye": "Lifeye-4414", "Scipio": "Scipio-8842", "Cuagodking": "Cuagodking-3670", "Lobster": "Lobster-5525", "Cutoopen": "Cutoopen-2335", "solisofmistrel": "solisofmistrel-7075", "OUSlaughter": "OUSlaughter-3653", "RexCow": "RexCow-93848049", "Drinken": "Drinken-3181", "SlickAngel": "SlickAngel-9821", "hakoo": "hakoo", "Pliskin": "Pliskin-7357", "FVMLion": "FVMLion-1706", "sleepylabone": "sleepylabone-1003", "micherin": "micherin-7972", "Knightochan": "Knightochan-8069", "Bjoda": "Bjoda-2731", "DevilUnfiltered": "DevilUnfiltered-380", "Rachel997": "Rachel997", "voltigeur": "voltigeur-3314", "evancomposer": "evancomposer-2898", "elmoo": "elmoo-6190", "ninjacat536": "ninjacat536-1220", "stxr444": "stxr444-8143", "mrkent": "mrkent-9273", "Fenetix": "Fenetix-9243", "Riverman": "Riverman-1204", "TurtleJawz": "TurtleJawz-3309", "pashatherussian": "pashatherussian-5688", "Rootenthusiast": "Rootenthusiast-6637", "kaiser": "kaiser-8343", "Fearteiler": "Fearteiler-8050", "darkcat": "darkcat-794", "BigHat": "BigHat-3791", "FelipeRocha": "FelipeRocha-9451", "benssoon": "benssoon-802", "DanielJeun": "DanielJeun-8467", "DarthPuniceus": "DarthPuniceus-9605", "Wriggleroom": "Wriggleroom-4502", "Tad604": "Tad604-8004", "gord20": "gord20-7161", "MangoBlade11": "MangoBlade11-7548", "chux88": "chux88-4717", "TonyDeloreanESQ": "TonyDeloreanESQ-4756", "Cloudere": "Cloudere-8085", "Gabobs": "Gabobs-7758", "Elijah": "Elijah-6615", "Blank": "Blank-7029", "Youdge": "Youdge-8117", "RustySpruce": "RustySpruce-2483", "IMPERATOR": "IMPERATOR-2570", "CocoMocoMan": "CocoMocoMan-3134", "CptAlex": "CptAlex-2928", "mkcy3": "mkcy3-8006", "KarmaBurn": "KarmaBurn-1193", "Oppapi": "Oppapi-9478", "Glasypress": "Glasypress-9650", "alex0": "alex0-3804", "Diyana": "Diyana-933", "Roldan": "Roldan-1152", "Traestaree": "Traestaree-7134", "Libitina114": "Libitina114-7177", "Biggins96": "Biggins96-3792", "TimidTailwind": "TimidTailwind-2597", "Thanhdat": "Thanhdat-1146", "Mati92": "Mati92-4633", "pooge": "pooge-6189", "Fabius": "Fabius-5370", "tofuwater": "tofuwater-4853", "GAFE15": "GAFE15-7357", "FausDav": "FausDav-5901", "Dumbledore": "Dumbledore-1135", "ellbelle": "ellbelle-9011", "Anton": "Anton-562", "Odinius": "Odinius-897", "ChusGG": "ChusGG-6807", "DrFrog": "DrFrog-6075", "KargDemiau": "KargDemiau-7823", "Shrek": "Shrek-876", "McMayo": "McMayo-5829", "weirdone": "weirdone-8473", "Nickpappa": "Nickpappa-2149", "sda1611": "sda1611-3493", "EarlofEarl": "EarlofEarl-908", "buurn": "buurn-343", "XxD4RK_W0LFxX": "XxD4RK_W0LFxX-9534", "lazarus210": "lazarus210", "Jboooooooooooooooooooom": "Jboooooooooooooooooooom-4776", "FalconBird": "FalconBird-7701", "RangerEpic": "RangerEpic-3948", "TheFourthJesse": "TheFourthJesse-9103", "Salitance": "Salitance-3491", "Potet": "Potet-3500", "byzeke": "byzeke-7830", "Daz257": "Daz257-7505", "ArionGekkota": "ArionGekkota-7361", "amjohnson636": "amjohnson636-3986", "MylesMoose": "MylesMoose-6850", "mouseinabox": "mouseinabox-992", "KeyserSoze": "KeyserSoze-1044", "TurkeyNoNo": "TurkeyNoNo-9522", "Ironic": "Ironic-3891", "Nierxlelx": "Nierxlelx-7709", "CaptainBork": "CaptainBork-7195", "maxlovesyou": "maxlovesyou-9434", "tippop": "tippop-7531", "nyosh8484": "nyosh8484-1627", "alevGO": "alevGO-2990", "FireFox": "FireFox-7079", "Welllll": "Welllll-4899", "Shrimpster": "Shrimpster-8461", "Gagneto": "Gagneto-8499", "complexartichoke": "complexartichoke-1699", "TreyTheNomad": "TreyTheNomad-8345", "fadingnovel": "fadingnovel-7335", "Gaborever": "Gaborever-8187", "PlagueCarrier": "PlagueCarrier-5718", "halzyen": "halzyen-4113", "Oriol": "Oriol-2638", "ToughHazelnut": "ToughHazelnut-1523", "Nymmer": "Nymmer-3243", "Vxdaa": "Vxdaa-3835", "StrikeOrca": "StrikeOrca-4455", "Lex25": "Lex25-415", "PsychologicalBox": "PsychologicalBox-5812", "Lante": "Lante-1268", "Akayami": "Akayami-8372", "CosmicCant": "CosmicCant-3836", "KorbohneD": "KorbohneD-2930", "FamilyTuber": "FamilyTuber-3701", "Cookies": "Cookies-3700", "ChrD99": "ChrD99-1022", "goodgamepat": "goodgamepat-6980", "Hasan": "Hasan-1782", "EmbryoticDeth": "EmbryoticDeth", "CoxyNormus": "CoxyNormus-5176", "ZimaBlue": "ZimaBlue-5729", "Niruu": "Niruu-622", "VanKaiserman": "VanKaiserman-5269", "Wrestler": "Wrestler-3756", "FaceofEvil": "FaceofEvil-8545", "Excitedteapot": "Excitedteapot-2857", "Jerry": "Jerry", "Banzai7000": "Banzai7000-1191", "nmyers2": "nmyers2-8426", "Plush2": "Plush2-8334", "Bengal3": "Bengal3-6710", "BoMa85": "BoMa85-9812", "BennyJ": "BennyJ-6079", "Dandel": "Dandel-3128", "metalnooze": "metalnooze-4817", "Yucca": "Yucca-8041", "FrancescoBr": "FrancescoBr-4009", "Cheetah32": "Cheetah32-6800", "deejaythink": "deejaythink-9834", "secretpaths": "secretpaths-8130", "Mouseman": "Mouseman-7870", "Waferseeker95": "Waferseeker95-4351", "MOMOGA": "MOMOGA-5135", "vinnie": "vinnie-746", "MagZeppelin": "MagZeppelin-4248", "kingslime": "kingslime-8836", "ReoWulf": "ReoWulf-5368", "ColPop": "ColPop-9146", "Azdontek": "Azdontek-1234", "uFancyHUH": "uFancyHUH-8404", "CWise": "CWise-6651", "Zeldamon": "Zeldamon-7946", "Valzaan": "Valzaan-3564", "idk123": "idk123-6079", "vanillapoppy": "vanillapoppy-9303", "Sharkskln": "Sharkskln-6071", "Xar149": "Xar149-9374", "FungusMouse": "FungusMouse-7883", "Starcore6": "Starcore6-817", "ExecutedByGromp": "ExecutedByGromp-3925", "wherestonks": "wherestonks-4878", "TAKSpx": "TAKSpx-9156", "Furry0329": "Furry0329-6442", "Silver": "Silver-6850", "Cheesecake271": "Cheesecake271-5205", "chosennuttso": "chosennuttso", "JustABurntBird": "JustABurntBird-3221", "cringelordirl": "cringelordirl-3838", "Doordecat": "Doordecat-1475", "sedlak87": "sedlak87-8418", "anoretu": "anoretu-9881", "TenchRinggold": "TenchRinggold-1755", "Schkitz": "Schkitz-8222", "NadtyLite": "NadtyLite-7330", "sparrowhawk": "sparrowhawk-9374", "Sjepeal": "Sjepeal-9206", "deriokle": "deriokle-4319", "TheRedViper": "TheRedViper-1596", "plushcultist": "plushcultist-9901", "Gregoola": "Gregoola-1424", "Actionman2222": "Actionman2222-4303", "Durian": "Durian-959", "MrRiceGuy": "MrRiceGuy-5849", "BloodMuffin": "BloodMuffin-4386", "marksoz00": "marksoz00-1780", "MisterGume": "MisterGume-9687", "Vak123": "Vak123-5225", "Kirien": "Kirien-375", "Akriuss": "Akriuss-573", "hauntedpebbles2": "hauntedpebbles2-8720", "strypeez": "strypeez-6330", "AJIJIi": "AJIJIi", "sontei5": "sontei5-3678", "AxlPrototype": "AxlPrototype-5016", "Antiproject": "Antiproject-7236", "Lobber": "Lobber-171819", "mishaelh1": "mishaelh1-6045", "FatBoyyy": "FatBoyyy-6258", "CommonGibbon": "CommonGibbon-5852", "HowDoYouDrew": "HowDoYouDrew-716", "Hammad": "Hammad-766", "Mariv": "Mariv-2352", "Tagatu": "Tagatu-7056", "Jalapeno": "Jalapeno-9238", "DarkPortents": "DarkPortents-1248", "BuliBaka": "BuliBaka-6658", "LHlegend": "LHlegend-5313", "chibimori": "chibimori-1707", "tjudge": "tjudge-8299", "lumpyprol": "lumpyprol-3206", "JumboSalca": "JumboSalca-6618", "Nudraxon": "Nudraxon-7640", "osche": "osche-990", "creapy01": "creapy01-439", "Fidss": "Fidss-3013", "BjarkeHuse": "BjarkeHuse-2923", "FakeSki": "FakeSki-4232", "sourdoh": "sourdoh-5225", "JointedRumble60": "JointedRumble60-7541", "Lynxtek": "Lynxtek-4186", "Pandapapst": "Pandapapst-8323", "MoxJet": "MoxJet-3716", "tubaking": "tubaking-4200", "Krooter": "Krooter-8646", "Acecreamsundae": "Acecreamsundae-1472", "StoneOfShame": "StoneOfShame-5048", "Aceosd": "Aceosd-1686", "Ptitmxz": "Ptitmxz-6986", "Sodaface": "Sodaface-4859", "dindane": "dindane-250", "DanzigMF": "DanzigMF-6351", "GlisteningGeetus": "GlisteningGeetus-4225", "bobbyknuckles": "bobbyknuckles-6793", "cliuless": "cliuless-2304", "yoyot1": "yoyot1-5057", "Nate-inator": "Nate-inator-8253", "pigdog": "pigdog-4355", "Matthew": "Matthew-8325", "brrrlinguist": "brrrlinguist-929", "Luclid": "Luclid-298", "Tolfan": "Tolfan", "Mindger": "Mindger-7576", "BaliHoo": "BaliHoo-3674", "Karcher": "Karcher-6280", "Munchking": "Munchking-5998", "Bitto": "Bitto-476", "Musicalwoofy": "Musicalwoofy-7712", "clp10033": "clp10033-4124", "RootingForYou": "RootingForYou-7246", "StellarHermit": "StellarHermit-3326", "Blurr": "Blurr-1887", "kamomileTea": "kamomileTea-4472", "spirit": "spirit-8777", "Napalminthebirdsong": "Napalminthebirdsong-5528", "time2orush": "time2orush-2871", "TheSillyBilly": "TheSillyBilly-6135", "Awesem": "Awesem-1966", "Lokfok": "Lokfok-5204", "Yragael": "Yragael-5413", "IndifferentFish": "IndifferentFish-2547", "EdacM": "EdacM-9189", "legrandgrand": "legrandgrand-9040", "Nightfury1089": "Nightfury1089-500", "AroN64": "AroN64-3271", "Kdos15": "Kdos15-1623", "MarquiseDeGyatt": "MarquiseDeGyatt-202", "HoosierDaddy": "HoosierDaddy-4463", "DGDKami": "DGDKami-9860", "GuyNXS": "GuyNXS-7023", "Ultcyber": "Ultcyber-1551", "Cotton": "Cotton-4951", "tunnndz": "tunnndz-4720", "Snivylover12": "Snivylover12-1064", "Wrathbone": "Wrathbone-7116", "pwarren8590": "pwarren8590-4047", "StatzoryTheMad": "StatzoryTheMad-7951", "bigcathedral": "bigcathedral-1133", "BusinessPancake": "BusinessPancake-5194", "StarhardFishrinse": "StarhardFishrinse-1675", "polyphemur": "polyphemur-3699", "Trumpet": "Trumpet-4282", "pikeline": "pikeline-9847", "Manpanzee": "Manpanzee-265", "DanielDandaniel": "DanielDandaniel-7434", "HyenaDon": "HyenaDon-4502", "Nefkano": "Nefkano-8780", "optimusprawn": "optimusprawn-9866", "Demand": "Demand-3288", "Mossfusion": "Mossfusion-6189", "MelodiCat": "MelodiCat-8385", "NotTheThreat": "NotTheThreat-4569", "GameProfit": "GameProfit-8226", "fbd117": "fbd117-324", "kayajam": "kayajam-9348", "Seiza": "Seiza-6137", "TheDolphinman": "TheDolphinman-2630", "QuixArtagnan": "QuixArtagnan-7824", "Lufire": "Lufire-7855", "BugMuff44": "BugMuff44-9091", "tobin": "tobin-8390", "Maladay": "Maladay-6079", "PacificCold": "PacificCold-7409", "Peppy": "Peppy-6321", "Perdita": "Perdita-9449", "Vagabond Glazer": "Vagabond Glazer-6268", "BLULOBSTR": "BLULOBSTR-1510", "AxelMcKenzie": "AxelMcKenzie-19", "Wolvane": "Wolvane-1704", "Nuttsy": "Nuttsy-5282", "MrDrouf": "MrDrouf-3826", "Onninn": "Onninn-8321", "lgtw3450": "lgtw3450-6602", "nikkan": "nikkan-7933", "Pi314": "Pi314-6815", "DrCheeseFiend": "DrCheeseFiend-3515", "BaconBoy": "BaconBoy-9689", "kesitron": "kesitron-187", "TheIndustrialRevoloution": "TheIndustrialRevoloution-3880", "Mohammad": "Mohammad-8142", "WyvernElement": "WyvernElement-1816", "Dizzz": "Dizzz-246", "Potatosgonnacrushya": "Potatosgonnacrushya-428", "doejurko": "doejurko-3088", "Spuddy": "Spuddy-6193", "Bodnamax": "Bodnamax-6783", "HeatBeats": "HeatBeats-9767", "eef99": "eef99-8799", "Intraceptor": "Intraceptor-5437", "ominouscat": "ominouscat-4065", "mysti": "mysti-7857", "MikaelsBlessing": "MikaelsBlessing-8102", "RFMerlo": "RFMerlo-6470", "silverfox": "silverfox-4551", "ImEpy": "ImEpy-9148", "SimulatedBeehive": "SimulatedBeehive-1517", "residentevil": "residentevil-6828", "Joshi69": "Joshi69-4249", "Starhasfallen": "Starhasfallen-2910", "Tseka": "Tseka-4826", "themikeman": "themikeman-4306", "Samven": "Samven-4822", "Rabbi": "Rabbi-7", "scaled": "scaled-326", "RaveAnt": "RaveAnt-1236", "Evenorodds": "Evenorodds-2809", "Raineweather05": "Raineweather05-2319", "BetterPools": "BetterPools-6450", "Extortionator": "Extortionator-4951", "Olymp": "Olymp-9823", "bootle": "bootle-7207", "Octavius": "Octavius-8289", "Viggs": "Viggs-9470", "Ctfox": "Ctfox-5431", "NightTsuki": "NightTsuki-7092", "Jsn13": "Jsn13-1881", "100pctskillz": "100pctskillz-6186", "bluegill": "bluegill-307", "DegenerateIan": "DegenerateIan-7146", "Blepblep": "Blepblep-6970", "cjahwon": "cjahwon-6865", "pheobii": "pheobii-5175", "NaySmith": "NaySmith-3702", "Xerof": "Xerof-7582", "Led_Slash": "Led_Slash-3579", "PestoEmporium": "PestoEmporium-6690", "Ljaz7": "Ljaz7-6925", "nutrimentia": "nutrimentia-2965", "BadScra": "BadScra-3199", "Mazrim": "Mazrim-9295", "Temperz87": "Temperz87-4696", "KyloBot": "KyloBot-6508", "Cabbage0642": "Cabbage0642-3776", "WehrleDominance": "WehrleDominance-8011", "GardenLily": "GardenLily-4780", "ionou21": "ionou21-8459", "ToasterTrash": "ToasterTrash-8502", "HobGungan": "HobGungan-2914", "Whats02": "Whats02-5282", "rhino": "rhino-3915", "Rabbitwarlord": "Rabbitwarlord-1983", "hanban": "hanban-3911", "BalintusMaxi": "BalintusMaxi-1951", "Podge0303": "Podge0303-8578", "Nadav253": "Nadav253-6419", "Xman1997": "Xman1997-3777", "pizzamagican": "pizzamagican-4983", "TempExtremal": "TempExtremal-1625", "Gibbs": "Gibbs-3656", "aaronmaik88": "aaronmaik88-3890", "RubyRosemary": "RubyRosemary-8390", "FavorOfTheRabbits": "FavorOfTheRabbits-9523", "BuckeyeNation": "BuckeyeNation-0", "catscat": "catscat-1327", "DarkOwl": "DarkOwl-5198", "WillRevolt": "WillRevolt-5749", "benruff": "benruff-449", "HungryJeff": "HungryJeff-6786", "ermactually": "ermactually-9395", "AcolyteOfRoot": "AcolyteOfRoot-4294", "trollone1993": "trollone1993-1106", "Raybit": "Raybit-2953", "LutherStr": "LutherStr-1358", "re_al_": "re_al_-5392", "Jasiu\u0144cio": "Jasiu\u0144cio-3892", "Axolatal": "Axolatal", "ShowStopperW": "ShowStopperW-549", "Supersingalong": "Supersingalong-6545", "Bodoby": "Bodoby-7221", "Shadyferret": "Shadyferret-9636", "1coolguy": "1coolguy-6294", "ImJustExisting": "ImJustExisting-9170", "CowOnAPlane": "CowOnAPlane-3405", "udon66": "udon66-6395", "Jilduhn": "Jilduhn-6197", "Yojimbo": "Yojimbo-9872", "Soluna": "Soluna-2127", "SpaceNugget": "SpaceNugget-7305", "GlandorHooverstein": "GlandorHooverstein-602", "Baradhas": "Baradhas-8593", "Hiyoshi": "Hiyoshi-2879", "ShuShuBana": "ShuShuBana-2889", "Fluffy": "Fluffy-189", "Hurple": "Hurple-6007", "CroCroCro": "CroCroCro-9495", "Alexispc": "Alexispc-6921", "Bapgo": "Bapgo-7254", "Quisyo": "Quisyo-8653", "Dekiru": "Dekiru-4451", "Emperia": "Emperia-9282", "Julien": "Julien-5506", "NonStInc.": "NonStInc.-6190", "PokerFace126": "PokerFace126-7192", "Mcauthor": "Mcauthor-181", "ThoseTeeff": "ThoseTeeff-4061", "SSR_Mike": "SSR_Mike-6444", "wearegang": "wearegang-8837", "Skumfi": "Skumfi-5761", "BMPerJMPer": "BMPerJMPer-9145", "shurgs": "shurgs-6277", "Rhyno": "Rhyno-5128", "0thers1der": "0thers1der-5053", "Lucat": "Lucat-9382", "Dramsss": "Dramsss-3", "mwcrabtree": "mwcrabtree", "Vitsky": "Vitsky-1201", "RedPanda": "RedPanda-336", "Lambo": "Lambo-7524", "DelSol": "DelSol-6479", "CodPieceZ": "CodPieceZ-7710", "Sebby": "Sebby-9924", "kurtfisto": "kurtfisto-6674", "cookain": "cookain-4752", "Piechu": "Piechu-7320", "budynzsmalcem": "budynzsmalcem-3790", "Pantuxd": "Pantuxd-4629", "uwtron": "uwtron-573", "Shuuhey": "Shuuhey-6535", "sasquatch": "sasquatch-9509", "LilSoup": "LilSoup-6064", "ConeMan": "ConeMan-3213", "LittleHalo (9982)": "LittleHalo-9982", "rathyAro": "rathyAro-1512", "ZachB": "ZachB-8726", "Darkwonderer": "Darkwonderer-1035", "ChippZamoose": "ChippZamoose-906", "MinePokemine": "MinePokemine-7899", "SMenefee": "SMenefee-4066", "Kmahussier": "Kmahussier-2186", "saintstonet": "saintstonet-7390", "LegendsAbyss": "LegendsAbyss-6443", "Yoten": "Yoten-6060", "Hossain2020": "Hossain2020-1837", "Skyr02": "Skyr02-9346", "nathanbraun": "nathanbraun-7726", "KFull": "KFull-1226", "Montes": "Montes-8263", "radiantchaos": "radiantchaos-5523", "Tricholome": "Tricholome-4276", "Komasan": "Komasan-7739"};
 		window.PROFILE_BASE_URL = "https://www.therootdatabase.com/dwd/profile";
-	
+
+		const PATH_PREFIX = "";
+
 		const CONFIG = {
 			colors: {"bear": "#ffffff", "bird": "#7AB5E0", "default": "#7A7347", "fox": "#E55555", "mouse": "#F49E52", "rabbit": "#F2C14E", "squirrel": "#94C160", "stag": "#C686FF"},
-			icons: {"bear": "/rootelo/assets/icons/bear.webp", "bird": "/rootelo/assets/icons/bird.webp", "fox": "/rootelo/assets/icons/fox.webp", "mouse": "/rootelo/assets/icons/mouse.webp", "rabbit": "/rootelo/assets/icons/rabbit.webp", "squirrel": "/rootelo/assets/icons/squirrel.webp", "stag": "/rootelo/assets/icons/stag.webp"},
+			icons: {
+				
+					"bird": "" + "assets/icons/bird.webp",
+				
+					"fox": "" + "assets/icons/fox.webp",
+				
+					"rabbit": "" + "assets/icons/rabbit.webp",
+				
+					"mouse": "" + "assets/icons/mouse.webp",
+				
+					"squirrel": "" + "assets/icons/squirrel.webp",
+				
+					"stag": "" + "assets/icons/stag.webp",
+				
+					"bear": "" + "assets/icons/bear.webp",
+				
+			},
 			currentTier: "squirrel",
 			chartData: {},
 			champMatch: null
@@ -1925,18 +842,22 @@
 				elo: CONFIG.champMatch ? CONFIG.champMatch.champion : '',
 				subtitle: CONFIG.champMatch ? `Season ${CONFIG.champMatch.season} Champion` : '',
 				final: CONFIG.champMatch ? `An epic <a href="${CONFIG.champMatch.match_link}" target="_blank" class="cl">final battle</a> pitted the top four titans of the league against each other. On ${CONFIG.champMatch.date}, <strong>${CONFIG.champMatch.champion}</strong> secured the seasonal crown by shutting out the ambitions of <strong>${CONFIG.champMatch.player2}</strong>, <strong>${CONFIG.champMatch.player3}</strong> and <strong>${CONFIG.champMatch.player4}</strong>. Surely, the woodland floor shook from the sheer force of their clash.` : '',
-				crown: '/rootelo/assets/images/crown.webp'
+				crown: 'assets/images/crown.webp'
 			}
 		};
 	</script>
-    <script src="/rootelo/static/script.js"></script>
+	
+    <script src="static/script.js"></script>
     
+
 	<script>
-		if (window.location.pathname.includes('/dev/')) {
-			window.goatcounter = {no_onload: true};
-		}
-		if (window.location.pathname.includes('/hoot/')) {
-			window.goatcounter = {no_onload: true};
+		if (
+			window.location.hostname === 'localhost' ||
+			window.location.hostname === '127.0.0.1' ||
+			window.location.href.includes('rootelo-dev') ||
+			window.location.pathname.includes('/dev/')
+		) {
+			window.goatcounter = { no_onload: true };
 		}
 	</script>
 	<script data-goatcounter="https://tricholome.goatcounter.com/count"
