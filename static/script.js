@@ -151,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		const modalIcon = document.getElementById('modalIcon');
 		const modalSubtitle = document.getElementById('modalSubtitle');
 		const modalText = document.getElementById('modalText');
+		const modalCrown = document.getElementById('modalCrown');
 
 		modalTitle.textContent = text.name;
 		
@@ -213,7 +214,11 @@ $(document).ready(function() {
 		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
 			if (settings.nTable.id !== 'leaderboard') return true;
 			if (showAllPlayers) return true; 
-			return data[0].trim() !== "-";
+
+			const rowNode = settings.aoData[dataIndex].nTr;
+			const tier = rowNode ? rowNode.getAttribute('data-tier') : '';
+
+			return tier && tier !== 'unassigned';
 		});
 
 		const leaderboardTable = $('#leaderboard').DataTable({
@@ -459,7 +464,7 @@ $(document).on('dblclick', '.player-name-cell', function() {
    ========================================================================= */
 
 function getRelationsIconHtml(tier) {
-    if (!tier || tier === 'unranked' || typeof CONFIG === 'undefined' || !CONFIG.icons || !CONFIG.icons[tier]) return '';
+    if (!tier || tier === 'unassigned' || typeof CONFIG === 'undefined' || !CONFIG.icons || !CONFIG.icons[tier]) return '';
     const iconUrl = CONFIG.icons[tier];
     return `<img src="${iconUrl}" class="tier-icon" alt="${tier}">`;
 }
