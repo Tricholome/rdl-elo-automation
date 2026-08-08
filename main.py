@@ -449,7 +449,7 @@ def prepare_leaderboard_data(df, player_registry, champion_name=None, is_archive
             'tier': tier,
             'is_champion': is_champ,
             'display_name': clean_name,
-            'ELO': int(row['ELO']),
+            'ELO': int(round(row['ELO'])),
             'Games': row['Games'],
             'Wins': row['Wins'],
             'Win_Rate': row['Win Rate'],
