@@ -216,7 +216,9 @@ $(document).ready(function() {
 		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
 			if (settings.nTable.id !== 'leaderboard') return true;
 			if (showAllPlayers) return true; 
-			return data[0].trim() !== "-";
+			
+			const rank = (data[0] || '').replace(/<[^>]*>/g, '').trim();
+			return rank !== "-";
 		});
 
 		$('#leaderboard').DataTable({
