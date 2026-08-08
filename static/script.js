@@ -202,30 +202,47 @@ $(document).ready(function() {
 	// --- 1. LEADERBOARD ---
 	if ($('#leaderboard').length > 0) {
 
-		$.extend($.fn.dataTable.ext.type.order, { 
-			"rank-pre": function (d) { 
-				if (d === "♔") return 0; 
-				if (d === "-") return 9999;
-				return parseInt(d, 10); 
-			} 
+		// 1. Tri personnalisé du rang (robuste contre le HTML, les tirets et les NaN)
+		$.extend($.fn.dataTable.ext.type.order, {
+			"rank-pre": function (d) {
+				if (d === null || d === undefined) return 999999;
+				// Nettoie d'éventuelles balises HTML (ex: <span>12</span>)
+				const clean = String(d).replace(/<[^>]*>/g, '').trim();
+				if (clean === "♔") return 0;
+				if (clean === "-" || clean === "—" || clean === "" || clean === "N/A") return 999999;
+				const parsed = parseInt(clean, 10);
+				return isNaN(parsed) ? 999999 : parsed;
+			}
 		});
 
-		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+		// 2. Filtre nettoyé pour les joueurs non classés (unassigned)
+		// Supprime les instances précédentes du filtre pour éviter l'accumulation globale
+		$.fn.dataTable.ext.search = $.fn.dataTable.ext.search.filter(
+			fn => fn.name !== 'rooteloTierFilter'
+		);
+
+		function rooteloTierFilter(settings, data, dataIndex) {
 			if (settings.nTable.id !== 'leaderboard') return true;
+
 			const showTierless = $('#tierFilterCheckbox').is(':checked');
 			if (showTierless) return true;
-			const rowNode = settings.aoData[dataIndex] ? settings.aoData[dataIndex].nTr : null;
-			if (!rowNode) return true;
-			const tier = rowNode.getAttribute('data-tier');
+
+			const rowData = settings.aoData[dataIndex];
+			if (!rowData || !rowData.nTr) return true;
+
+			const tier = (rowData.nTr.getAttribute('data-tier') || '').toLowerCase().trim();
 			return tier !== 'unassigned';
-		});
-		
+		}
+		rooteloTierFilter.name = 'rooteloTierFilter';
+		$.fn.dataTable.ext.search.push(rooteloTierFilter);
+
+		// 3. Initialisation de DataTables
 		const leaderboardTable = $('#leaderboard').DataTable({
 			"order": [],
-			"responsive": true, 
+			"responsive": true,
 			"pageLength": 50,
 			"dom": 'rt<"bottom"p><"clear">',
-			"columnDefs": [ 
+			"columnDefs": [
 				{ "targets": 0, "type": "rank" },
 				{ "targets": 2, "className": "player-name-cell" },
 				{ "targets": 3, "className": "elo-cell" },
@@ -238,7 +255,8 @@ $(document).ready(function() {
 			]
 		});
 
-		$(document).on('change', '#tierFilterCheckbox', function() {
+		// 4. Écouteur de la case à cocher
+		$('#tierFilterCheckbox').off('change.rootelo').on('change.rootelo', function() {
 			leaderboardTable.draw();
 		});
 	}
