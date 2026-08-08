@@ -15,7 +15,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     
-    <link rel="stylesheet" href="/rootelo/static/style.css">
+    <!-- Chemin dynamique pour le CSS -->
+    <link rel="stylesheet" href="{{ path_prefix }}static/style.css">
     
     <style>
         :root {
@@ -64,7 +65,8 @@
 	<meta property="og:image" content="https://tricholome.github.io/rootelo/assets/meta/rootelo-preview.webp">
 	
 	<link rel="icon" type="image/png" sizes="192x192" href="https://tricholome.github.io/rootelo/assets/meta/favicon.png">
-	<link rel="icon" type="image/svg+xml" href="/rootelo/assets/meta/favicon.svg">
+	<!-- Chemin dynamique pour le Favicon SVG -->
+	<link rel="icon" type="image/svg+xml" href="{{ path_prefix }}assets/meta/favicon.svg">
 	<link rel="apple-touch-icon" href="https://tricholome.github.io/rootelo/assets/meta/favicon.png">
 
     {% block extra_head %}{% endblock %}
@@ -178,7 +180,7 @@
 							   aria-label="View profile on The Root Database">
 							   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 								 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-								 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+								 <path d="M22 3h-6a4 4 0 0 1 3-3h7z"></path>
 							   </svg>
 							   <span class="tooltip-text">View profile on The Root Database</span>
 							</a>
@@ -308,18 +310,23 @@
 				elo: CONFIG.champMatch ? CONFIG.champMatch.champion : '',
 				subtitle: CONFIG.champMatch ? `Season ${CONFIG.champMatch.season} Champion` : '',
 				final: CONFIG.champMatch ? `An epic <a href="${CONFIG.champMatch.match_link}" target="_blank" class="cl">final battle</a> pitted the top four titans of the league against each other. On ${CONFIG.champMatch.date}, <strong>${CONFIG.champMatch.champion}</strong> secured the seasonal crown by shutting out the ambitions of <strong>${CONFIG.champMatch.player2}</strong>, <strong>${CONFIG.champMatch.player3}</strong> and <strong>${CONFIG.champMatch.player4}</strong>. Surely, the woodland floor shook from the sheer force of their clash.` : '',
-				crown: '/rootelo/assets/images/crown.webp'
+				crown: '{{ path_prefix }}assets/images/crown.webp'
 			}
 		};
 	</script>
-    <script src="/rootelo/static/script.js"></script>
+    <!-- Chemin dynamique pour le Script JS -->
+    <script src="{{ path_prefix }}static/script.js"></script>
     {% block custom_js %}{% endblock %}
+
+	<!-- Gestion intelligente de GoatCounter -->
 	<script>
-		if (window.location.pathname.includes('/dev/')) {
-			window.goatcounter = {no_onload: true};
-		}
-		if (window.location.pathname.includes('/hoot/')) {
-			window.goatcounter = {no_onload: true};
+		if (
+			window.location.hostname === 'localhost' ||
+			window.location.hostname === '127.0.0.1' ||
+			window.location.href.includes('rootelo-dev') ||
+			window.location.pathname.includes('/dev/')
+		) {
+			window.goatcounter = { no_onload: true };
 		}
 	</script>
 	<script data-goatcounter="https://tricholome.goatcounter.com/count"
