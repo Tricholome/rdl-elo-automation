@@ -4,7 +4,7 @@
 {% block content %}
 	<div class="unranked-toggle-container">
 		<input type="checkbox" id="tierFilterCheckbox" {% if not is_archive %}checked{% endif %} autocomplete="off">
-		<label for="tierFilterCheckbox">Show unranked players</label>
+		<label for="tierFilterCheckbox">Show tierless players</label>
 	</div>
 	<table id="leaderboard" class="display nowrap" style="width:100%">
         <thead>
@@ -22,12 +22,12 @@
         </thead>
         <tbody>
             {% for player in players %}
-            <tr data-tier="{{ player.tier }}" class="{{ 'unranked' if player.tier == 'unranked' else '' }}">
+            <tr data-tier="{{ player.tier }}" class="{{ 'unassigned' if player.tier == 'unassigned' else '' }}">
                 <td class="{{ 'unranked' if player.Rank == '-' else '' }}">
                     {{ player.Rank }}
                 </td>
                 <td>
-					{% if player.tier and player.tier != 'unranked' %}
+					{% if player.tier and player.tier != 'unassigned' %}
 						<a href="javascript:void(0)" 
 						   onclick="handleTierClick(event, '{{ player.tier }}')" 
 						   class="tier-anchor-link">
