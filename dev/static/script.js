@@ -217,9 +217,12 @@ $(document).ready(function() {
 			if (showTierless) return true;
 
 			const rowNode = settings.aoData[dataIndex].nTr;
-			if (!rowNode) return true;
 
-			const isUnassigned = $(rowNode).hasClass('unassigned') || $(rowNode).attr('data-tier') === 'unassigned';
+			const hasUnassignedDOM = rowNode && ($(rowNode).hasClass('unassigned') || $(rowNode).attr('data-tier') === 'unassigned');
+			
+			const hasEmptyTierCell = !data[1].trim();
+
+			const isUnassigned = hasUnassignedDOM || hasEmptyTierCell;
 
 			return !isUnassigned;
 		});
@@ -229,6 +232,11 @@ $(document).ready(function() {
 			"responsive": true, 
 			"pageLength": 50,
 			"dom": 'rt<"bottom"p><"clear">',
+			"createdRow": function(row, data, dataIndex) {
+				if (!data[1].trim()) {
+					$(row).addClass('unassigned').attr('data-tier', 'unassigned');
+				}
+			},
 			"columnDefs": [ 
 				{ "targets": 0, "type": "rank" },
 				{ "targets": 2, "className": "player-name-cell" },
