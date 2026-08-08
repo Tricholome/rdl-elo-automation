@@ -896,7 +896,7 @@ def run_league_pipeline(league_config, all_leagues_list):
 
         api_data["players"][player_key] = {
             "elo": item['ELO'], "rank": item['Rank'], "tier": tier, "bg_color": color,
-            "icon_url": f"{site_base_url}{icon_path}" if icon_path else None,
+            "icon_url": f"{site_base_url}/{icon_path.lstrip('/')}" if icon_path else None,
             "games": item['Games'], "wins": item['Wins'], "win_rate": item['Win_Rate']
         }
 
