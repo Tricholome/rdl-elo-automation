@@ -208,7 +208,7 @@ $(document).ready(function() {
 		$.extend($.fn.dataTable.ext.type.order, { 
 			"rank-pre": function (d) { 
 				if (d === "♔") return 0; 
-				if (d === "-" || d === "–" || d === "—") return 9999;
+				if (d === "-") return 9999;
 				return parseInt(d); 
 			} 
 		});
@@ -216,12 +216,10 @@ $(document).ready(function() {
 		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
 			if (settings.nTable.id !== 'leaderboard') return true;
 			if (showAllPlayers) return true; 
-			
-			const rankVal = (data[0] || '').replace(/<[^>]*>/g, '').trim();
-			return rankVal !== "-" && rankVal !== "–" && rankVal !== "—";
+			return data[0].trim() !== "-";
 		});
 
-		const leaderboardTable = $('#leaderboard').DataTable({
+		$('#leaderboard').DataTable({
 			"order": [],
 			"responsive": true, 
 			"pageLength": 50,
@@ -238,8 +236,6 @@ $(document).ready(function() {
 				{ "responsivePriority": 10, "targets": [4, 5, 7, 8] }
 			]
 		});
-
-		leaderboardTable.draw();
 
 		$(document).on('change', '#tierFilterCheckbox', function() {
 			showAllPlayers = $(this).is(':checked');
