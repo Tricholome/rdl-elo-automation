@@ -218,7 +218,7 @@ $(document).ready(function() {
 			const rowNode = settings.aoData[dataIndex].nTr;
 			const tier = rowNode ? rowNode.getAttribute('data-tier') : '';
 
-			return tier && tier !== 'unassigned';
+			return tier !== 'unassigned';
 		});
 
 		const leaderboardTable = $('#leaderboard').DataTable({
