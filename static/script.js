@@ -199,63 +199,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 $(document).ready(function() {
 
-	// --- 1. LEADERBOARD ---
+	// --- 1. LEADERBOARD (Étape 2 : Squelette Minimal) ---
 	if ($('#leaderboard').length > 0) {
-
-		// 1. Tri du rang sécurisé (trim du texte + fallback si NaN)
-		$.extend($.fn.dataTable.ext.type.order, { 
-			"rank-pre": function (d) { 
-				if (!d) return 999999;
-				const clean = String(d).replace(/<[^>]*>/g, '').trim();
-				if (clean === "♔") return 0;
-				if (clean === "-" || clean === "—" || clean === "" || clean === "N/A") return 999999;
-				const parsed = parseInt(clean, 10);
-				return isNaN(parsed) ? 999999 : parsed; 
-			} 
-		});
-
-		// 2. Filtre personnalisé pour masquer uniquement les 'unassigned'
-		$.fn.dataTable.ext.search = $.fn.dataTable.ext.search.filter(
-			fn => fn.name !== 'rooteloTierFilter'
-		);
-
-		function rooteloTierFilter(settings, data, dataIndex) {
-			if (settings.nTable.id !== 'leaderboard') return true;
-
-			const showTierless = $('#tierFilterCheckbox').is(':checked');
-			if (showTierless) return true;
-
-			const rowNode = settings.aoData[dataIndex] ? settings.aoData[dataIndex].nTr : null;
-			if (!rowNode) return true;
-
-			const tier = (rowNode.getAttribute('data-tier') || '').toLowerCase().trim();
-			return tier !== 'unassigned';
-		}
-		rooteloTierFilter.name = 'rooteloTierFilter';
-		$.fn.dataTable.ext.search.push(rooteloTierFilter);
-
-		// 3. Initialisation DataTables
 		const leaderboardTable = $('#leaderboard').DataTable({
-			"order": [],
-			"responsive": true, 
-			"pageLength": 50,
-			"dom": 'rt<"bottom"p><"clear">',
-			"columnDefs": [ 
-				{ "targets": 0, "type": "rank" },
-				{ "targets": 2, "className": "player-name-cell" },
-				{ "targets": 3, "className": "elo-cell" },
-				{ "className": "numeric-cell", "targets": [0, 3, 4, 5, 6, 7, 8] },
-				{ "responsivePriority": 1, "targets": [2, 3] },
-				{ "responsivePriority": 2, "targets": 0 },
-				{ "responsivePriority": 3, "targets": 1 },
-				{ "responsivePriority": 8, "targets": 6 },
-				{ "responsivePriority": 10, "targets": [4, 5, 7, 8] }
-			]
-		});
-
-		// 4. Déclencheur sur la case à cocher
-		$(document).off('change', '#tierFilterCheckbox').on('change', '#tierFilterCheckbox', function() {
-			leaderboardTable.draw();
+			"order": [],        // Conserve l'ordre fourni par le HTML/Python
+			"pageLength": 50,    // 50 joueurs par page
+			"responsive": true
 		});
 	}
 
