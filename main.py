@@ -652,29 +652,16 @@ def run_league_pipeline(league_config, all_leagues_list):
         label = f"{archive_seasons[-1].upper()} Final" if archive_seasons and p in archived_player_names else "Start"
         player_history[p] = [[label, round(r), None]]
 
-    # Configuration de l'Opponent Decay
-    DECAY_WINDOW_DAYS = 7      # Fenêtre glissante en jours (72h)
-    DECAY_ALPHA = 0.4          # Intensité de la pénalité
-
-    # Suivi des rencontres : { player_name: [(timestamp, opponent_name), ...] }
-    from collections import defaultdict
-    opponent_history = defaultdict(list)
-
     if not df.empty:
         for game_id, group in df.groupby('GameID', sort=False):
             match_participants = group.to_dict('records')
             current_match_sum = round(sum([elo_ratings[p['Player']] for p in match_participants]))
-            
-            # Timestamp exact du match
-            match_dt = pd.to_datetime(match_participants[0]['Date_Closed'])
-            current_date = match_dt.strftime('%Y-%m-%d')
+            current_date = pd.to_datetime(match_participants[0]['Date_Closed']).strftime('%Y-%m-%d')
 
             q_scores = {p['Player']: 10 ** (elo_ratings[p['Player']] / 400) for p in match_participants}
             total_q = sum(q_scores.values())
 
             deltas_this_match = {}
-            
-            # 1. Calcul des deltas avec Opponent Decay
             for p in match_participants:
                 name = p['Player']
                 actual = p['Score']
@@ -683,32 +670,9 @@ def run_league_pipeline(league_config, all_leagues_list):
                 player_stats[name]['games'] += 1
                 player_stats[name]['wins'] += actual
 
-                # K-Factor de base selon le nombre de parties
                 g_count = player_stats[name]['games']
-                k_base = 80 if g_count <= 10 else (40 if g_count <= 50 else 20)
-
-                # Calcul du facteur d'atténuation face aux 3 adversaires
-                opponents = [other['Player'] for other in match_participants if other['Player'] != name]
-                cutoff_time = match_dt - timedelta(days=DECAY_WINDOW_DAYS)
-
-                # Nettoyage de l'historique obsolète
-                opponent_history[name] = [entry for entry in opponent_history[name] if entry[0] >= cutoff_time]
-
-                # Décompte des rencontres récentes avec chaque adversaire
-                opp_counts = Counter([entry[1] for entry in opponent_history[name]])
-                
-                decay_factors = []
-                for opp in opponents:
-                    n_matches = opp_counts[opp]
-                    factor = 1.0 / (1.0 + DECAY_ALPHA * n_matches)
-                    decay_factors.append(factor)
-
-                # Facteur moyen d'atténuation pour ce joueur dans ce match
-                avg_decay_factor = sum(decay_factors) / len(decay_factors)
-                k_effective = k_base * avg_decay_factor
-
-                # Calcul du delta d'Elo
-                change = k_effective * (actual - expected)
+                k = 80 if g_count <= 10 else (40 if g_count <= 50 else 20)
+                change = k * (actual - expected)
 
                 elo_ratings[name] += change
                 last_diff[name] = change
@@ -718,13 +682,6 @@ def run_league_pipeline(league_config, all_leagues_list):
                     peak_elo[name] = elo_ratings[name]
 
                 player_history[name].append([current_date, round(elo_ratings[name]), int(game_id)])
-
-            # 2. Enregistrement de la rencontre pour les futurs matchs du window
-            all_players_in_match = [p['Player'] for p in match_participants]
-            for p_name in all_players_in_match:
-                for opp_name in all_players_in_match:
-                    if p_name != opp_name:
-                        opponent_history[p_name].append((match_dt, opp_name))
 
             players_list = [{
                 'name': player_registry.get_clean_name(p['Player']),
