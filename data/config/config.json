@@ -38,6 +38,7 @@
       "squirrel": "#94C160",
       "stag":     "#C686FF",
       "bear":     "#ffffff",
+      "unassigned":  "#E0E0E0",
       "default":  "#7A7347"
     }
   },
