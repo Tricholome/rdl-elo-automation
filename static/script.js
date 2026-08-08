@@ -201,24 +201,27 @@ $(document).ready(function() {
 
 	// --- 1. LEADERBOARD ---
 	if ($('#leaderboard').length > 0) {
-		let showAllPlayers = $('#tierFilterCheckbox').is(':checked');
 
 		$.extend($.fn.dataTable.ext.type.order, { 
 			"rank-pre": function (d) { 
 				if (d === "♔") return 0; 
 				if (d === "-") return 9999;
-				return parseInt(d); 
+				return parseInt(d, 10); 
 			} 
 		});
 
 		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
 			if (settings.nTable.id !== 'leaderboard') return true;
-			if (showAllPlayers) return true; 
+
+			const showTierless = $('#tierFilterCheckbox').is(':checked');
+			if (showTierless) return true;
 
 			const rowNode = settings.aoData[dataIndex].nTr;
-			const tier = rowNode ? rowNode.getAttribute('data-tier') : '';
+			if (!rowNode) return true;
 
-			return tier !== 'unassigned';
+			const tier = $(rowNode).attr('data-tier');
+			
+			return tier && tier !== 'unassigned';
 		});
 
 		const leaderboardTable = $('#leaderboard').DataTable({
@@ -240,7 +243,6 @@ $(document).ready(function() {
 		});
 
 		$(document).on('change', '#tierFilterCheckbox', function() {
-			showAllPlayers = $(this).is(':checked');
 			leaderboardTable.draw();
 		});
 	}
