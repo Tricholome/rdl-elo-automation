@@ -124,9 +124,9 @@
 					{% else %}
 						{% set target = base ~ '.html' %}
 					{% endif %}
-					<a href="{{ path_prefix }}{{ target }}" class="{{ 'active' if page_id == base else '' }}">{{ label }}</a>
+					<a href="{{ target }}" class="{{ 'active' if page_id == base else '' }}">{{ label }}</a>
 				{% endfor %}
-				<a href="{{ path_prefix }}cache.html" class="nav-secret {{ 'active' if page_id == 'cache' else '' }}">Undergrowth</a>
+				<a href="cache.html" class="nav-secret {{ 'active' if page_id == 'cache' else '' }}">Undergrowth</a>
 			</nav>
 			
         </header>
@@ -149,12 +149,12 @@
 						<span class="season-label">Season</span>
 						{% if archive_seasons %}
 							{% for s_tag in archive_seasons %}
-								<a href="{{ path_prefix }}{{ page_id }}_{{ s_tag }}.html#view" class="season-btn {{ 'active' if is_archive and season_tag == s_tag else '' }}">
+								<a href="{{ page_id }}_{{ s_tag }}.html#view" class="season-btn {{ 'active' if is_archive and season_tag == s_tag else '' }}">
 									{{ s_tag|upper }}
 								</a>
 							{% endfor %}
 						{% endif %}
-						<a href="{{ path_prefix }}{{ page_id }}.html#view" class="season-btn {{ 'active' if not is_archive else '' }}">
+						<a href="{{ page_id }}.html#view" class="season-btn {{ 'active' if not is_archive else '' }}">
 							{{ current_season_tag|upper if current_season_tag else 'LIVE' }}
 						</a>
 					</div>
