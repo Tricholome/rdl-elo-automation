@@ -150,7 +150,7 @@ class PlayerRegistry:
 
 def get_tier_name(rating, games):
     if games < 10:
-        return "unranked"
+        return "unassigned"
     r = round(rating)
     for threshold, tier in TIER_THRESHOLDS:
         if r >= threshold:
@@ -294,8 +294,8 @@ def extract_relations(matches_list, full_history, player_registry):
     all_players = {player_registry.get_clean_name(p['name']) for m in matches_list for p in m['players']}
 
     relations = {p: {
-        "trophy": {"name": None, "elo": -1, "tier": "unranked"},
-        "bane": {"name": None, "elo": 99999, "tier": "unranked"},
+        "trophy": {"name": None, "elo": -1, "tier": "unassigned"},
+        "bane": {"name": None, "elo": 99999, "tier": "unassigned"},
         "unique_opponents": 0
     } for p in all_players}
 
@@ -353,12 +353,12 @@ def prepare_archive_relations(raw_relations, player_registry):
             "trophy": {
                 "name": player_registry.get_clean_name(t_name) if t_name else None,
                 "elo": t_elo,
-                "tier": get_tier_name(t_elo, 10) if t_elo != -1 else "unranked"
+                "tier": get_tier_name(t_elo, 10) if t_elo != -1 else "unassigned"
             },
             "bane": {
                 "name": player_registry.get_clean_name(b_name) if b_name else None,
                 "elo": b_elo,
-                "tier": get_tier_name(b_elo, 10) if b_elo != 99999 else "unranked"
+                "tier": get_tier_name(b_elo, 10) if b_elo != 99999 else "unassigned"
             }
         }
     return prepared
