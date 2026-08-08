@@ -143,14 +143,14 @@
 
 				<div class="season-selector-group">
 				
-					{% if leagues %}
+					{{% if all_leagues %}
 					<div class="season-selector">
 						<span class="season-label">League</span>
 						<select onchange="if (this.value) window.location.href=this.value;">
-							{% for l_key, l_data in leagues.items() %}
-								{% if l_data.public or l_key == current_league %}
-									<option value="{{ l_data.path }}" {% if l_key == current_league %}selected{% endif %}>
-										{{ l_data.name|upper }}
+							{% for l in all_leagues %}
+								{% if l.enabled or l.slug == league_config.slug %}
+									<option value="{{ path_prefix }}{{ l.output_dir }}/index.html" {% if l.slug == league_config.slug %}selected{% endif %}>
+										{{ l.name|upper }}
 									</option>
 								{% endif %}
 							{% endfor %}
