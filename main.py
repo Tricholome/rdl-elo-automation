@@ -150,7 +150,7 @@ class PlayerRegistry:
 
 def get_tier_name(rating, games):
     if games < 10:
-        return "unranked"
+        return "unassigned"
     r = round(rating)
     for threshold, tier in TIER_THRESHOLDS:
         if r >= threshold:
@@ -294,8 +294,8 @@ def extract_relations(matches_list, full_history, player_registry):
     all_players = {player_registry.get_clean_name(p['name']) for m in matches_list for p in m['players']}
 
     relations = {p: {
-        "trophy": {"name": None, "elo": -1, "tier": "unranked"},
-        "bane": {"name": None, "elo": 99999, "tier": "unranked"},
+        "trophy": {"name": None, "elo": -1, "tier": "unassigned"},
+        "bane": {"name": None, "elo": 99999, "tier": "unassigned"},
         "unique_opponents": 0
     } for p in all_players}
 
@@ -353,12 +353,12 @@ def prepare_archive_relations(raw_relations, player_registry):
             "trophy": {
                 "name": player_registry.get_clean_name(t_name) if t_name else None,
                 "elo": t_elo,
-                "tier": get_tier_name(t_elo, 10) if t_elo != -1 else "unranked"
+                "tier": get_tier_name(t_elo, 10) if t_elo != -1 else "unassigned"
             },
             "bane": {
                 "name": player_registry.get_clean_name(b_name) if b_name else None,
                 "elo": b_elo,
-                "tier": get_tier_name(b_elo, 10) if b_elo != 99999 else "unranked"
+                "tier": get_tier_name(b_elo, 10) if b_elo != 99999 else "unassigned"
             }
         }
     return prepared
@@ -449,7 +449,7 @@ def prepare_leaderboard_data(df, player_registry, champion_name=None, is_archive
             'tier': tier,
             'is_champion': is_champ,
             'display_name': clean_name,
-            'ELO': int(row['ELO']),
+            'ELO': int(round(row['ELO'])),
             'Games': row['Games'],
             'Wins': row['Wins'],
             'Win_Rate': row['Win Rate'],
@@ -781,6 +781,9 @@ def run_league_pipeline(league_config, all_leagues_list):
 
     def render_page(template_name, output_name, **kwargs):
         template = env.get_template(template_name)
+        
+        prefix = "../" if (output_dir and output_dir not in ('.', '')) else ""
+
         full_vars = {
             "nav_items": NAV_ITEMS,
             "generation_date": datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC'),
@@ -790,6 +793,8 @@ def run_league_pipeline(league_config, all_leagues_list):
             "current_league": slug,
             "league_config": league_config,
             "all_leagues": all_leagues_list,
+            "path_prefix": prefix,
+            "is_static": False,
             **kwargs
         }
 
@@ -863,7 +868,7 @@ def run_league_pipeline(league_config, all_leagues_list):
         p_info = pages_content.get(page_id, {})
         extra = {"hall_of_fame": hall_of_fame_data} if page_id == "cache" else {}
         render_page(
-            tmpl, f"{page_id}.html", page_id=page_id, is_archive=False, has_seasons=False,
+            tmpl, f"{page_id}.html", page_id=page_id, is_archive=False, has_seasons=False, is_static=True,
             title=p_info.get("title", ""), page_heading=p_info.get("page_heading", ""), description=p_info.get("description", ""), **extra
         )
 
@@ -891,7 +896,7 @@ def run_league_pipeline(league_config, all_leagues_list):
 
         api_data["players"][player_key] = {
             "elo": item['ELO'], "rank": item['Rank'], "tier": tier, "bg_color": color,
-            "icon_url": f"{site_base_url}{icon_path}" if icon_path else None,
+            "icon_url": f"{site_base_url}/{icon_path.lstrip('/')}" if icon_path else None,
             "games": item['Games'], "wins": item['Wins'], "win_rate": item['Win_Rate']
         }
 

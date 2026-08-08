@@ -68,20 +68,20 @@
   },
   "assets": {
     "icons": {
-      "bird":     "/rootelo/assets/icons/bird.webp",
-      "fox":      "/rootelo/assets/icons/fox.webp",
-      "rabbit":   "/rootelo/assets/icons/rabbit.webp",
-      "mouse":    "/rootelo/assets/icons/mouse.webp",
-      "squirrel": "/rootelo/assets/icons/squirrel.webp",
-      "stag":     "/rootelo/assets/icons/stag.webp",
-      "bear":     "/rootelo/assets/icons/bear.webp"
+      "bird":     "assets/icons/bird.webp",
+      "fox":      "assets/icons/fox.webp",
+      "rabbit":   "assets/icons/rabbit.webp",
+      "mouse":    "assets/icons/mouse.webp",
+      "squirrel": "assets/icons/squirrel.webp",
+      "stag":     "assets/icons/stag.webp",
+      "bear":     "assets/icons/bear.webp"
     },
     "decorations": {
-      "index":   {"left": "/rootelo/assets/images/leaderboard_img_left.webp", "right": "/rootelo/assets/images/leaderboard_img_right.webp"},
-      "matches": {"left": "/rootelo/assets/images/matches_img_left.webp",     "right": "/rootelo/assets/images/matches_img_right.webp"},
-      "trends":  {"left": "/rootelo/assets/images/trends_img_left.webp",      "right": "/rootelo/assets/images/trends_img_right.webp"},
-      "about":   {"left": "/rootelo/assets/images/about_img_left.webp",       "right": "/rootelo/assets/images/about_img_right.webp"},
-      "cache":   {"left": "/rootelo/assets/images/cache_img_left.webp",       "right": "/rootelo/assets/images/cache_img_right.webp"}
+      "index":   {"left": "assets/images/leaderboard_img_left.webp", "right": "assets/images/leaderboard_img_right.webp"},
+      "matches": {"left": "assets/images/matches_img_left.webp",     "right": "assets/images/matches_img_right.webp"},
+      "trends":  {"left": "assets/images/trends_img_left.webp",      "right": "assets/images/trends_img_right.webp"},
+      "about":   {"left": "assets/images/about_img_left.webp",       "right": "assets/images/about_img_right.webp"},
+      "cache":   {"left": "assets/images/cache_img_left.webp",       "right": "assets/images/cache_img_right.webp"}
     }
   }
 }

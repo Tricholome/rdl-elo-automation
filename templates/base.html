@@ -14,8 +14,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
-    
-    <link rel="stylesheet" href="/rootelo/static/style.css">
+
+    <link rel="stylesheet" href="{{ path_prefix }}static/style.css">
     
     <style>
         :root {
@@ -64,7 +64,8 @@
 	<meta property="og:image" content="https://tricholome.github.io/rootelo/assets/meta/rootelo-preview.webp">
 	
 	<link rel="icon" type="image/png" sizes="192x192" href="https://tricholome.github.io/rootelo/assets/meta/favicon.png">
-	<link rel="icon" type="image/svg+xml" href="/rootelo/assets/meta/favicon.svg">
+	<!-- Chemin dynamique pour le Favicon SVG -->
+	<link rel="icon" type="image/svg+xml" href="{{ path_prefix }}assets/meta/favicon.svg">
 	<link rel="apple-touch-icon" href="https://tricholome.github.io/rootelo/assets/meta/favicon.png">
 
     {% block extra_head %}{% endblock %}
@@ -80,15 +81,15 @@
             <div class="banner-container">
                 <div class="banner-icons left">
                     <a href="javascript:void(0)" onclick="openTierModal('stag')" class="tooltip-link js-double-tap banner-icon-stag">
-                        <img src="{{ config.assets.icons.stag }}" alt="Stag">
+                        <img src="{{ path_prefix }}{{ config.assets.icons.stag }}" alt="Stag">
                         <span class="tooltip-text"><strong class="tier-stag">Stag (1600+)</strong> — The Legend</span>
                     </a>
 					<a href="javascript:void(0)" onclick="openTierModal('bird')" class="tooltip-link js-double-tap">
-                        <img src="{{ config.assets.icons.bird }}" alt="Bird">
+                        <img src="{{ path_prefix }}{{ config.assets.icons.bird }}" alt="Bird">
                         <span class="tooltip-text"><strong class="tier-bird">Bird (1500+)</strong> — The Grandmasters</span>
                     </a>
                     <a href="javascript:void(0)" onclick="openTierModal('fox')" class="tooltip-link js-double-tap">
-                        <img src="{{ config.assets.icons.fox }}" alt="Fox">
+                        <img src="{{ path_prefix }}{{ config.assets.icons.fox }}" alt="Fox">
                         <span class="tooltip-text"><strong class="tier-fox">Fox (1400+)</strong> — The Cunning Tacticians</span>
                     </a>
                 </div>
@@ -98,15 +99,15 @@
                 </div>
                 <div class="banner-icons right">
                     <a href="javascript:void(0)" onclick="openTierModal('rabbit')" class="tooltip-link js-double-tap">
-                        <img src="{{ config.assets.icons.rabbit }}" alt="Rabbit">
+                        <img src="{{ path_prefix }}{{ config.assets.icons.rabbit }}" alt="Rabbit">
                         <span class="tooltip-text"><strong class="tier-rabbit">Rabbit (1300+)</strong> — The Agile Contenders</span>
                     </a>
                     <a href="javascript:void(0)" onclick="openTierModal('mouse')" class="tooltip-link js-double-tap">
-                        <img src="{{ config.assets.icons.mouse }}" alt="Mouse">
+                        <img src="{{ path_prefix }}{{ config.assets.icons.mouse }}" alt="Mouse">
                         <span class="tooltip-text"><strong class="tier-mouse">Mouse (1200+)</strong> — The Steady Foragers</span>
                     </a>
 					<a href="javascript:void(0)" onclick="openTierModal('squirrel')" class="tooltip-link js-double-tap banner-icon-squirrel">
-                        <img src="{{ config.assets.icons.squirrel }}" alt="Squirrel">
+                        <img src="{{ path_prefix }}{{ config.assets.icons.squirrel }}" alt="Squirrel">
                         <span class="tooltip-text"><strong class="tier-squirrel">Squirrel (&lt; 1200)</strong> — The Hapless Stragglers</span>
                     </a>
                 </div>
@@ -132,7 +133,7 @@
         
         <div class="screen-deco right-deco">
 			{% if current_deco and current_deco.right %}
-				<img src="{{ current_deco.right }}" alt="Decoration Right">
+				<img src="{{ path_prefix }}{{ current_deco.right }}" alt="Decoration Right">
 			{% endif %}
 		</div>
 
@@ -148,17 +149,18 @@
 						<span class="season-label">Season</span>
 						{% if archive_seasons %}
 							{% for s_tag in archive_seasons %}
-								<a href="{{ path_prefix }}{{ page_id }}_{{ s_tag }}.html#view" class="season-btn {{ 'active' if is_archive and season_tag == s_tag else '' }}">
+								<a href="{{ page_id }}_{{ s_tag }}.html#view" class="season-btn {{ 'active' if is_archive and season_tag == s_tag else '' }}">
 									{{ s_tag|upper }}
 								</a>
 							{% endfor %}
 						{% endif %}
-						<a href="{{ path_prefix }}{{ page_id }}.html#view" class="season-btn {{ 'active' if not is_archive else '' }}">
+						<a href="{{ page_id }}.html#view" class="season-btn {{ 'active' if not is_archive else '' }}">
 							{{ current_season_tag|upper if current_season_tag else 'LIVE' }}
 						</a>
 					</div>
 					{% endif %}
 
+					{% if not is_static %}
 					<div class="season-selector">
 						<span class="season-label">Player</span>
 						<div class="search-box">
@@ -184,6 +186,7 @@
 							</a>
 						</div>
 					</div>
+					{% endif %}
 				</div>
 			</header>
 			
@@ -201,7 +204,7 @@
         
         <div class="screen-deco left-deco">
 			{% if current_deco and current_deco.left %}
-				<img src="{{ current_deco.left }}" alt="Decoration Left">
+				<img src="{{ path_prefix }}{{ current_deco.left }}" alt="Decoration Left">
 			{% endif %}
 		</div>
 
@@ -210,7 +213,7 @@
 				<div class="footer-credits">
 					<span>Powered by <strong>Tʀɪᴄʜᴏʟᴏᴍᴇ</strong></span>
 					<span>Woodland visions by
-						<a class="cl" href="cache.html">𝕩𝕝𝕦𝕖𝕧𝕚</a>
+						<a class="cl" href="{{ path_prefix }}cache.html">𝕩𝕝𝕦𝕖𝕧𝕚</a>
 						<a class="insta" href="https://www.instagram.com/xluevi.art/" target="_blank" aria-label="Instagram de xluevi">
 							<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
 								<rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -257,10 +260,16 @@
     <script>
 		window.PLAYER_PROFILE_MAP = {{ player_profile_map_json | safe if player_profile_map_json is defined else '{}' }};
 		window.PROFILE_BASE_URL = {{ profile_base_url | tojson if profile_base_url is defined else 'null' }};
-	
+
+		const PATH_PREFIX = "{{ path_prefix }}";
+
 		const CONFIG = {
 			colors: {{ config.colors.tiers|tojson }},
-			icons: {{ config.assets.icons|tojson }},
+			icons: {
+				{% for tier_key, icon_path in config.assets.icons.items() %}
+					"{{ tier_key }}": "{{ path_prefix }}" + "{{ icon_path }}",
+				{% endfor %}
+			},
 			currentTier: "{{ current_tier }}",
 			chartData: {{ history_json | safe if history_json is defined else '{}' }},
 			champMatch: {{ champ_match | tojson | safe if champ_match else 'null' }}
@@ -308,18 +317,22 @@
 				elo: CONFIG.champMatch ? CONFIG.champMatch.champion : '',
 				subtitle: CONFIG.champMatch ? `Season ${CONFIG.champMatch.season} Champion` : '',
 				final: CONFIG.champMatch ? `An epic <a href="${CONFIG.champMatch.match_link}" target="_blank" class="cl">final battle</a> pitted the top four titans of the league against each other. On ${CONFIG.champMatch.date}, <strong>${CONFIG.champMatch.champion}</strong> secured the seasonal crown by shutting out the ambitions of <strong>${CONFIG.champMatch.player2}</strong>, <strong>${CONFIG.champMatch.player3}</strong> and <strong>${CONFIG.champMatch.player4}</strong>. Surely, the woodland floor shook from the sheer force of their clash.` : '',
-				crown: '/rootelo/assets/images/crown.webp'
+				crown: '{{ path_prefix }}assets/images/crown.webp'
 			}
 		};
 	</script>
-    <script src="/rootelo/static/script.js"></script>
+	
+    <script src="{{ path_prefix }}static/script.js"></script>
     {% block custom_js %}{% endblock %}
+
 	<script>
-		if (window.location.pathname.includes('/dev/')) {
-			window.goatcounter = {no_onload: true};
-		}
-		if (window.location.pathname.includes('/hoot/')) {
-			window.goatcounter = {no_onload: true};
+		if (
+			window.location.hostname === 'localhost' ||
+			window.location.hostname === '127.0.0.1' ||
+			window.location.href.includes('rootelo-dev') ||
+			window.location.pathname.includes('/dev/')
+		) {
+			window.goatcounter = { no_onload: true };
 		}
 	</script>
 	<script data-goatcounter="https://tricholome.goatcounter.com/count"
