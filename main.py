@@ -793,7 +793,8 @@ def run_league_pipeline(league_config, all_leagues_list):
             "current_league": slug,
             "league_config": league_config,
             "all_leagues": all_leagues_list,
-            "path_prefix": prefix,  # <-- AJOUT ICI
+            "path_prefix": prefix,
+            "is_static": False,
             **kwargs
         }
 
@@ -867,7 +868,7 @@ def run_league_pipeline(league_config, all_leagues_list):
         p_info = pages_content.get(page_id, {})
         extra = {"hall_of_fame": hall_of_fame_data} if page_id == "cache" else {}
         render_page(
-            tmpl, f"{page_id}.html", page_id=page_id, is_archive=False, has_seasons=False,
+            tmpl, f"{page_id}.html", page_id=page_id, is_archive=False, has_seasons=False, is_static=True,
             title=p_info.get("title", ""), page_heading=p_info.get("page_heading", ""), description=p_info.get("description", ""), **extra
         )
 
