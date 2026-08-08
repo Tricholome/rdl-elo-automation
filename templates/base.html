@@ -258,10 +258,16 @@
     <script>
 		window.PLAYER_PROFILE_MAP = {{ player_profile_map_json | safe if player_profile_map_json is defined else '{}' }};
 		window.PROFILE_BASE_URL = {{ profile_base_url | tojson if profile_base_url is defined else 'null' }};
-	
+
+		const PATH_PREFIX = "{{ path_prefix }}";
+
 		const CONFIG = {
 			colors: {{ config.colors.tiers|tojson }},
-			icons: {{ config.assets.icons|tojson }},
+			icons: {
+				{% for tier_key, icon_path in config.assets.icons.items() %}
+					"{{ tier_key }}": "{{ path_prefix }}" + "{{ icon_path }}",
+				{% endfor %}
+			},
 			currentTier: "{{ current_tier }}",
 			chartData: {{ history_json | safe if history_json is defined else '{}' }},
 			champMatch: {{ champ_match | tojson | safe if champ_match else 'null' }}
