@@ -221,7 +221,7 @@ $(document).ready(function() {
 
 			const tier = $(rowNode).attr('data-tier');
 			
-			return tier && tier !== 'unassigned';
+			return tier !== 'unassigned';
 		});
 
 		const leaderboardTable = $('#leaderboard').DataTable({
