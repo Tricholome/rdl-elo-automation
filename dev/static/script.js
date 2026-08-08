@@ -210,21 +210,13 @@ $(document).ready(function() {
 			} 
 		});
 
+		// Filtre ultra-léger
 		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
 			if (settings.nTable.id !== 'leaderboard') return true;
+			if ($('#tierFilterCheckbox').is(':checked')) return true;
 
-			const showTierless = $('#tierFilterCheckbox').is(':checked');
-			if (showTierless) return true;
-
-			const rowNode = settings.aoData[dataIndex].nTr;
-
-			const hasUnassignedDOM = rowNode && ($(rowNode).hasClass('unassigned') || $(rowNode).attr('data-tier') === 'unassigned');
-			
-			const hasEmptyTierCell = !data[1].trim();
-
-			const isUnassigned = hasUnassignedDOM || hasEmptyTierCell;
-
-			return !isUnassigned;
+			const row = settings.aoData[dataIndex].nTr;
+			return row ? !row.classList.contains('unassigned') : true;
 		});
 
 		const leaderboardTable = $('#leaderboard').DataTable({
@@ -232,11 +224,6 @@ $(document).ready(function() {
 			"responsive": true, 
 			"pageLength": 50,
 			"dom": 'rt<"bottom"p><"clear">',
-			"createdRow": function(row, data, dataIndex) {
-				if (!data[1].trim()) {
-					$(row).addClass('unassigned').attr('data-tier', 'unassigned');
-				}
-			},
 			"columnDefs": [ 
 				{ "targets": 0, "type": "rank" },
 				{ "targets": 2, "className": "player-name-cell" },
