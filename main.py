@@ -781,6 +781,9 @@ def run_league_pipeline(league_config, all_leagues_list):
 
     def render_page(template_name, output_name, **kwargs):
         template = env.get_template(template_name)
+        
+        prefix = "../" if (output_dir and output_dir not in ('.', '')) else ""
+
         full_vars = {
             "nav_items": NAV_ITEMS,
             "generation_date": datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC'),
@@ -790,6 +793,7 @@ def run_league_pipeline(league_config, all_leagues_list):
             "current_league": slug,
             "league_config": league_config,
             "all_leagues": all_leagues_list,
+            "path_prefix": prefix,  # <-- AJOUT ICI
             **kwargs
         }
 
