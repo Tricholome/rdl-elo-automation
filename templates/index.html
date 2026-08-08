@@ -22,7 +22,7 @@
 		</thead>
 		<tbody>
 			{% for player in players %}
-			<tr data-tier="{{ player.tier }}">
+			<tr data-tier="{{ player.tier }}" class="{{ 'unassigned' if player.tier == 'unassigned' else '' }}">
 				<td data-order="{% if player.Rank == '♔' %}0{% elif player.Rank == '-' or not player.Rank %}999999{% else %}{{ player.Rank }}{% endif %}">
 					{{ player.Rank }}
 				</td>
