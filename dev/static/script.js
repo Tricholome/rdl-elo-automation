@@ -202,28 +202,7 @@ $(document).ready(function() {
 	// --- 1. LEADERBOARD ---
 	if ($('#leaderboard').length > 0) {
 
-		// 1. Tri du rang ultra-solide (gestion du "-", des espaces Jinja et des NaN)
-		$.extend($.fn.dataTable.ext.type.order, { 
-			"rank-pre": function (d) { 
-				if (!d) return 999999;
-				
-				// Nettoie le HTML et les espaces/sauts de ligne autour
-				const clean = String(d).replace(/<[^>]*>/g, '').trim();
-				
-				if (clean === "♔") return 0;
-				if (clean === "-" || clean === "—" || clean === "" || clean === "N/A") return 999999;
-				
-				const parsed = parseInt(clean, 10);
-				return isNaN(parsed) ? 999999 : parsed; 
-			} 
-		});
-
-		// 2. Filtre personnalisé pour masquer uniquement les 'unassigned'
-		$.fn.dataTable.ext.search = $.fn.dataTable.ext.search.filter(
-			fn => fn.name !== 'rooteloTierFilter'
-		);
-
-		function rooteloTierFilter(settings, data, dataIndex) {
+		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
 			if (settings.nTable.id !== 'leaderboard') return true;
 
 			const showTierless = $('#tierFilterCheckbox').is(':checked');
@@ -232,20 +211,16 @@ $(document).ready(function() {
 			const rowNode = settings.aoData[dataIndex] ? settings.aoData[dataIndex].nTr : null;
 			if (!rowNode) return true;
 
-			const tier = (rowNode.getAttribute('data-tier') || '').toLowerCase().trim();
+			const tier = rowNode.getAttribute('data-tier');
 			return tier !== 'unassigned';
-		}
-		rooteloTierFilter.name = 'rooteloTierFilter';
-		$.fn.dataTable.ext.search.push(rooteloTierFilter);
+		});
 
-		// 3. Initialisation de DataTables
 		const leaderboardTable = $('#leaderboard').DataTable({
 			"order": [],
 			"responsive": true, 
 			"pageLength": 50,
 			"dom": 'rt<"bottom"p><"clear">',
 			"columnDefs": [ 
-				{ "targets": 0, "type": "rank" },
 				{ "targets": 2, "className": "player-name-cell" },
 				{ "targets": 3, "className": "elo-cell" },
 				{ "className": "numeric-cell", "targets": [0, 3, 4, 5, 6, 7, 8] },
@@ -257,8 +232,7 @@ $(document).ready(function() {
 			]
 		});
 
-		// 4. Écouteur de la case à cocher
-		$(document).off('change', '#tierFilterCheckbox').on('change', '#tierFilterCheckbox', function() {
+		$('#tierFilterCheckbox').on('change', function() {
 			leaderboardTable.draw();
 		});
 	}
