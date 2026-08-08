@@ -1,50 +1,84 @@
+
 /* =========================================================================
    ROOTELO - MAIN STYLESHEET
-   -------------------------------------------------------------------------
-   MACRO ARCHITECTURE:
+   Table of Contents:
+   0. Text Utilities
+   1. Global Styles & Wallpaper
+   2. Layout & Containers
+   3. Background Decorations
+   4. Typography & UI Elements
+   5. Header, Banner & Tooltips
+   6. Navigation & Buttons
+   7. DataTables (Global, Leaderboard, Matches)
+   8. Chart (Trends)
+   9. Codex & Static Content (About page)
+   10. Modals
+   11. Tier-based Coloration
+   12. Season Champion
+   13. Hidden Content & Secrets
+   ========================================================================= */
    
-   I.   FOUNDATIONS & BASE UTILITIES
-   II.  LAYOUT & STRUCTURAL FRAMEWORK
-   III. NAVIGATION & GLOBAL CONTROLS
-   IV. 	COMPONENTS (Banner, DataTables, Chart/Relations, Codex, Modals)
-   V.  	SPECIAL EFFECTS & SECRET CONTENT
+/* =========================================================================
+   --- 0. TEXT UTILITIES ---
    ========================================================================= */
 
+/* Alignment */
+.text-left    { text-align: left !important; }
+.text-center  { text-align: center !important; }
+
+/* Weights */
+.text-bold    { font-weight: var(--bold) !important; } 
+.text-medium  { font-weight: var(--medium) !important; } 
+.text-normal  { font-weight: var(--normal) !important; }
+
+/* Colors */
+.text-bright  { color: var(--text-bright) !important; }    
+.text-main   { color: var(--text-main) !important; }
+.text-theme  { color: var(--main-color) !important; }
+.text-muted   { color: var(--text-muted) !important; }
+
+/* Sizes */
+.text-sm     { font-size: var(--size-sm); }
+.text-base   { font-size: var(--size-base); }
+.text-lg     { font-size: var(--size-lg); }
+.text-xl     { font-size: var(--size-xl); }
+   
 
 /* =========================================================================
-   --- I. FOUNDATIONS & BASE UTILITIES ---
+   --- 1. GLOBAL STYLES & WALLPAPER ---
    ========================================================================= */
-
-/* --- 1.1 Global Environment --- */
+   
 html {
     scroll-behavior: smooth;
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: var(--bg-overlay-bottom);
+	background-color: var(--bg-overlay-bottom);
 }
 
 body {
     position: relative;
-    z-index: 0;
+	z-index: 0;
+	
     background-color: var(--main-color);
     background-image: url('../assets/images/pattern.webp');
     background-repeat: repeat;
     background-position: center;
     background-size: 350px;
     background-attachment: fixed;
-    font-family: var(--font-ui);
+	
+	font-family: var(--font-ui);
     font-weight: var(--normal);
     color: var(--text-muted);
     font-size: var(--size-base);
-    min-height: 100vh;
+	
+	min-height: 100vh;
     min-height: 100dvh;
     text-align: center;
-    margin: 0;
+	margin: 0;
     overflow-x: hidden;
 }
 
-/* Ambient Overlay */
 body::after {
     content: "";
     position: fixed;
@@ -59,79 +93,9 @@ body::after {
     opacity: 1; 
 }
 
-/* --- 1.2 Typography & Link Utilities --- */
-.text-left    { text-align: left !important; }
-.text-center  { text-align: center !important; }
-
-.text-bold    { font-weight: var(--bold) !important; } 
-.text-medium  { font-weight: var(--medium) !important; } 
-.text-normal  { font-weight: var(--normal) !important; }
-
-.text-bright  { color: var(--text-bright) !important; }    
-.text-main    { color: var(--text-main) !important; }
-.text-theme   { color: var(--main-color) !important; }
-.text-muted   { color: var(--text-muted) !important; }
-
-.text-sm      { font-size: var(--size-sm); }
-.text-base    { font-size: var(--size-base); }
-.text-lg      { font-size: var(--size-lg); }
-.text-xl      { font-size: var(--size-xl); }
-
-/* Base Inline Links */
-a.cl { 
-    color: var(--text-main); 
-    text-decoration: none; 
-    font-weight: var(--medium); 
-    letter-spacing: var(--track-slight); 
-    border-bottom: 1px dotted var(--main-color); 
-    transition: 0.2s; 
-}
-
-a.cl:hover { 
-    border-bottom: 1px solid var(--main-color); 
-    color: var(--main-color); 
-}
-
-a.insta { 
-    color: var(--text-main); 
-    text-decoration: none; 
-    transition: 0.2s; 
-}
-
-a.insta:hover { 
-    color: var(--main-color); 
-}
-
-/* --- 1.3 Dynamic Tier Color Utilities --- */
-.tier-bird     { color: var(--color-bird) !important; }
-.tier-fox      { color: var(--color-fox) !important; }
-.tier-rabbit   { color: var(--color-rabbit) !important; }
-.tier-mouse    { color: var(--color-mouse) !important; }
-.tier-squirrel { color: var(--color-squirrel) !important; }
-.tier-stag     { color: var(--color-stag) !important; }
-.tier-bear     { color: var(--color-bear) !important; }
-
-table.dataTable tbody tr[data-tier="bird"]     { background-color: var(--color-bird-bg) !important; border-left: 4px solid var(--color-bird) !important; }
-table.dataTable tbody tr[data-tier="fox"]      { background-color: var(--color-fox-bg) !important; border-left: 4px solid var(--color-fox) !important; }
-table.dataTable tbody tr[data-tier="rabbit"]   { background-color: var(--color-rabbit-bg) !important; border-left: 4px solid var(--color-rabbit) !important; }
-table.dataTable tbody tr[data-tier="mouse"]    { background-color: var(--color-mouse-bg) !important; border-left: 4px solid var(--color-mouse) !important; }
-table.dataTable tbody tr[data-tier="squirrel"] { background-color: var(--color-squirrel-bg) !important; border-left: 4px solid var(--color-squirrel) !important; }
-table.dataTable tbody tr[data-tier="stag"]     { background-color: var(--color-stag-bg) !important; border-left: 4px solid var(--color-stag) !important; }
-table.dataTable tbody tr[data-tier="bear"]     { background-color: var(--color-bear-bg) !important; border-left: 4px solid var(--color-bear) !important; }
-
-tr[data-tier="bird"] td:nth-child(4)     { color: var(--color-bird) !important; }
-tr[data-tier="fox"] td:nth-child(4)      { color: var(--color-fox) !important; }
-tr[data-tier="rabbit"] td:nth-child(4)   { color: var(--color-rabbit) !important; }
-tr[data-tier="mouse"] td:nth-child(4)    { color: var(--color-mouse) !important; }
-tr[data-tier="squirrel"] td:nth-child(4) { color: var(--color-squirrel) !important; }
-tr[data-tier="stag"] td:nth-child(4)     { color: var(--color-stag) !important; }
-tr[data-tier="bear"] td:nth-child(4)     { color: var(--color-bear) !important; }
-
 /* =========================================================================
-   --- II. LAYOUT & STRUCTURAL FRAMEWORK ---
+   --- 2. LAYOUT & CONTAINERS ---
    ========================================================================= */
-
-/* --- 2.1 Core Page Containers --- */
 .container {
     width: 100%;
     min-height: 100vh;
@@ -141,7 +105,6 @@ tr[data-tier="bear"] td:nth-child(4)     { color: var(--color-bear) !important; 
     overflow: visible;
 }
 
-/* Main Glassmorphism Window */
 .window-box {
     position: relative;
     z-index: 10;
@@ -155,144 +118,9 @@ tr[data-tier="bear"] td:nth-child(4)     { color: var(--color-bear) !important; 
     border-radius: 12px;
     box-sizing: border-box;
     box-shadow: inset 0 2px 0 0 color-mix(in srgb, var(--main-color) 70%, transparent), var(--glass-shadow);
-    padding: var(--window-padding);
+	padding: var(--window-padding);
 }
 
-/* --- 2.2 Site Titles & Section Intros --- */
-.site-title {
-    font-family: var(--font-title);
-    color: var(--text-main);
-    font-size: var(--size-display);
-    margin: 0;
-    letter-spacing: var(--track-display);
-    text-transform: uppercase;
-    font-weight: var(--bold);
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
-
-.site-subtitle {
-    font-family: var(--font-title);
-    font-style: italic;
-    color: var(--text-muted);
-    font-size: var(--size-base);
-    letter-spacing: var(--track-wide);
-    margin: 5px 0 0;
-}
-
-.page-intro { 
-    margin-bottom: var(--window-gap); 
-}
-
-.page-intro h2 { 
-    font-family: var(--font-title); 
-    font-size: var(--size-xl); 
-    letter-spacing: var(--track-wide); 
-    margin: 0; 
-    color: var(--main-color); 
-}
-
-.page-intro p { 
-    color: var(--text-muted); 
-    font-size: var(--size-base); 
-    margin: 5px auto 0; 
-}
-
-@media (max-width: 768px) {
-    .site-title { font-size: var(--size-lg); }
-    .page-intro h2 { font-size: var(--size-lg); }
-}
-
-/* --- 2.3 Dynamic Background & Parallax Decorations --- */
-.screen-deco {
-    position: relative; 
-    display: flex; 
-    justify-content: center;
-    height: 200px; 
-    margin: 0; 
-    z-index: 5; 
-    pointer-events: none; 
-    width: 100%;
-}
-
-.screen-deco img {
-    position: absolute; 
-    height: 300px; 
-    width: auto; 
-    left: 50%; 
-    transform: translateX(-50%);
-    top: -150px; 
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4)); 
-    transition: all 0.5s ease;
-}
-
-@media (max-width: 1299px) {
-    .app-banner { 
-        transition: transform 0.5s ease, opacity 0.4s ease; 
-        transform-origin: center; 
-        position: relative; 
-    }
-    .is-scrolled .app-banner { 
-        opacity: 0; 
-        transform: scale(0.95); 
-        pointer-events: none; 
-    }
-    .app-viewport { 
-        position: relative; 
-        transition: transform 0.5s ease, opacity 0.4s ease; 
-    }
-    .is-at-bottom .app-viewport { 
-        opacity: 0; 
-        transform: scale(0.95); 
-        pointer-events: none; 
-    }
-    .screen-deco img { 
-        top: 0px; 
-        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
-    }
-    .is-scrolled .right-deco img { top: -50px; }
-    .is-at-bottom .left-deco img { top: -50px; }
-}
-
-@media (min-width: 1300px) {
-    .screen-deco { 
-        position: fixed; 
-        top: 0; 
-        left: 0; 
-        width: 100vw; 
-        height: 100vh; 
-        display: block; 
-    }
-    
-    .screen-deco img {
-        height: clamp(300px, 48vh, 900px);
-        position: absolute;
-        transform: translateY(-50%) translateX(0);
-        top: max(50%, calc(550px - (var(--scroll, 0) * 1px)));
-    }
-}
-
-@media (min-width: 1300px) and (max-width: 2499px) {
-    .left-deco img { left: 50px; right: auto; }
-    .right-deco img { right: 50px; left: auto; }
-    
-    body[data-page="index"] .left-deco img, 
-    body[data-page="matches"] .left-deco img { 
-        left: 20px; 
-    }
-}
-
-@media (min-width: 2500px) {
-    .left-deco img { 
-        left: auto;
-        right: calc(50vw + (var(--window-max-width) / 2) - 50px); 
-    }
-    .right-deco img { 
-        right: auto;
-        left: calc(50vw + (var(--window-max-width) / 2) - 50px); 
-    }
-}
-
-/* --- 2.4 Footer & Credits --- */
 .footer-credits {
     display: flex;
     align-items: center;
@@ -310,7 +138,7 @@ tr[data-tier="bear"] td:nth-child(4)     { color: var(--color-bear) !important; 
 .footer-credits strong {
     color: var(--text-main);
     font-weight: var(--medium);
-    letter-spacing: var(--track-slight);
+	letter-spacing: var(--track-slight);
 }
 
 .footer-table {
@@ -333,12 +161,225 @@ tr[data-tier="bear"] td:nth-child(4)     { color: var(--color-bear) !important; 
     }
 }
 
+/* =========================================================================
+   --- 3. BACKGROUND DECORATIONS ---
+   ========================================================================= */
+.screen-deco {
+    position: relative; display: flex; justify-content: center;
+    height: 200px; margin: 0; z-index: 5; pointer-events: none; width: 100%;
+}
+
+.screen-deco img {
+    position: absolute; height: 300px; width: auto; left: 50%; transform: translateX(-50%);
+    top: -150px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4)); transition: all 0.5s ease;
+}
+
+@media (max-width: 1299px) {
+    .app-banner { transition: transform 0.5s ease, opacity 0.4s ease; transform-origin: center; position: relative; }
+    .is-scrolled .app-banner { opacity: 0; transform: scale(0.95); pointer-events: none; }
+    .app-viewport { position: relative; transition: transform 0.5s ease, opacity 0.4s ease; }
+    .is-at-bottom .app-viewport { opacity: 0; transform: scale(0.95); pointer-events: none; }
+    .screen-deco img { top: 0px; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+    .is-scrolled .right-deco img { top: -50px; }
+    .is-at-bottom .left-deco img { top: -50px; }
+}
+
+@media (min-width: 1300px) {
+    .screen-deco { 
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+        display: block; 
+    }
+    
+    .screen-deco img {
+        height: clamp(300px, 48vh, 900px);
+        position: absolute;
+        transform: translateY(-50%) translateX(0);
+        top: max(50%, calc(550px - (var(--scroll, 0) * 1px)));
+    }
+}
+
+@media (min-width: 1300px) and (max-width: 2499px) {
+    .left-deco img { left: 50px; right: auto; }
+    .right-deco img { right: 50px; left: auto; }
+	
+	/* Reduced margin for 2 tabs only */
+    body[data-page="index"] .left-deco img, 
+    body[data-page="matches"] .left-deco img { 
+        left: 20px; 
+    }
+}
+
+@media (min-width: 2500px) {
+    .left-deco img { 
+        left: auto;
+        right: calc(50vw + (var(--window-max-width) / 2) - 50px); 
+    }
+    .right-deco img { 
+        right: auto;
+        left: calc(50vw + (var(--window-max-width) / 2) - 50px); 
+    }
+}
 
 /* =========================================================================
-   --- III. NAVIGATION & GLOBAL CONTROLS ---
+   --- 4. TYPOGRAPHY & UI ELEMENTS ---
    ========================================================================= */
+.site-title {
+    font-family: var(--font-title);
+    color: var(--text-main);
+    font-size: var(--size-display);
+    margin: 0;
+    letter-spacing: var(--track-display);
+    text-transform: uppercase;
+    font-weight: var(--bold);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
 
-/* --- 3.1 Main Navigation Tabs --- */
+.site-subtitle {
+    font-family: var(--font-title);
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: var(--size-base);
+    letter-spacing: var(--track-wide);
+	margin: 5px 0 0;
+}
+
+.page-intro { margin-bottom: var(--window-gap); }
+.page-intro h2 { font-family: var(--font-title); font-size: var(--size-xl); letter-spacing: var(--track-wide); margin: 0; color: var(--main-color); }
+.page-intro p { color: var(--text-muted); font-size: var(--size-base); margin: 5px auto 0; }
+
+a.cl { color: var(--text-main); text-decoration: none; font-weight: var(--medium); letter-spacing: var(--track-slight); border-bottom: 1px dotted var(--main-color); transition: 0.2s; }
+a.cl:hover { border-bottom: 1px solid var(--main-color); color: var(--main-color); }
+
+a.insta { color: var(--text-main); text-decoration: none; transition: 0.2s; }
+a.insta:hover { color: var(--main-color); }
+
+@media (max-width: 768px) {
+    .site-title { font-size: var(--size-lg); }
+    .page-intro h2 { font-size: var(--size-lg); }
+}
+
+/* =========================================================================
+   --- 5. HEADER, BANNER & TOOLTIPS ---
+   ========================================================================= */
+.banner-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+.banner-icons { display: flex; gap: -10px; align-items: center; }
+
+/* Interactive Links */
+.banner-icons a.tooltip-link {
+    position: relative;
+    display: inline-block;
+    margin: 0 -5px;
+    z-index: 2;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: margin 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Hover & Active States (Spacing) */
+@media (hover: hover) {
+    .banner-icons a.tooltip-link:hover { margin: 0 15px; z-index: 50; }
+}
+.banner-icons a.tooltip-link.expanded { margin: 0 15px; z-index: 50; }
+
+/* Icons - Base State */
+.banner-icons a.tooltip-link img {
+    width: clamp(55px, 7vw, 85px);
+    height: clamp(55px, 7vw, 85px);
+    object-fit: contain;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: block;
+}
+
+/* Icons - Expanded/Hover State (Common properties) */
+@media (hover: hover) {
+    .banner-icons a.tooltip-link:hover img {
+        width: clamp(100px, 12vw, 140px); 
+        height: clamp(100px, 12vw, 140px);
+        filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
+        transform: translateY(-10px) scale(1.15);
+    }
+}
+
+.banner-icons a.tooltip-link.expanded img {
+    width: clamp(100px, 12vw, 140px); 
+    height: clamp(100px, 12vw, 140px);
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
+    transform: translateY(-10px) scale(1.15);
+}
+
+/* Rotations (Specific) */
+@media (hover: hover) {
+    .banner-icons.left a.tooltip-link:hover img { transform: translateY(-10px) scale(1.15) rotate(-8deg); }
+    .banner-icons.right a.tooltip-link:hover img { transform: translateY(-10px) scale(1.15) rotate(8deg); }
+}
+.banner-icons.left a.tooltip-link.expanded img { transform: translateY(-10px) scale(1.15) rotate(-8deg); }
+.banner-icons.right a.tooltip-link.expanded img { transform: translateY(-10px) scale(1.15) rotate(8deg); }
+
+/* Tooltips */
+.tooltip-text {
+    position: absolute;
+    bottom: 90%; left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--bg-container);
+    border: 1px solid var(--border-soft);
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: var(--size-xs);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    z-index: 100;
+}
+
+.tooltip-text strong { font-weight: var(--medium); }
+
+@media (hover: hover) {
+    .banner-icons a.tooltip-link:hover .tooltip-text { opacity: 1; transform: translateX(-50%) translateY(-15px); }
+}
+.banner-icons a.tooltip-link.expanded .tooltip-text { opacity: 1; transform: translateX(-50%) translateY(-15px); }
+
+/* Banner Mobile Adjustments */
+@media (max-width: 768px) and (orientation: portrait) {
+    .banner-container { flex-wrap: wrap; gap: 5px; }
+    .banner-center { order: 1; width: 100%; margin-bottom: 10px; }
+    .banner-icons { order: 2; flex-wrap: nowrap; gap: 5px; }
+    
+    .banner-icons a.tooltip-link, 
+    .banner-icons a.tooltip-link.expanded { margin: 0; display: inline-block; }
+	
+	body.nut-found:not(.berry-found) .banner-icons a.tooltip-link,
+    body.berry-found:not(.nut-found) .banner-icons a.tooltip-link,
+    body.nut-found:not(.berry-found) .banner-icons a.tooltip-link.expanded,
+    body.berry-found:not(.nut-found) .banner-icons a.tooltip-link.expanded {
+        margin: 0 -5px;
+    }
+    
+    .banner-icons a.tooltip-link.expanded img { transform: translateY(-8px) scale(1.4) !important; position: relative; z-index: 100; }
+
+    .banner-icons a.tooltip-link.expanded .tooltip-text {
+        display: block !important;
+        bottom: 115%; transform: none; width: 150px;
+        white-space: normal; text-align: center; padding: 8px;
+    }
+    .banner-icons.left a.tooltip-link.expanded .tooltip-text { left: 0; }
+    .banner-icons.right a.tooltip-link.expanded .tooltip-text { right: 0; left: auto; }
+    .tooltip-text strong { display: block; margin-bottom: 2px; }
+}
+
+/* =========================================================================
+   --- 6. NAVIGATION & BUTTONS ---
+   ========================================================================= */
 nav {
     display: flex;
     justify-content: center;
@@ -359,10 +400,7 @@ nav a {
     border-bottom: 2px solid transparent;
 }
 
-nav a:hover { 
-    color: var(--text-main); 
-    background: var(--bg-hover); 
-}
+nav a:hover { color: var(--text-main); background: var(--bg-hover); }
 
 nav a.active {
     color: var(--main-color);
@@ -379,7 +417,7 @@ nav a.active {
     border-bottom: 1px solid var(--border-light);
 }
 
-/* --- 3.2 Season Selector --- */
+/* Season & Player Controls Selector */
 .season-selector-group {
     display: flex;
     flex-direction: column;
@@ -407,7 +445,8 @@ nav a.active {
     width: 65px;
 }
 
-.season-btn {
+/* Season Button */
+.season-btn { 
     text-decoration: none; 
     font-size: var(--size-sm); 
     font-weight: var(--medium); 
@@ -418,108 +457,55 @@ nav a.active {
     border: 1px solid var(--border-soft); 
     transition: 0.2s; 
     text-align: center;
-    flex: 1;
+    flex: 1; /* Sur mobile, les boutons se partagent équitablement l'espace restant */
 }
-
 .season-btn:hover { 
     color: var(--text-main); 
     background: var(--bg-hover); 
 }
-
 .season-btn.active { 
     background: transparent !important; 
     color: var(--main-color) !important; 
     border-color: var(--main-color) !important; 
 }
 
-/* --- 3.3 Global Search & Quick Action Buttons --- */
+/* Search Box & Auto-Content Correction */
 .search-box { 
-    flex: 1;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-    background: var(--dt-input-bg);
-    border: 1px solid var(--border-soft);
-    border-radius: 4px;
-    transition: border-color 0.2s;
-    position: relative;
+    flex: 1; /* Prend exactement tout l'espace disponible restant sur sa ligne, calqué sur les boutons */
 }
 
 .search-box input { 
-    flex: 1;
-    min-width: 0;
+    appearance: none;
+    -webkit-appearance: none;
     box-sizing: border-box;
-    background: transparent !important;
+    background: var(--dt-input-bg) !important;
     color: var(--text-main) !important; 
-    border: none !important; 
-    padding: 6px 12px;
+    border: 1px solid var(--border-soft) !important; 
+    padding: 6px 14px;
+    border-radius: 4px;
+    width: 100%;
     font-family: var(--font-ui);
     font-size: var(--size-sm);
+    text-align: left;
     outline: none;
+    transition: border-color 0.2s, background-color 0.2s;
 }
 
-.search-box:focus-within,
-.search-box:has(#root-db-btn:not(.disabled)) {
-    border-color: var(--main-color);
+.search-box input:focus { 
+    border-color: var(--main-color) !important; 
+    background: var(--dt-row-hover) !important;
 }
 
 .search-box input::-webkit-search-cancel-button {
     -webkit-appearance: none;
-    height: 12px; 
-    width: 12px;
+    height: 12px; width: 12px;
     background-color: var(--text-muted);
     mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>") no-repeat 50% 50%;
     -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>") no-repeat 50% 50%;
     cursor: pointer;
 }
 
-#root-db-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 10px;
-    border: none;
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text-muted);
-    text-decoration: none;
-    opacity: 0.35;
-    pointer-events: none;
-    transition: color 0.2s, background-color 0.2s, opacity 0.2s;
-}
-
-#root-db-btn svg {
-    display: block;
-    stroke: currentColor;
-}
-
-#root-db-btn:not(.disabled) {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-#root-db-btn:not(.disabled):hover,
-#root-db-btn:not(.disabled).expanded {
-    color: var(--main-color);
-    background: var(--bg-hover);
-}
-
-#root-db-btn .tooltip-text {
-    top: calc(100% + 8px);
-    bottom: auto;
-    left: auto;
-    right: 0;
-    transform: translateY(-4px);
-}
-
-#root-db-btn:not(.disabled):hover .tooltip-text,
-#root-db-btn:not(.disabled).expanded .tooltip-text {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* --- 3.4 Table Filters & Switches --- */
+/* Unranked Toggle */
 .unranked-toggle-container {
     display: flex;
     align-items: center;
@@ -533,7 +519,7 @@ nav a.active {
 .unranked-toggle-container input[type="checkbox"] {
     cursor: pointer;
     margin: 0;
-    accent-color: var(--main-color);
+	accent-color: var(--main-color);
 }
 
 .unranked-toggle-container label {
@@ -543,133 +529,10 @@ nav a.active {
 
 
 /* =========================================================================
-   --- IV. COMPONENTS ---
+   --- 7. DATATABLES (GLOBAL, LEADERBOARD, MATCHES) ---
    ========================================================================= */
 
-/* -------------------------------------------------------------------------
-   [COMPONENTS] 1. BANNER, TIER ICONS & TOOLTIPS
-   ------------------------------------------------------------------------- */
-.banner-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    flex-wrap: nowrap;
-}
-
-.banner-icons { 
-    display: flex; 
-    align-items: center; 
-}
-
-.banner-icons a.tooltip-link {
-    position: relative;
-    display: inline-block;
-    margin: 0 -5px;
-    z-index: 2;
-    text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-    transition: margin 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@media (hover: hover) {
-    .banner-icons a.tooltip-link:hover { margin: 0 15px; z-index: 50; }
-}
-.banner-icons a.tooltip-link.expanded { margin: 0 15px; z-index: 50; }
-
-.banner-icons a.tooltip-link img {
-    width: clamp(55px, 7vw, 85px);
-    height: clamp(55px, 7vw, 85px);
-    object-fit: contain;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: block;
-}
-
-@media (hover: hover) {
-    .banner-icons a.tooltip-link:hover img {
-        width: clamp(100px, 12vw, 140px); 
-        height: clamp(100px, 12vw, 140px);
-        filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
-        transform: translateY(-10px) scale(1.15);
-    }
-}
-
-.banner-icons a.tooltip-link.expanded img {
-    width: clamp(100px, 12vw, 140px); 
-    height: clamp(100px, 12vw, 140px);
-    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.9));
-    transform: translateY(-10px) scale(1.15);
-}
-
-@media (hover: hover) {
-    .banner-icons.left a.tooltip-link:hover img { transform: translateY(-10px) scale(1.15) rotate(-8deg); }
-    .banner-icons.right a.tooltip-link:hover img { transform: translateY(-10px) scale(1.15) rotate(8deg); }
-}
-.banner-icons.left a.tooltip-link.expanded img { transform: translateY(-10px) scale(1.15) rotate(-8deg); }
-.banner-icons.right a.tooltip-link.expanded img { transform: translateY(-10px) scale(1.15) rotate(8deg); }
-
-/* Tooltip Overlay */
-.tooltip-text {
-    position: absolute;
-    bottom: 90%; 
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    background: var(--bg-container);
-    border: 1px solid var(--border-soft);
-    color: var(--text-muted);
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: var(--size-xs);
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    z-index: 100;
-}
-
-.tooltip-text strong { font-weight: var(--medium); }
-
-@media (hover: hover) {
-    .banner-icons a.tooltip-link:hover .tooltip-text { opacity: 1; transform: translateX(-50%) translateY(-15px); }
-}
-.banner-icons a.tooltip-link.expanded .tooltip-text { opacity: 1; transform: translateX(-50%) translateY(-15px); }
-
-@media (max-width: 768px) and (orientation: portrait) {
-    .banner-container { flex-wrap: wrap; gap: 5px; }
-    .banner-center { order: 1; width: 100%; margin-bottom: 10px; }
-    .banner-icons { order: 2; flex-wrap: nowrap; gap: 5px; }
-    
-    .banner-icons a.tooltip-link, 
-    .banner-icons a.tooltip-link.expanded { margin: 0; display: inline-block; }
-    
-    .banner-icons a.tooltip-link.expanded img { 
-        transform: translateY(-8px) scale(1.4) !important; 
-        position: relative; 
-        z-index: 100; 
-    }
-
-    .banner-icons a.tooltip-link.expanded .tooltip-text {
-        display: block !important;
-        bottom: 115%; 
-        transform: none; 
-        width: 150px;
-        white-space: normal; 
-        text-align: center; 
-        padding: 8px;
-    }
-    .banner-icons.left a.tooltip-link.expanded .tooltip-text { left: 0; }
-    .banner-icons.right a.tooltip-link.expanded .tooltip-text { right: 0; left: auto; }
-    .tooltip-text strong { display: block; margin-bottom: 2px; }
-}
-
-
-/* -------------------------------------------------------------------------
-   [COMPONENTS] 2. DATATABLES (Global, Leaderboard, Matches)
-   ------------------------------------------------------------------------- */
-
-/* Base Structure & Table Layout */
+/* --- A. Table Structure --- */
 table.dataTable { 
     border-collapse: separate !important; 
     border-spacing: 0 !important;
@@ -690,26 +553,34 @@ table.dataTable thead th {
     border-bottom: 1px solid var(--border-soft) !important; 
 }
 
-table.dataTable tbody tr { background-color: transparent !important; }
-table.dataTable tbody tr:hover td { background-color: var(--dt-row-hover) !important; }
+table.dataTable tbody tr { 
+    background-color: transparent !important; 
+}
+
+table.dataTable tbody tr:hover td { 
+    background-color: var(--dt-row-hover) !important; 
+}
 
 table.dataTable tbody td { 
     border-bottom: 1px solid var(--dt-row-border); 
     padding: 12px 10px; 
     font-size: var(--size-base);
-    color: var(--text-main);
+	color: var(--text-main);
     transition: background-color 0.2s ease;
 }
 
-table.dataTable tbody tr:last-child td { border-bottom: none; }
+table.dataTable tbody tr:last-child td {
+    border-bottom: none;
+}
 
-/* DataTables Meta Info & Pagination */
+/* --- B. Controls (Pagination & Info) --- */
 .dataTables_info, 
 .dataTables_paginate { 
     color: var(--text-muted) !important; 
     font-size: var(--size-sm);
-    padding-top: 15px !important;
 }
+
+.dataTables_info, .dataTables_paginate { padding-top: 15px !important; }
 
 table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     background-color: transparent !important;
@@ -720,6 +591,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     line-height: 1em;
 }
 
+/* --- C. Pagination --- */
 .dataTables_paginate .paginate_button { 
     color: var(--text-muted) !important; 
     padding: 5px 12px !important; 
@@ -728,7 +600,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     border: 1px solid transparent !important;
     transition: 0.3s;
     text-decoration: none !important;
-    font-size: var(--size-sm);
+	font-size: var(--size-sm);
 }
 
 .dataTables_paginate .paginate_button:hover:not(.current):not(.disabled) { 
@@ -749,13 +621,37 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     cursor: default !important;
 }
 
-/* Shared Cell Formatting */
-.numeric-cell { font-variant-numeric: tabular-nums; }
-.rank-cell { box-sizing: border-box !important; font-weight: var(--medium); color: var(--text-muted) !important; }
-.player-name-cell { cursor: pointer; text-align: left; font-weight: var(--medium); }
-.elo-cell { font-size: var(--size-lg); font-weight: var(--bold); }
-.elo-sum-cell { color: var(--main-color) !important; font-weight: var(--bold); }
-.date-cell { color: var(--text-muted) !important; font-size: var(--size-sm) !important; }
+/* --- D. Columns & Cells styles --- */
+.numeric-cell {
+	font-variant-numeric: tabular-nums;
+}
+
+.rank-cell {
+	box-sizing: border-box !important;
+	font-weight: var(--medium);
+	color: var(--text-muted) !important;
+}
+
+.player-name-cell {
+	cursor: pointer;
+	text-align: left;
+	font-weight: var(--medium);
+}
+
+.elo-cell {
+	font-size: var(--size-lg); 
+	font-weight: var(--bold);
+}
+
+.elo-sum-cell {
+	color: var(--main-color) !important;
+    font-weight: var(--bold);
+}
+
+.date-cell {
+	color: var(--text-muted) !important;
+	font-size: var(--size-sm) !important;
+}
 
 .tier-icon-container { 
     width: 36px; 
@@ -766,14 +662,10 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     margin: 0 auto; 
 }
 
-.tier-icon-container img { 
-    max-width: 100%; 
-    max-height: 100%; 
-    object-fit: contain; 
-}
+.tier-icon-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-/* Leaderboard Table Specifics */
-.unranked { 
+/* --- E. Specifics (Leaderboard) --- */
+.unassigned { 
     opacity: 0.4; 
     font-style: italic; 
     filter: grayscale(1); 
@@ -790,31 +682,32 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     transition: color 0.2s;
 }
 
-.dt-checkbox-label:hover { color: var(--text-main); }
+.dt-checkbox-label:hover {
+    color: var(--text-main);
+}
+
 .dt-checkbox-label input[type="checkbox"] {
     margin-right: 6px;
     vertical-align: middle;
     cursor: pointer;
+    /* Couleur pour matcher ton thème (exemple : noir ou accent) */
     accent-color: var(--main-color); 
 }
 
-/* Matches Table Specifics */
-.lineup-cell { text-align: left !important; }
+/* --- F. Specifics (Matches) --- */
+.lineup-cell { 
+    text-align: left !important;
+}
 
-.player-item .player-name {
+.player-name {
     color: var(--text-muted);
-    display: inline-block;
-    max-width: clamp(110px, 60%, 300px); 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    white-space: nowrap; 
 }
 
 .player-delta {
     float: right;
     font-size: var(--size-sm);
     margin-left: 10px;
-    color: var(--text-muted);
+	color: var(--text-muted);
 }
 
 .player-item.winner .player-name,
@@ -840,35 +733,163 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     white-space: nowrap !important; 
 }
 
-/* Responsive Table Adjustments */
-.hide-mobile { display: inline; }
+/* --- G. Specifics (Hall of Fame) --- */
+##hall_of_fame thead {
+    visibility: collapse;
+}
+
+#hall_of_fame thead th {
+    padding: 0 !important;
+    border: none !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+}
+
+#hall_of_fame {
+    border-top: 1px solid var(--glass-border) !important;
+}
+
+.tier-header-row td,
+#visitor_table thead th { 
+    background: var(--dt-header-bg); 
+    color: var(--text-muted) !important;
+	font-family: var(--font-ui) !important;	
+    font-size: var(--size-xs) !important;
+	font-weight: var(--medium) !important;
+    letter-spacing: var(--track-wide) !important;
+    text-transform: uppercase !important; 
+    padding: 10px !important; 
+    border-bottom: 1px solid var(--border-soft); 
+}
+
+.tier-header-row tr:hover td { 
+    background: var(--dt-header-bg) !important; 
+}
+
+#hall_of_fame {
+    pointer-events: none !important;
+}
+
+#hall_of_fame .tier-anchor-link,
+#hall_of_fame a, 
+#hall_of_fame button {
+    pointer-events: auto !important;
+}
+
+#hall_of_fame td::before, 
+#hall_of_fame td::after {
+    display: none !important;
+    content: "" !important;
+}
+
+#hall_of_fame tr {
+    cursor: default !important;
+}
+
+.streak-cell {
+	color: var(--text-bright);
+	font-size: var(--size-md);
+    font-weight: var(--bold);
+}
+
+/* --- H. Specifics (Visitor) --- */
+#visitor-recognition {
+	margin-top: 40px;
+}
+
+#input-zone {
+    display: none;
+}
+
+#visitor-name {
+	background: var(--dt-input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-soft);
+    padding: 6px 8px;
+    border-radius: 4px;
+	outline: none;
+}
+
+#visitor-name:focus {
+    border-color: var(--main-color) !important;
+    background: var(--dt-row-hover) !important;
+}
+
+#visitor_table {
+    display: none;
+	margin-top: 5px !important;
+}
+
+#visitor_table tr[data-tier] {
+    pointer-events: none !important;
+}
+
+#hall_of_fame td:first-child,
+#visitor_table td:first-child,
+#hall_of_fame th:first-child,
+#visitor_table th:first-child {
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+    text-align: center !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    box-sizing: border-box !important;
+}
+
+#hall_of_fame .tier-icon-container,
+#visitor_table .tier-icon-container {
+    width: 36px;
+    margin: 0 auto !important;
+}
+
+.visitor-cell {
+	text-align: left;
+	color: var(--text-muted) !important;
+	font-style: italic !important;
+}
+
+.visitor-name {
+	font-weight: var(--medium) !important;
+	color: var(--text-main) !important;
+	font-style: normal !important;
+}
+
+.visitor-date {
+	white-space: nowrap;
+}
+
+/* --- I. Responsive --- */
+.hide-mobile {
+    display: inline;
+}
 
 @media (max-width: 600px) {
-    table.dataTable tbody td { 
-        font-size: var(--size-sm); 
-        padding: 8px 4px !important; 
-    }
+    table.dataTable tbody td { font-size: var(--size-sm); padding: 8px 4px !important; }
     .player-name-cell { 
-        max-width: 110px; 
+		max-width: 110px; 
         overflow: hidden; 
         text-overflow: ellipsis; 
         white-space: nowrap; 
     }
-    table.dataTable td:nth-child(4) { 
-        padding-right: 10px !important; 
-        min-width: 55px; 
+	.player-name { 
+        display: inline-block;
+		max-width: 110px; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        white-space: nowrap; 
     }
+    table.dataTable td:nth-child(4) { padding-right: 10px !important; min-width: 55px; }
     .lineup-cell { padding-left: 10px !important; }
-    .streak-cell { font-size: var(--size-base) !important; }
-    .hide-mobile { display: none; }
+	.streak-cell { font-size: var(--size-base) !important; }
+	.hide-mobile { display: none; }
 }
 
+/* =========================================================================
+   --- 8. TRENDS ---
+   ========================================================================= */
 
-/* -------------------------------------------------------------------------
-   [COMPONENTS] 3. CHART & RELATIONS VISUALIZATION
-   ------------------------------------------------------------------------- */
-
-/* Chart Container Wrapper */
+/* --- Chart Container --- */
 .chart-wrapper { 
     width: 100%; 
     max-width: var(--window-max-width); 
@@ -880,19 +901,20 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     width: 100%; 
     height: 55vh; 
     min-height: 350px;
-    background: var(--dt-table-bg);
-    border: 1px solid var(--glass-border);
+    background: var(--dt-table-bg); /* Use the translucent table background */
+    border: 1px solid var(--glass-border); /* Consistent glass border */
     border-radius: 12px; 
     padding: 15px;
     box-sizing: border-box;
     overflow: hidden;
 }
 
+/* --- Responsive Layout --- */
 @media (max-width: 768px) { 
     .chart-container { height: 40vh; padding: 10px; }
 }
 
-/* Network Graph & Relations Wrapper */
+/* --- Narrative Journey Relations Chart --- */
 .relations-wrapper {
     margin-top: 40px;
     padding: 30px 20px;
@@ -909,11 +931,13 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     justify-content: center;
     max-width: 800px;
     margin: 0 auto;
-    padding: 30px 20px;
+	padding: 30px 20px;
     height: 240px;
 }
 
-.left-column { flex: 0 0 250px; }
+.left-column {
+    flex: 0 0 250px;
+}
 
 .middle-space {
     flex: 1;
@@ -930,7 +954,6 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     gap: 40px;
 }
 
-/* Network Nodes */
 .node {
     background: var(--bg-surface);
     border: 2px solid var(--border-soft);
@@ -939,8 +962,6 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     box-shadow: var(--glass-shadow);
     transition: all 0.3s ease;
     text-align: center;
-    position: relative;
-    overflow: hidden; 
 }
 
 .node-content-flex {
@@ -957,13 +978,18 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     flex-direction: column; 
 }
 
-.interactive-node { cursor: pointer; }
+.interactive-node {
+    cursor: pointer;
+}
+
 .interactive-node:hover {
     border-color: var(--main-color);
     background: var(--bg-hover);
 }
 
-.node.central-node { border-color: var(--main-color); }
+.node.central-node {
+    border-color: var(--main-color);
+}
 
 .narrative-text {
     font-size: var(--size-base);
@@ -980,7 +1006,9 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     color: var(--text-main);
 }
 
-.node.central-node .player-name { color: var(--main-color); }
+.node.central-node .player-name {
+    color: var(--main-color);
+}
 
 .player-meta {
     display: flex;
@@ -988,7 +1016,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     justify-content: center;
     font-size: var(--size-normal);
     font-weight: var(--bold);
-    font-variant-numeric: tabular-nums;
+	font-variant-numeric: tabular-nums;
 }
 
 .opponents-count {
@@ -1011,7 +1039,12 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     pointer-events: none;
 }
 
-/* Interactive Node Overlays */
+/* --- Interactive Node Overlays --- */
+.node {
+    position: relative;
+    overflow: hidden; 
+}
+
 .node-overlay {
     position: absolute;
     top: 0;
@@ -1046,10 +1079,13 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 }
 
 @media (hover: hover) {
-    .interactive-node:hover .node-overlay { opacity: 1; }
+    .interactive-node:hover .node-overlay { 
+        opacity: 1; 
+    }
 }
-
-.interactive-node.expanded .node-overlay { opacity: 1; }
+.interactive-node.expanded .node-overlay { 
+    opacity: 1; 
+}
 
 .interactive-node[data-player=""] {
     cursor: default;
@@ -1060,6 +1096,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     display: none !important;
 }
 
+/* --- Responsive Layout --- */
 @media (max-width: 1200px) {
     .relations-wrapper {
         background: none;
@@ -1086,9 +1123,14 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
         align-items: center;
     }
 
-    .right-column { gap: 24px; }
-    .middle-space { display: none; }
-    
+    .right-column {
+        gap: 24px; 
+    }
+
+    .middle-space {
+        display: none;
+    }
+	
     .relations-container .node,
     .relations-container .node.central-node {
         width: 100% !important;
@@ -1103,36 +1145,33 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
         align-items: center;
         text-align: center;
     }
-    
-    .interactive-node:active {
+	
+	.interactive-node:active {
         transform: scale(0.96);
         border-color: var(--main-color);
         box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
         transition: transform 0.1s ease;
     }
-    
-    .relations-container .player-name { max-width: 100%; }
+	
+    .relations-container .player-name {
+        max-width: 100%;
+    }
 }
 
-
-/* -------------------------------------------------------------------------
-   [COMPONENTS] 4. CODEX & STATIC INFORMATION LAYOUTS
-   ------------------------------------------------------------------------- */
+/* =========================================================================
+   --- 9. CODEX & STATIC CONTENT (ABOUT PAGE) ---
+   ========================================================================= */
 .codex-section {
-    display: block; 
-    margin: auto; 
-    width: 100%; 
-    max-width: var(--window-max-width); 
-    line-height: 1.6;
+    display: block; margin: auto; width: 100%; max-width: var(--window-max-width); line-height: 1.6;
 }
 
 .codex-section h2 {
     color: var(--main-color);
-    margin-top: 60px;
-    margin-bottom: -10px;
+    margin-top: 60px ;
+	margin-bottom: -10px ;
     font-family: var(--font-title);
     font-size: var(--size-md);
-    letter-spacing: var(--track-wide);
+	letter-spacing: var(--track-wide);
     font-weight: var(--medium);
     text-align: left;
 }
@@ -1141,7 +1180,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 .codex-section p { margin-bottom: 20px; color: var(--text-muted); text-align: left; font-size: var(--size-base); }
 .codex-section strong { color: var(--text-main); font-weight: var(--medium); letter-spacing: var(--track-slight); }
 
-/* Information & K-Factor Tables */
+/* Information Tables (K-Factor, Tier Codex) */
 .k-table {
     width: 100%; 
     border-collapse: separate !important; 
@@ -1163,15 +1202,22 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     transition: background-color 0.2s ease;
 }
 
-.k-table tr:hover td { background-color: var(--dt-row-hover); }
+/* Subtle hover effect for K-Table rows */
+.k-table tr:hover td {
+    background-color: var(--dt-row-hover);
+}
+
 .k-table tr:last-child td { border-bottom: none; }
 
+/* Column Widths */
 .k-table td:nth-child(1) { width: 15%; white-space: nowrap; }
 .k-table td:nth-child(2) { width: 15%; text-align: center; }
 .k-table td:nth-child(3) { width: 15%; text-align: center; }
 .k-table td:nth-child(4) { width: 55%; }
+
 .k-table br { display: none; }
 
+/* K-Factor Value Highlighting */
 .k-val { 
     color: var(--main-color) !important; 
     font-weight: var(--bold); 
@@ -1180,36 +1226,27 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     white-space: nowrap; 
 }
 
+/* Responsive adjustments */
 @media (max-width: 600px) {
     .k-table { table-layout: auto; }
     .k-table br { display: block; }
     .k-table td:nth-child(4) { display: none; }
 }
 
-
-/* -------------------------------------------------------------------------
-   [COMPONENTS] 5. TIER MODALS
-   ------------------------------------------------------------------------- */
+/* =========================================================================
+   --- 10. MODALS ---
+   ========================================================================= */
 .modal-overlay {
     display: none; 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%;
-    background: var(--bg-overlay-bottom); 
-    backdrop-filter: blur(8px);
-    z-index: 9999; 
-    align-items: center; 
-    justify-content: center;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg-overlay-bottom); backdrop-filter: blur(8px);
+    z-index: 9999; align-items: center; justify-content: center;
 }
 
 .modal-content {
     --tier-color: var(--main-color);
     position: relative;
-    width: 90%; 
-    max-width: 600px; 
-    padding: var(--window-padding);
+    width: 90%; max-width: 600px; padding: var(--window-padding);
     max-height: 85vh;
     overflow-y: auto;
     background: color-mix(in srgb, var(--tier-color) 10%, var(--glass-bg));
@@ -1222,7 +1259,9 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
     animation: modalFadeIn 0.3s ease-out;
 }
 
-.modal-image-side { position: relative; }
+.modal-image-side {
+    position: relative;
+}
 
 @keyframes modalFadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -1230,91 +1269,53 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 }
 
 .modal-close {
-    position: absolute; 
-    top: 15px; 
-    right: 15px; 
-    background: none; 
-    border: none;
-    color: var(--text-muted); 
-    font-size: var(--size-lg); 
-    cursor: pointer; 
-    line-height: 1;
+    position: absolute; top: 15px; right: 15px; background: none; border: none;
+    color: var(--text-muted); font-size: var(--size-lg); cursor: pointer; line-height: 1;
     z-index: 10;
 }
 
-#modalBody { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    text-align: center; 
-}
+/* --- INTERNAL ELEMENTS --- */
+#modalBody { display: flex; flex-direction: column; align-items: center; text-align: center; }
 
 #modalIcon { 
-    width: 350px; 
-    height: auto; 
-    max-height: 35vh;
-    object-fit: contain; 
-    margin-bottom: 15px;
+    width: 350px; height: auto; max-height: 35vh;
+    object-fit: contain; margin-bottom: 15px;
     filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6));
 }
 
 #modalTitle { 
-    margin: 0; 
-    font-family: var(--font-title); 
-    color: var(--text-main); 
-    font-size: var(--size-display); 
-    letter-spacing: var(--track-display); 
-    font-weight: var(--bold); 
+    margin: 0; font-family: var(--font-title); color: var(--text-main); 
+    font-size: var(--size-display); letter-spacing: var(--track-display); font-weight: var(--bold); 
 }
 
-#modalElo { 
-    font-weight: var(--bold);
-    margin-top: 5px; 
-}
-
-#modalSubtitle { 
-    color: var(--text-muted); 
-    font-style: italic; 
-    font-size: var(--size-base); 
-    margin-top: -5px; 
-}
-
-#modalText, 
-#modalFinal { 
-    color: var(--text-muted); 
-    text-align: left; 
-    font-size: var(--size-base); 
-    line-height: 1.6; 
-}
+#modalElo { font-weight: var(--bold); var(--size-lg); margin-top: 5px; }
+#modalSubtitle { color: var(--text-muted); font-style: italic; font-size: var(--size-base); margin-top: -5px; }
+#modalText, #modalFinal { color: var(--text-muted); text-align: left; font-size: var(--size-base); line-height: 1.6; }
 
 .modal-divider {
-    width: 100%; 
-    height: 0; 
-    margin: 25px auto;
+    width: 100%; height: 0; margin: 25px auto;
     border-top: 1px solid var(--border-dark);
     border-bottom: 1px solid var(--border-light);
 }
 
+/* --- MOBILE PORTRAIT --- */
 @media (max-width: 800px) {
     .modal-content { width: 92%; }
-    .modal-divider { display: none; }
+	.modal-divider { display: none; }
     #modalIcon { width: 200px; }
     #modalTitle { font-size: var(--size-xl); letter-spacing: var(--track-wide); }
-    #modalText, #modalFinal { font-size: var(--size-modal); line-height: 1.5; margin-top: 25px; text-align: center; }
+	#modalText, #modalFinal { font-size: var(--size-modal); line-height: 1.5; margin-top: 25px; text-align: center; }
 }
 
+/* --- MOBILE LANDSCAPE --- */
 @media (max-height: 500px) and (orientation: landscape) {
     .modal-content {
-        max-width: 850px; 
-        width: 95%; 
-        max-height: 90vh;
+        max-width: 850px; width: 95%; max-height: 90vh;
     }
 
     #modalBody {
         flex-direction: row;
-        align-items: center; 
-        gap: 20px; 
-        text-align: left;
+        align-items: center; gap: 20px; text-align: left;
     }
 
     .modal-image-side { flex: 0 0 180px; }
@@ -1332,14 +1333,84 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 }
 
 /* =========================================================================
-   --- V. SPECIAL EFFECTS & SECRET CONTENT ---
+   --- 11. TIER-BASED COLORATION ---
    ========================================================================= */
 
-/* -------------------------------------------------------------------------
-   5.1 Seasonal & Champion Special Effects
-   ------------------------------------------------------------------------- */
+/* Utility classes for text */   
+.tier-bird     { color: var(--color-bird) !important; }
+.tier-fox      { color: var(--color-fox) !important; }
+.tier-rabbit   { color: var(--color-rabbit) !important; }
+.tier-mouse    { color: var(--color-mouse) !important; }
+.tier-squirrel { color: var(--color-squirrel) !important; }
+.tier-stag 	   { color: var(--color-stag) !important; }
+.tier-bear 	   { color: var(--color-bear) !important; }
 
-/* Season Champion: Swaying Crown Animation */
+/* Background and border for each tier row */
+table.dataTable tbody tr[data-tier="bird"]     { background-color: var(--color-bird-bg) !important; border-left: 4px solid var(--color-bird) !important; }
+table.dataTable tbody tr[data-tier="fox"]      { background-color: var(--color-fox-bg) !important; border-left: 4px solid var(--color-fox) !important; }
+table.dataTable tbody tr[data-tier="rabbit"]   { background-color: var(--color-rabbit-bg) !important; border-left: 4px solid var(--color-rabbit) !important; }
+table.dataTable tbody tr[data-tier="mouse"]    { background-color: var(--color-mouse-bg) !important; border-left: 4px solid var(--color-mouse) !important; }
+table.dataTable tbody tr[data-tier="squirrel"] { background-color: var(--color-squirrel-bg) !important; border-left: 4px solid var(--color-squirrel) !important; }
+table.dataTable tbody tr[data-tier="stag"] { background-color: var(--color-stag-bg) !important; border-left: 4px solid var(--color-stag) !important; }
+table.dataTable tbody tr[data-tier="bear"] { background-color: var(--color-bear-bg) !important; border-left: 4px solid var(--color-bear) !important; }
+
+/* Text color for the 4th column (Elo) based on tier */
+tr[data-tier="bird"] td:nth-child(4)     { color: var(--color-bird) !important; }
+tr[data-tier="fox"] td:nth-child(4)      { color: var(--color-fox) !important; }
+tr[data-tier="rabbit"] td:nth-child(4)   { color: var(--color-rabbit) !important; }
+tr[data-tier="mouse"] td:nth-child(4)    { color: var(--color-mouse) !important; }
+tr[data-tier="squirrel"] td:nth-child(4) { color: var(--color-squirrel) !important; }
+tr[data-tier="stag"] td:nth-child(4)     { color: var(--color-stag) !important; }
+tr[data-tier="bear"] td:nth-child(4)     { color: var(--color-bear) !important; }
+
+/* =========================================================================
+   --- 12. SEASON CHAMPION ---
+   ========================================================================= */
+   
+@keyframes bearShimmer {
+    0% { 
+        background-position: 0% 0; 
+    }
+    35% { 
+        background-position: 100% 0; 
+    }
+    
+    70% { 
+        background-position: 0% 0; 
+    }
+    
+    100% { 
+        background-position: 0% 0; 
+    }
+}
+
+table.dataTable tbody tr[data-tier="bear"],
+.modal-content.bear-shimmer {
+    background-image: linear-gradient(
+        120deg, 
+        rgba(255, 255, 255, 0) 15%, 
+        rgba(255, 255, 255, 0.10) 50%, 
+        rgba(255, 255, 255, 0) 85%
+    ) !important;
+    
+    background-size: 200% 100% !important;
+    animation: bearShimmer 7s infinite ease-in-out !important;
+}
+
+#modalFinal strong {
+    color: var(--text-main);
+    font-weight: var(--medium);
+}
+
+#modalFinal a.cl { border-bottom: 1px dotted var(--color-bear); color: var(--text-muted) }
+#modalFinal a.cl:hover { border-bottom: 1px solid var(--color-bear); color: var(--color-bear); }
+
+
+.bear-shimmer #modalIcon {
+    margin-top: 50px;
+	margin-bottom: -15px;
+}
+
 #modalCrown {
     position: absolute;
     width: clamp(70px, 42%, 120px);
@@ -1354,55 +1425,22 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before {
 }
 
 @keyframes sway-crown {
-    0%   { transform: translate(-50%, -85%) rotate(-7deg); }
-    50%  { transform: translate(-50%, -85%) rotate(7deg); }
-    100% { transform: translate(-50%, -85%) rotate(-7deg); }
+    0% {
+        transform: translate(-50%, -85%) rotate(-7deg);
+    }
+    50% {
+        transform: translate(-50%, -85%) rotate(7deg);
+    }
+    100% {
+        transform: translate(-50%, -85%) rotate(-7deg);
+    }
 }
 
-/* Bear Tier: Shimmer Animation & Modal Modifiers */
-@keyframes bearShimmer {
-    0%   { background-position: 0% 0; }
-    35%  { background-position: 100% 0; }
-    70%  { background-position: 0% 0; }
-    100% { background-position: 0% 0; }
-}
+/* =========================================================================
+   --- 13. HIDDEN CONTENT: UNDERGROWTH ---
+   ========================================================================= */
 
-body.archive-view table.dataTable tbody tr[data-tier="bear"],
-.modal-content.bear-shimmer {
-    background-image: linear-gradient(
-        120deg, 
-        rgba(255, 255, 255, 0) 15%, 
-        rgba(255, 255, 255, 0.10) 50%, 
-        rgba(255, 255, 255, 0) 85%
-    ) !important;
-    background-size: 200% 100% !important;
-    animation: bearShimmer 7s infinite ease-in-out !important;
-}
-
-.bear-shimmer #modalIcon {
-    margin-top: 50px;
-    margin-bottom: -15px;
-}
-
-#modalFinal strong {
-    color: var(--text-main);
-    font-weight: var(--medium);
-}
-
-#modalFinal a.cl { 
-    border-bottom: 1px dotted var(--color-bear); 
-    color: var(--text-muted); 
-}
-
-#modalFinal a.cl:hover { 
-    border-bottom: 1px solid var(--color-bear); 
-    color: var(--color-bear); 
-}
-
-
-/* -------------------------------------------------------------------------
-   5.2 Entry & Exit Secret Triggers
-   ------------------------------------------------------------------------- */
+/* --- 0. Secret Button --- */
 .secret-btn {
     display: inline-block;
     position: relative;
@@ -1435,14 +1473,15 @@ body.archive-view table.dataTable tbody tr[data-tier="bear"],
 .secret-btn .tooltip-text {
     position: absolute;
     top: 90%;
-    bottom: auto;
+	bottom: auto;
     text-transform: none;
     letter-spacing: normal;
 }
 
+/* --- 1. Exit Door --- */
 .exit-door {
-    margin-top: 40px;
-    margin-bottom: 20px;
+	margin-top: 40px;
+	margin-bottom: 20px;
 }
 
 #leave-secrets,
@@ -1454,15 +1493,15 @@ body.watcher-found #leave-secrets {
     display: inline-block;
 }
 
-.nav-secret { display: none; }
-body.watcher-found .nav-secret { display: inline-block; }
+/* --- 2. Watcher & Warden Secret --- */
+.enigma {
+    text-align: center !important;
+}
 
+.enigma-green {
+    margin-top: 0 !important;
+}
 
-/* -------------------------------------------------------------------------
-   5.3 Watcher & Warden Enigmas
-   ------------------------------------------------------------------------- */
-.enigma { text-align: center !important; }
-.enigma-green { margin-top: 0 !important; }
 .enigma span { display: block !important; }
 
 body.watcher-found .enigma-green,
@@ -1506,14 +1545,14 @@ body[data-page="cache"].warden-found .left-deco img {
 
 body[data-page="cache"] .screen-deco {
     height: 0;
-    overflow: hidden;
+	overflow: hidden;
     transition: height 0.5s ease;
 }
 
 body[data-page="cache"].watcher-found .right-deco,
 body[data-page="cache"].warden-found .left-deco {
     height: 200px;
-    overflow: visible;
+	overflow: visible;
 }
 
 body.watcher-found .footer-credits a.cl {
@@ -1528,22 +1567,27 @@ body.watcher-found .footer-credits a.cl:hover {
 }
 
 @media (min-width: 1300px) {
-    body[data-page="cache"].watcher-found .screen-deco { 
+body[data-page="cache"].watcher-found .screen-deco { 
         height: 100vh; 
     }
 }
 
+.nav-secret {
+    display: none;
+}
 
-/* -------------------------------------------------------------------------
-   5.4 Interactive Fruit Mechanics
-   ------------------------------------------------------------------------- */
+body.watcher-found .nav-secret {
+    display: inline-block;
+}
+
+/* --- 3. Fruits Styles --- */
 .fruit-interaction-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-    padding-bottom: 30px;
+	padding-bottom: 30px;
 }
 
 .fruit-trigger {
@@ -1571,7 +1615,7 @@ body.watcher-found .footer-credits a.cl:hover {
 
 .fruit-tooltip {
     top: 45%;
-    bottom: auto;
+	bottom: auto;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.4);
 }
@@ -1582,11 +1626,11 @@ body.watcher-found .footer-credits a.cl:hover {
         padding-top: 40px;
         padding-bottom: 80px;
     }
-    
+	
     .fruit-trigger:hover .fruit-sprite {
         filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.6));
     }
-    
+	
     .fruit-trigger:hover .fruit-tooltip {
         opacity: 1;
         transform: translate(-50%, -50%) scale(0.65);
@@ -1598,31 +1642,32 @@ body.watcher-found .footer-credits a.cl:hover {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        flex-direction: row;
+		flex-direction: row;
         gap: 0;
         width: 100%;
     }
 
-    #berry-section, 
-    #nut-section {
-        width: 50%;
+    #berry-section, #nut-section {
+		width: 50%;
         max-width: 50%;
-        margin-left: 0;
+		margin-left: 0;
         margin-right: 0;
     }
 }
 
 @media (max-width: 768px) {
-    .fruit-trigger.expanded {
+	
+	.fruit-trigger.expanded {
         transform: scale(1.6) translateY(10px); 
         z-index: 50;
     }
-    
-    .fruit-trigger.expanded .fruit-sprite {
+	
+	.fruit-trigger.expanded .fruit-sprite {
         filter: drop-shadow(0 15px 20px rgba(0, 0, 0, 0.5));
     }
 
-    .fruit-trigger.expanded .fruit-tooltip {
+	
+	.fruit-trigger.expanded .fruit-tooltip {
         opacity: 1;
         transform: translate(-50%, -50%) scale(0.65);
     }
@@ -1630,20 +1675,13 @@ body.watcher-found .footer-credits a.cl:hover {
     .fruit-trigger:active {
         transform: scale(1.4);
     }
-
-    /* Adjustments banner spacing for active fruits */
-    body.nut-found:not(.berry-found) .banner-icons a.tooltip-link,
-    body.berry-found:not(.nut-found) .banner-icons a.tooltip-link,
-    body.nut-found:not(.berry-found) .banner-icons a.tooltip-link.expanded,
-    body.berry-found:not(.nut-found) .banner-icons a.tooltip-link.expanded {
-        margin: 0 -5px;
-    }
 }
 
-/* Fruit Specific Variations */
+/* --- 3b. Fruits Specific --- */
+
 #nut-section h2,
 #nut-section .fruit-tooltip {
-    color: var(--color-squirrel);
+        color: var(--color-squirrel);
 }
 
 body.nut-found #nut-secret:active .fruit-sprite {
@@ -1652,13 +1690,14 @@ body.nut-found #nut-secret:active .fruit-sprite {
 
 #berry-section h2,
 #berry-section .fruit-tooltip {
-    color: var(--color-stag);
+        color: var(--color-stag);
 }
 
 body.berry-found #berry-secret:active .fruit-sprite {
     transform: scale(1.2, 0.75);
 }
 
+/* --- 4. Fruits Secrets --- */
 #nut-section,
 #berry-section {
     display: none;
@@ -1683,10 +1722,7 @@ body.berry-found .banner-icons a.tooltip-link.banner-icon-stag {
     display: inline-block;
 }
 
-
-/* -------------------------------------------------------------------------
-   5.5 Ciphers & Interactive Text Secrets
-   ------------------------------------------------------------------------- */
+/* --- 5. Ciphers --- */
 .cipher {
     cursor: pointer;
     transition: color 0.3s ease;
@@ -1694,20 +1730,20 @@ body.berry-found .banner-icons a.tooltip-link.banner-icon-stag {
 
 .cipher:hover:not(.active-cipher) {
     font-weight: var(--bold);
-    color: var(--color-squirrel);
+	color: var(--color-squirrel);
 }
 
 .cipher.active-cipher {
-    font-weight: var(--bold);
-    font-size: var(--size-md);
-    letter-spacing: var(--track-wide);
+	font-weight: var(--bold);
+	font-size: var(--size-md);
+	letter-spacing: var(--track-wide);
     color: var(--color-stag);
 }
 
 @keyframes cipher-reject {
     0%, 100% { opacity: 1; }
     25%, 75% { opacity: 0; }
-    50%      { opacity: 1; }
+    50% { opacity: 1; }
 }
 
 .cipher-blink {
@@ -1718,16 +1754,13 @@ body.berry-found .banner-icons a.tooltip-link.banner-icon-stag {
 body.ciphers-found .cipher {
     cursor: default;
     pointer-events: none;
-    font-weight: inherit;
+	font-weight: inherit;
     font-size: inherit;
     letter-spacing: inherit;
     color: inherit;
 }
 
-
-/* -------------------------------------------------------------------------
-   5.6 Mystic Gate & HOF Access Triggers
-   ------------------------------------------------------------------------- */
+/* --- 6. Mystic Gate --- */
 #mystic-gate {
     position: fixed;
     top: 0;
@@ -1744,6 +1777,7 @@ body[data-page="cache"].ciphers-found {
     --main-color: var(--color-stag);
 }
 
+/* --- 7. Final Button --- */
 #hof-access {
     display: none;
     cursor: help;
@@ -1774,8 +1808,10 @@ body.hof-unlocked #hof-access {
     display: none !important;
 }
 
-/* Hall of Fame Reveal Animation */
-.hof-section { display: none; }
+/* --- 8. Hall of Fame Reveal --- */
+.hof-section {
+    display: none;
+}
 
 body.hof-unlocked .hof-section {
     display: block;
@@ -1792,116 +1828,5 @@ body.hof-unlocked .hof-section {
         transform: translateY(0);
     }
 }
-
-/* -------------------------------------------------------------------------
-   5.7 HOF & Visitor Tables
-   ------------------------------------------------------------------------- */
-
-/* Hall of Fame Table Specifics */
-#hall_of_fame thead { visibility: collapse; }
-#hall_of_fame thead th {
-    padding: 0 !important;
-    border: none !important;
-    line-height: 0 !important;
-    font-size: 0 !important;
-}
-
-#hall_of_fame {
-    border-top: 1px solid var(--glass-border) !important;
-    pointer-events: none !important;
-}
-
-.tier-header-row td,
-#visitor_table thead th { 
-    background: var(--dt-header-bg); 
-    color: var(--text-muted) !important;
-    font-family: var(--font-ui) !important;	
-    font-size: var(--size-xs) !important;
-    font-weight: var(--medium) !important;
-    letter-spacing: var(--track-wide) !important;
-    text-transform: uppercase !important; 
-    padding: 10px !important; 
-    border-bottom: 1px solid var(--border-soft); 
-}
-
-.tier-header-row tr:hover td { background: var(--dt-header-bg) !important; }
-
-#hall_of_fame .tier-anchor-link,
-#hall_of_fame a, 
-#hall_of_fame button {
-    pointer-events: auto !important;
-}
-
-#hall_of_fame td::before, 
-#hall_of_fame td::after {
-    display: none !important;
-    content: "" !important;
-}
-
-#hall_of_fame tr { cursor: default !important; }
-
-.streak-cell {
-    color: var(--text-bright);
-    font-size: var(--size-md);
-    font-weight: var(--bold);
-}
-
-/* Visitor Table Specifics */
-#visitor-recognition { margin-top: 40px; }
-#input-zone { display: none; }
-
-#visitor-name {
-    background: var(--dt-input-bg);
-    color: var(--text-main);
-    border: 1px solid var(--border-soft);
-    padding: 6px 8px;
-    border-radius: 4px;
-    outline: none;
-}
-
-#visitor-name:focus {
-    border-color: var(--main-color) !important;
-    background: var(--dt-row-hover) !important;
-}
-
-#visitor_table {
-    display: none;
-    margin-top: 5px !important;
-}
-
-#visitor_table tr[data-tier] { pointer-events: none !important; }
-
-#hall_of_fame td:first-child,
-#visitor_table td:first-child,
-#hall_of_fame th:first-child,
-#visitor_table th:first-child {
-    width: 60px !important;
-    min-width: 60px !important;
-    max-width: 60px !important;
-    text-align: center !important;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    box-sizing: border-box !important;
-}
-
-#hall_of_fame .tier-icon-container,
-#visitor_table .tier-icon-container {
-    width: 36px;
-    margin: 0 auto !important;
-}
-
-.visitor-cell {
-    text-align: left;
-    color: var(--text-muted) !important;
-    font-style: italic !important;
-}
-
-.visitor-name {
-    font-weight: var(--medium) !important;
-    color: var(--text-main) !important;
-    font-style: normal !important;
-}
-
-.visitor-date { white-space: nowrap; }
 
 {% block extra_css %}{% endblock %}
