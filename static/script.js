@@ -211,12 +211,22 @@ $(document).ready(function() {
 		});
 
 		// Filtre ultra-léger
-		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex, rowData, counter) {
 			if (settings.nTable.id !== 'leaderboard') return true;
-			if ($('#tierFilterCheckbox').is(':checked')) return true;
 
-			const row = settings.aoData[dataIndex].nTr;
-			return row ? !row.classList.contains('unassigned') : true;
+			// Si la case est cochée, on montre TOUT (y compris unassigned)
+			const showTierless = $('#tierFilterCheckbox').is(':checked');
+			if (showTierless) return true;
+
+			// Récupération directe du nœud HTML
+			const rowNode = settings.aoData[dataIndex].nTr;
+			if (!rowNode) return true;
+
+			// Vérification directe sur les classes natives JS (sans jQuery)
+			const isUnassigned = rowNode.classList.contains('unassigned') || rowNode.getAttribute('data-tier') === 'unassigned';
+
+			// Si c'est unassigned, on masque (renvoie false)
+			return !isUnassigned;
 		});
 
 		const leaderboardTable = $('#leaderboard').DataTable({
