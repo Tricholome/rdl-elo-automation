@@ -200,10 +200,7 @@ $(document).ready(function() {
 
 	// --- 1. LEADERBOARD ---
 	if ($('#leaderboard').length > 0) {
-		const pageName = window.location.pathname.split('/').pop() || '';
-		let showAllPlayers = !pageName.includes('_'); 
-
-		$('#tierFilterCheckbox').prop('checked', showAllPlayers);
+		let showAllPlayers = $('#tierFilterCheckbox').is(':checked');
 
 		$.extend($.fn.dataTable.ext.type.order, { 
 			"rank-pre": function (d) { 
@@ -216,12 +213,10 @@ $(document).ready(function() {
 		$.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
 			if (settings.nTable.id !== 'leaderboard') return true;
 			if (showAllPlayers) return true; 
-			
-			const rank = (data[0] || '').replace(/<[^>]*>/g, '').trim();
-			return rank !== "-";
+			return data[0].trim() !== "-";
 		});
 
-		$('#leaderboard').DataTable({
+		const leaderboardTable = $('#leaderboard').DataTable({
 			"order": [],
 			"responsive": true, 
 			"pageLength": 50,
@@ -241,7 +236,7 @@ $(document).ready(function() {
 
 		$(document).on('change', '#tierFilterCheckbox', function() {
 			showAllPlayers = $(this).is(':checked');
-			$('#leaderboard').DataTable().draw();
+			leaderboardTable.draw();
 		});
 	}
 
