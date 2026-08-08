@@ -22,7 +22,7 @@
         </thead>
         <tbody>
             {% for player in players %}
-            <tr data-tier="{{ player.tier }}">
+            <tr data-tier="{{ player.tier }}" class="{% if player.tier == 'unassigned' %}unassigned{% endif %}">
                 <td>{{ player.Rank }}</td>
                 <td>
                     {% if player.tier and player.tier != 'unassigned' %}
