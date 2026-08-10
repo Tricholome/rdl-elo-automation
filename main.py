@@ -704,9 +704,9 @@ def run_league_pipeline(league_config, all_leagues_list):
                 k = calculate_k_factor(g_count, last_dt, current_dt, k_config)
                 change = k * (actual - expected)
                 
-                if name == "uwtron":
+                if name == "bw":
                     inactivity = (current_dt - last_dt).days if last_dt else 0
-                    print(f"Match {game_id} | {name} (Partie #{g_count+1}) | Inactivité: {inactivity}j | K = {k:.2f} | Delta Elo: {change:+.1f}")
+                    print(f"Match {game_id} | {name} (Game #{g_count + 1}) | Inactivity: {inactivity}d | K = {k:.2f} | Elo Delta: {change:+.1f}")
 
                 elo_ratings[name] += change
                 last_diff[name] = change
