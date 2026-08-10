@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import time
+import math
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from jinja2 import Environment, FileSystemLoader
@@ -156,6 +157,33 @@ def get_tier_name(rating, games):
         if r >= threshold:
             return tier
     return "squirrel"
+
+
+def calculate_k_factor(games_count, last_date, current_date, k_config):
+    """Calculates K-factor dynamically using strictly parameters defined in league.json."""
+    k_type = k_config.get("type")
+
+    if k_type == "dynamic":
+        k_floor = k_config["k_floor"]
+        k_max = k_config["k_max"]
+        exp_decay = k_config["exp_decay"]
+        t_inactivity = k_config["t_inactivity"]
+        k_base = k_floor * (1.0 + math.exp(-games_count / exp_decay))
+        v_time = 1.0
+        if last_date and current_date:
+            days_inactive = (current_date - last_date).days
+            if days_inactive > 0:
+                v_time = 1.0 + 1.0 * (1.0 - math.exp(-days_inactive / t_inactivity))
+
+        return min(k_max, k_base * v_time)
+
+    elif k_type == "thresholds":
+        for rule in k_config.get("thresholds", []):
+            if games_count < rule["max_games"]:
+                return rule["k"]
+        return k_config["default_k"]
+
+    raise KeyError(f"Invalid or missing 'k_factor' configuration: {k_config}")
 
 
 def setup_jinja_env(config):
@@ -645,18 +673,22 @@ def run_league_pipeline(league_config, all_leagues_list):
 
     peak_elo = {p: r for p, r in elo_ratings.items()}
     last_diff = {p: 0.0 for p in elo_ratings}
-    player_stats = {p: {'games': 0, 'wins': 0.0} for p in elo_ratings}
+    player_stats = {p: {'games': 0, 'wins': 0.0, 'last_date': None} for p in elo_ratings}
     player_history = {}
 
     for p, r in elo_ratings.items():
         label = f"{archive_seasons[-1].upper()} Final" if archive_seasons and p in archived_player_names else "Start"
         player_history[p] = [[label, round(r), None]]
+        
+    k_config = league_config.get('k_factor', {})
 
     if not df.empty:
         for game_id, group in df.groupby('GameID', sort=False):
             match_participants = group.to_dict('records')
             current_match_sum = round(sum([elo_ratings[p['Player']] for p in match_participants]))
-            current_date = pd.to_datetime(match_participants[0]['Date_Closed']).strftime('%Y-%m-%d')
+            
+            current_dt = pd.to_datetime(match_participants[0]['Date_Closed'])
+            current_date = current_dt.strftime('%Y-%m-%d')
 
             q_scores = {p['Player']: 10 ** (elo_ratings[p['Player']] / 400) for p in match_participants}
             total_q = sum(q_scores.values())
@@ -667,11 +699,9 @@ def run_league_pipeline(league_config, all_leagues_list):
                 actual = p['Score']
                 expected = q_scores[name] / total_q
 
-                player_stats[name]['games'] += 1
-                player_stats[name]['wins'] += actual
-
                 g_count = player_stats[name]['games']
-                k = 80 if g_count <= 10 else (40 if g_count <= 50 else 20)
+                last_dt = player_stats[name]['last_date']
+                k = calculate_k_factor(g_count, last_dt, current_dt, k_config)
                 change = k * (actual - expected)
 
                 elo_ratings[name] += change
@@ -680,6 +710,10 @@ def run_league_pipeline(league_config, all_leagues_list):
 
                 if elo_ratings[name] > peak_elo[name]:
                     peak_elo[name] = elo_ratings[name]
+
+                player_stats[name]['games'] += 1
+                player_stats[name]['wins'] += actual
+                player_stats[name]['last_date'] = current_dt
 
                 player_history[name].append([current_date, round(elo_ratings[name]), int(game_id)])
 
