@@ -13,5 +13,13 @@
     "base_url": "https://rootleague.pliskin.dev",
     "tournament_id": 26,
     "token_env_var": "API_TOKEN"
+  },
+  "k_factor": {
+    "type": "thresholds",
+    "thresholds": [
+      {"max_games": 10, "k": 80},
+      {"max_games": 50, "k": 40}
+    ],
+    "default_k": 20
   }
 }
