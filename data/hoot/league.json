@@ -12,5 +12,12 @@
     "type": "rootdb",
     "endpoint": "https://www.therootdatabase.com/api/games/?elo_system=hoot-rankings&page_size=500",
     "token_env_var": "ROOTDB_TOKEN"
+  },
+  "k_factor": {
+    "type": "dynamic",
+    "k_floor": 25.0,
+    "k_max": 50.0,
+    "exp_decay": 9.0,
+    "t_inactivity": 90
   }
 }
