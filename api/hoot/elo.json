@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-10 00:27 UTC",
+  "updated_at": "2026-08-11 00:27 UTC",
   "players": {
     "uwtron": {
       "elo": 1467,
@@ -241,16 +241,6 @@
       "wins": 2.0,
       "win_rate": "28.6%"
     },
-    "lumpyprol": {
-      "elo": 1238,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 8,
-      "wins": 2.0,
-      "win_rate": "25.0%"
-    },
     "zaandaa": {
       "elo": 1227,
       "rank": "-",
@@ -291,6 +281,16 @@
       "wins": 2.0,
       "win_rate": "33.3%"
     },
+    "lesslobster": {
+      "elo": 1218,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 3,
+      "wins": 1.0,
+      "win_rate": "33.3%"
+    },
     "eulers_fool": {
       "elo": 1213,
       "rank": "-",
@@ -301,6 +301,16 @@
       "wins": 1.0,
       "win_rate": "25.0%"
     },
+    "lumpyprol": {
+      "elo": 1211,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 9,
+      "wins": 2.0,
+      "win_rate": "22.2%"
+    },
     "tungsten": {
       "elo": 1207,
       "rank": "-",
@@ -310,16 +320,6 @@
       "games": 4,
       "wins": 1.0,
       "win_rate": "25.0%"
-    },
-    "piechu28": {
-      "elo": 1205,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 6,
-      "wins": 1.0,
-      "win_rate": "16.7%"
     },
     "darkwonderer": {
       "elo": 1205,
@@ -521,6 +521,16 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
+    "piechu28": {
+      "elo": 1183,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 7,
+      "wins": 1.0,
+      "win_rate": "14.3%"
+    },
     "doe": {
       "elo": 1178,
       "rank": "-",
@@ -630,16 +640,6 @@
       "games": 8,
       "wins": 1.0,
       "win_rate": "12.5%"
-    },
-    "lesslobster": {
-      "elo": 1155,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 2,
-      "wins": 0.0,
-      "win_rate": "0.0%"
     },
     "6requiem": {
       "elo": 1155,
@@ -921,16 +921,6 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
-    "mentalmendel": {
-      "elo": 1125,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 5,
-      "wins": 0.0,
-      "win_rate": "0.0%"
-    },
     "victorvee": {
       "elo": 1121,
       "rank": "-",
@@ -950,6 +940,16 @@
       "games": 8,
       "wins": 1.0,
       "win_rate": "12.5%"
+    },
+    "mentalmendel": {
+      "elo": 1111,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 6,
+      "wins": 0.0,
+      "win_rate": "0.0%"
     },
     "riverman": {
       "elo": 1109,
