@@ -19,6 +19,7 @@
     "k_start": 100.0,
     "exp_decay": 10.0,
     "k_cap_new": 75.0,
-    "k_cap_ranked": 50.0
+    "k_cap_ranked": 50.0,
+    "t_inactivity": null
   }
 }
