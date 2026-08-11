@@ -14,7 +14,6 @@
     "token_env_var": "ROOTDB_TOKEN"
   },
   "k_factor": {
-    "type": "dynamic",
     "k_floor": 25.0,
     "k_max": 50.0,
     "exp_decay": 9.0,
