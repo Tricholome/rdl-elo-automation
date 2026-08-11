@@ -160,21 +160,12 @@ def get_tier_name(rating, games):
 
 
 def calculate_k_factor(games_count, last_date, current_date, k_config, is_ranked=False):
-    """Calculates K-factor dynamically using strictly parameters defined in league.json."""
-    k_type = k_config.get("type")
-    
+    """Calculates K-factor dynamically using standardized parameters defined in league.json."""
     k_floor = float(k_config.get("k_floor", 20.0))
-    k_start = float(k_config.get("k_start", 2.0 * k_floor))
+    k_start = float(k_config.get("k_start", 50.0))
     exp_decay = float(k_config.get("exp_decay", 10.0))
-    
-    if is_ranked:
-        k_cap = float(k_config.get("k_cap_ranked", k_config.get("k_max", 50.0)))
-    else:
-        k_cap = float(k_config.get("k_cap_new", k_config.get("k_max", 50.0)))
-        
-        
+    k_cap = float(k_config.get("k_cap_ranked" if is_ranked else "k_cap_new", 50.0))   
     k_base = k_floor + (k_start - k_floor) * math.exp(-games_count / exp_decay)
-    
     v_time = 1.0
     t_inactivity = k_config.get("t_inactivity")
     if t_inactivity and last_date and current_date:
