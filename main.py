@@ -659,6 +659,24 @@ def run_league_pipeline(league_config, all_leagues_list):
                 if (tier and tier != 'unassigned') or get_tier_name(r, g) != 'unassigned':
                     last_season_tiered_players.add(p_raw)
                     last_season_tiered_players.add(player_registry.get_clean_name(p_raw))
+                    
+    # --- BLOC DE VÉRIFICATION / AUDIT ---
+    veterans = sorted(list({player_registry.get_clean_name(p) for p in last_season_tiered_players}))
+    active_players = set(df['Player'].unique()) if not df.empty else set()
+    
+    Logger.section("AUDIT DES K_MAX PAR JOUEUR")
+    print(f"  Vétérans détectés (K_max = 40) : {len(veterans)}")
+    for v in veterans:
+        if v in [player_registry.get_clean_name(p) for p in active_players]:
+            print(f"    - [VÉTÉRAN K=40]  {v}")
+            
+    nouveaux_actifs = [
+        player_registry.get_clean_name(p) for p in active_players 
+        if player_registry.get_clean_name(p) not in veterans
+    ]
+    print(f"  Nouveaux / Sans Tier (K_max = 80) : {len(nouveaux_actifs)}")
+    for n in nouveaux_actifs:
+        print(f"    - [NOUVEAU K=80]  {n}")
 
     # Player Profile Mapping
     if format_replace_chars:
