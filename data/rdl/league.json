@@ -17,7 +17,7 @@
   "k_factor": {
     "type": "thresholds",
     "thresholds": [
-      {"max_games": 10, "k": 80},
+      {"max_games": 10, "k": 60},
       {"max_games": 50, "k": 40}
     ],
     "default_k": 20
