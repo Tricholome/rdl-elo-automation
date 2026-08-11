@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import time
+import math
 from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from jinja2 import Environment, FileSystemLoader
@@ -156,6 +157,34 @@ def get_tier_name(rating, games):
         if r >= threshold:
             return tier
     return "squirrel"
+
+
+def calculate_k_factor(games_count, k_config, has_tier=False):
+    """Calculates K-factor dynamically without inactivity, with differentiated k_max for tiered players."""
+    k_type = k_config.get("type")
+
+    if k_type == "dynamic":
+        k_floor = k_config.get("k_floor", 20.0)
+        exp_decay = k_config.get("exp_decay", 6.0)
+
+        # Select k_max based on whether the player had a tier last season
+        if has_tier:
+            k_max = k_config.get("k_max_tiered", k_config.get("k_max_vet", 40.0))
+        else:
+            k_max = k_config.get("k_max_new", k_config.get("k_max", 80.0))
+
+        k_boost = k_config.get("k_boost", k_config.get("k_max_new", 80.0) - k_floor)
+
+        k_base = k_floor + k_boost * math.exp(-games_count / exp_decay)
+        return min(k_max, k_base)
+
+    elif k_type == "thresholds":
+        for rule in k_config.get("thresholds", []):
+            if games_count < rule["max_games"]:
+                return rule["k"]
+        return k_config["default_k"]
+
+    raise KeyError(f"Invalid or missing 'k_factor' configuration: {k_config}")
 
 
 def setup_jinja_env(config):
@@ -616,6 +645,21 @@ def run_league_pipeline(league_config, all_leagues_list):
     global_players_list = sorted(list({player_registry.get_clean_name(name) for name in all_raw_names if name}))
     Logger.success(f"Player registry initialized ({len(global_players_list)} unique player names)")
 
+    # Identify players who had a tier in the last archived season
+    last_season_tiered_players = set()
+    if archive_seasons:
+        last_tag = archive_seasons[-1]
+        last_df = archives_raw_data[last_tag].get('final_df', pd.DataFrame())
+        if not last_df.empty:
+            for _, row in last_df.iterrows():
+                p_raw = str(row['Player'])
+                g = row.get('Games', 0)
+                r = row.get('ELO', 1200)
+                tier = row.get('Tier')
+                if (tier and tier != 'unassigned') or get_tier_name(r, g) != 'unassigned':
+                    last_season_tiered_players.add(p_raw)
+                    last_season_tiered_players.add(player_registry.get_clean_name(p_raw))
+
     # Player Profile Mapping
     if format_replace_chars:
         player_profile_map = {
@@ -645,18 +689,22 @@ def run_league_pipeline(league_config, all_leagues_list):
 
     peak_elo = {p: r for p, r in elo_ratings.items()}
     last_diff = {p: 0.0 for p in elo_ratings}
-    player_stats = {p: {'games': 0, 'wins': 0.0} for p in elo_ratings}
+    player_stats = {p: {'games': 0, 'wins': 0.0, 'last_date': None} for p in elo_ratings}
     player_history = {}
 
     for p, r in elo_ratings.items():
         label = f"{archive_seasons[-1].upper()} Final" if archive_seasons and p in archived_player_names else "Start"
         player_history[p] = [[label, round(r), None]]
+        
+    k_config = league_config.get('k_factor', {})
 
     if not df.empty:
         for game_id, group in df.groupby('GameID', sort=False):
             match_participants = group.to_dict('records')
             current_match_sum = round(sum([elo_ratings[p['Player']] for p in match_participants]))
-            current_date = pd.to_datetime(match_participants[0]['Date_Closed']).strftime('%Y-%m-%d')
+            
+            current_dt = pd.to_datetime(match_participants[0]['Date_Closed'])
+            current_date = current_dt.strftime('%Y-%m-%d')
 
             q_scores = {p['Player']: 10 ** (elo_ratings[p['Player']] / 400) for p in match_participants}
             total_q = sum(q_scores.values())
@@ -667,11 +715,9 @@ def run_league_pipeline(league_config, all_leagues_list):
                 actual = p['Score']
                 expected = q_scores[name] / total_q
 
-                player_stats[name]['games'] += 1
-                player_stats[name]['wins'] += actual
-
                 g_count = player_stats[name]['games']
-                k = 80 if g_count <= 10 else (40 if g_count <= 50 else 20)
+                has_tier = (name in last_season_tiered_players) or (player_registry.get_clean_name(name) in last_season_tiered_players)
+                k = calculate_k_factor(g_count, k_config, has_tier=has_tier)
                 change = k * (actual - expected)
 
                 elo_ratings[name] += change
@@ -680,6 +726,10 @@ def run_league_pipeline(league_config, all_leagues_list):
 
                 if elo_ratings[name] > peak_elo[name]:
                     peak_elo[name] = elo_ratings[name]
+
+                player_stats[name]['games'] += 1
+                player_stats[name]['wins'] += actual
+                player_stats[name]['last_date'] = current_dt
 
                 player_history[name].append([current_date, round(elo_ratings[name]), int(game_id)])
 
