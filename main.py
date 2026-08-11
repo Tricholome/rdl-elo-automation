@@ -159,23 +159,24 @@ def get_tier_name(rating, games):
     return "squirrel"
 
 
-def calculate_k_factor(games_count, last_date, current_date, k_config):
-    """Calculates K-factor dynamically using strictly parameters defined in league.json."""
+def calculate_k_factor(games_count, k_config, has_tier=False):
+    """Calculates K-factor dynamically without inactivity, with differentiated k_max for tiered players."""
     k_type = k_config.get("type")
 
     if k_type == "dynamic":
-        k_floor = k_config["k_floor"]
-        k_max = k_config["k_max"]
-        exp_decay = k_config["exp_decay"]
-        t_inactivity = k_config["t_inactivity"]
-        k_base = k_floor * (1.0 + math.exp(-games_count / exp_decay))
-        v_time = 1.0
-        if last_date and current_date:
-            days_inactive = (current_date - last_date).days
-            if days_inactive > 0:
-                v_time = 1.0 + 1.0 * (1.0 - math.exp(-days_inactive / t_inactivity))
+        k_floor = k_config.get("k_floor", 20.0)
+        exp_decay = k_config.get("exp_decay", 6.0)
 
-        return min(k_max, k_base * v_time)
+        # Select k_max based on whether the player had a tier last season
+        if has_tier:
+            k_max = k_config.get("k_max_tiered", k_config.get("k_max_vet", 40.0))
+        else:
+            k_max = k_config.get("k_max_new", k_config.get("k_max", 80.0))
+
+        k_boost = k_config.get("k_boost", k_config.get("k_max_new", 80.0) - k_floor)
+
+        k_base = k_floor + k_boost * math.exp(-games_count / exp_decay)
+        return min(k_max, k_base)
 
     elif k_type == "thresholds":
         for rule in k_config.get("thresholds", []):
@@ -644,6 +645,21 @@ def run_league_pipeline(league_config, all_leagues_list):
     global_players_list = sorted(list({player_registry.get_clean_name(name) for name in all_raw_names if name}))
     Logger.success(f"Player registry initialized ({len(global_players_list)} unique player names)")
 
+    # Identify players who had a tier in the last archived season
+    last_season_tiered_players = set()
+    if archive_seasons:
+        last_tag = archive_seasons[-1]
+        last_df = archives_raw_data[last_tag].get('final_df', pd.DataFrame())
+        if not last_df.empty:
+            for _, row in last_df.iterrows():
+                p_raw = str(row['Player'])
+                g = row.get('Games', 0)
+                r = row.get('ELO', 1200)
+                tier = row.get('Tier')
+                if (tier and tier != 'unassigned') or get_tier_name(r, g) != 'unassigned':
+                    last_season_tiered_players.add(p_raw)
+                    last_season_tiered_players.add(player_registry.get_clean_name(p_raw))
+
     # Player Profile Mapping
     if format_replace_chars:
         player_profile_map = {
@@ -700,13 +716,9 @@ def run_league_pipeline(league_config, all_leagues_list):
                 expected = q_scores[name] / total_q
 
                 g_count = player_stats[name]['games']
-                last_dt = player_stats[name]['last_date']
-                k = calculate_k_factor(g_count, last_dt, current_dt, k_config)
+                has_tier = (name in last_season_tiered_players) or (player_registry.get_clean_name(name) in last_season_tiered_players)
+                k = calculate_k_factor(g_count, k_config, has_tier=has_tier)
                 change = k * (actual - expected)
-                
-                if name == "bw":
-                    inactivity = (current_dt - last_dt).days if last_dt else 0
-                    print(f"Match {game_id} | {name} (Game #{g_count + 1}) | Inactivity: {inactivity}d | K = {k:.2f} | Elo Delta: {change:+.1f}")
 
                 elo_ratings[name] += change
                 last_diff[name] = change
