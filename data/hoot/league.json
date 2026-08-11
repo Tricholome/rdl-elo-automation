@@ -14,10 +14,11 @@
     "token_env_var": "ROOTDB_TOKEN"
   },
   "k_factor": {
-    "type": "dynamic",
     "k_floor": 25.0,
-    "k_max": 50.0,
+    "k_start": 50.0,
     "exp_decay": 9.0,
+    "k_cap_new": 50.0,
+    "k_cap_ranked": 50.0,
     "t_inactivity": 90
   }
 }

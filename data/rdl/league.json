@@ -15,11 +15,11 @@
     "token_env_var": "API_TOKEN"
   },
   "k_factor": {
-    "type": "dynamic",
     "k_floor": 20.0,
-    "k_boost": 60.0,
-    "exp_decay": 13.0,
-    "k_max_new": 80.0,
-    "k_max_tiered": 40.0
+    "k_start": 100.0,
+    "exp_decay": 10.0,
+    "k_cap_new": 75.0,
+    "k_cap_ranked": 50.0,
+    "t_inactivity": null
   }
 }
