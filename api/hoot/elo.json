@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-13 00:27 UTC",
+  "updated_at": "2026-08-14 00:27 UTC",
   "players": {
     "uwtron": {
       "elo": 1372,
@@ -191,6 +191,16 @@
       "wins": 2.0,
       "win_rate": "50.0%"
     },
+    "zaandaa": {
+      "elo": 1246,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 4,
+      "wins": 2.0,
+      "win_rate": "50.0%"
+    },
     "dekiru": {
       "elo": 1238,
       "rank": "-",
@@ -250,16 +260,6 @@
       "games": 7,
       "wins": 2.0,
       "win_rate": "28.6%"
-    },
-    "zaandaa": {
-      "elo": 1215,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 3,
-      "wins": 1.0,
-      "win_rate": "33.3%"
     },
     "nattykash": {
       "elo": 1213,
@@ -411,16 +411,6 @@
       "wins": 1.0,
       "win_rate": "20.0%"
     },
-    "aedalus": {
-      "elo": 1194,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 5,
-      "wins": 1.0,
-      "win_rate": "20.0%"
-    },
     "mcauthor": {
       "elo": 1193,
       "rank": "-",
@@ -521,16 +511,6 @@
       "wins": 1.0,
       "win_rate": "20.0%"
     },
-    "rho_sternjaeger": {
-      "elo": 1187,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 1,
-      "wins": 0.0,
-      "win_rate": "0.0%"
-    },
     "nvt2508_78037": {
       "elo": 1187,
       "rank": "-",
@@ -542,6 +522,16 @@
       "win_rate": "0.0%"
     },
     "aeliott": {
+      "elo": 1187,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 1,
+      "wins": 0.0,
+      "win_rate": "0.0%"
+    },
+    "rho_sternjaeger": {
       "elo": 1187,
       "rank": "-",
       "tier": "unassigned",
@@ -571,6 +561,16 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
+    "aedalus": {
+      "elo": 1183,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 6,
+      "wins": 1.0,
+      "win_rate": "16.7%"
+    },
     "jermcurry": {
       "elo": 1179,
       "rank": "-",
@@ -593,16 +593,6 @@
     },
     "quents1493": {
       "elo": 1176,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 2,
-      "wins": 0.0,
-      "win_rate": "0.0%"
-    },
-    "batmaster": {
-      "elo": 1175,
       "rank": "-",
       "tier": "unassigned",
       "bg_color": null,
@@ -891,6 +881,16 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
+    "batmaster": {
+      "elo": 1164,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 3,
+      "wins": 0.0,
+      "win_rate": "0.0%"
+    },
     "punkstarman": {
       "elo": 1163,
       "rank": "-",
@@ -951,16 +951,6 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
-    "starhardfishrinse": {
-      "elo": 1147,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 5,
-      "wins": 0.0,
-      "win_rate": "0.0%"
-    },
     "victorvee": {
       "elo": 1146,
       "rank": "-",
@@ -993,6 +983,16 @@
     },
     "hurple0": {
       "elo": 1140,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 6,
+      "wins": 0.0,
+      "win_rate": "0.0%"
+    },
+    "starhardfishrinse": {
+      "elo": 1139,
       "rank": "-",
       "tier": "unassigned",
       "bg_color": null,
