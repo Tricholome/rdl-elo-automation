@@ -2,10 +2,7 @@
 
 {% block content %}
 <div class="simulator-section">
-    <div class="sim-intro window-box">
-        <p>Select four league players to simulate a match. <strong>Player 1</strong> is designated as the table winner. Adjust any values to test theoretical Elo shifts.</p>
-    </div>
-
+    
     <!-- Datalist alimentée par Jinja -->
 	<datalist id="simPlayerList">
 		{% if global_players %}
@@ -84,6 +81,7 @@
         <div class="tier-icon-container">
             <img src="{ICON_URL}" alt="{TIER}">
         </div>
-    </a> {ELO}
+    </a> <span class="tier-{TIER}">{ELO}</span>
 </template>
+
 {% endblock %}
