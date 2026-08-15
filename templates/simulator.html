@@ -6,52 +6,54 @@
         <p>Select four league players to simulate a match. <strong>Player 1</strong> is designated as the table winner. Adjust any values to test theoretical Elo shifts.</p>
     </div>
 
-    <div class="sim-table-wrapper window-box">
-        <table class="sim-table">
-            <thead>
-                <tr>
-                    <th>Role</th>
-                    <th>Player Name</th>
-                    <th>Initial Elo</th>
-                    <th>Games ($N$)</th>
-                    <th>K-Factor</th>
-                    <th>Win Prob. ($E_i$)</th>
-                    <th>Change ($\Delta R$)</th>
-                    <th>New Elo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Player 1: Winner -->
-                <tr class="sim-row winner-row" data-slot="1">
-                    <td class="role-cell"><span class="badge winner-badge">🏆 Winner</span></td>
-                    <td>
-                        <input type="text" class="sim-p-name" list="playerAutocompleteList" placeholder="Search player..." autocomplete="off">
-                    </td>
-                    <td><input type="number" class="sim-p-elo" value="1200" step="1"></td>
-                    <td><input type="number" class="sim-p-games" value="0" min="0" step="1"></td>
-                    <td class="res-k-factor">-</td>
-                    <td class="res-prob">-</td>
-                    <td class="res-delta">-</td>
-                    <td class="res-new-elo">-</td>
-                </tr>
+    <div class="sim-table-container window-box">
+        <div class="table-responsive">
+            <table id="simTable" class="display styled-table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Player Name</th>
+                        <th>Initial Elo</th>
+                        <th>Games ($N$)</th>
+                        <th>K-Factor</th>
+                        <th>Win Prob. ($E_i$)</th>
+                        <th>Change ($\Delta R$)</th>
+                        <th>New Elo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Player 1: Winner -->
+                    <tr class="sim-row winner-row" data-slot="1">
+                        <td class="role-cell"><span class="badge winner-badge">🏆 Winner</span></td>
+                        <td>
+                            <input type="text" class="sim-p-name" list="playerAutocompleteList" placeholder="Search player..." autocomplete="off">
+                        </td>
+                        <td><input type="number" class="sim-p-elo" value="1200" step="1"></td>
+                        <td><input type="number" class="sim-p-games" value="0" min="0" step="1"></td>
+                        <td class="res-k-factor">-</td>
+                        <td class="res-prob">-</td>
+                        <td class="res-delta">-</td>
+                        <td class="res-new-elo">-</td>
+                    </tr>
 
-                <!-- Players 2 to 4: Losers -->
-                {% for i in range(2, 5) %}
-                <tr class="sim-row loser-row" data-slot="{{ i }}">
-                    <td class="role-cell"><span class="badge loser-badge">❌ Player {{ i }}</span></td>
-                    <td>
-                        <input type="text" class="sim-p-name" list="playerAutocompleteList" placeholder="Search player..." autocomplete="off">
-                    </td>
-                    <td><input type="number" class="sim-p-elo" value="1200" step="1"></td>
-                    <td><input type="number" class="sim-p-games" value="0" min="0" step="1"></td>
-                    <td class="res-k-factor">-</td>
-                    <td class="res-prob">-</td>
-                    <td class="res-delta">-</td>
-                    <td class="res-new-elo">-</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    <!-- Players 2 to 4: Losers -->
+                    {% for i in range(2, 5) %}
+                    <tr class="sim-row loser-row" data-slot="{{ i }}">
+                        <td class="role-cell"><span class="badge loser-badge">❌ Player {{ i }}</span></td>
+                        <td>
+                            <input type="text" class="sim-p-name" list="playerAutocompleteList" placeholder="Search player..." autocomplete="off">
+                        </td>
+                        <td><input type="number" class="sim-p-elo" value="1200" step="1"></td>
+                        <td><input type="number" class="sim-p-games" value="0" min="0" step="1"></td>
+                        <td class="res-k-factor">-</td>
+                        <td class="res-prob">-</td>
+                        <td class="res-delta">-</td>
+                        <td class="res-new-elo">-</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         <div class="sim-actions">
             <button id="btnRunSimulation" class="sim-submit-btn">Simulate Match</button>
