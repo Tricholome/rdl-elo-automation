@@ -274,6 +274,7 @@
     
     <script>
 		window.PLAYER_PROFILE_MAP = {{ player_profile_map_json | safe if player_profile_map_json is defined else '{}' }};
+		window.PLAYER_DATA_MAP = {{ player_data_map_json | safe if player_data_map_json is defined else '{}' }};
 		window.PROFILE_BASE_URL = {{ profile_base_url | tojson if profile_base_url is defined else 'null' }};
 
 		const PATH_PREFIX = "{{ path_prefix }}";
