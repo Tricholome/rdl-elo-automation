@@ -73,11 +73,14 @@
 </div>
 
 <template id="simTierTemplate">
-    <a href="javascript:void(0)" onclick="handleTierClick(event, '{TIER}')" class="tier-anchor-link">
-        <div class="tier-icon-container">
-            <img src="{ICON_URL}" alt="{TIER}">
-        </div>
-    </a> <span class="tier-{TIER}">{ELO}</span>
+    <div class="sim-tier-cell">
+        <a href="javascript:void(0)" onclick="handleTierClick(event, '{TIER}')" class="tier-anchor-link">
+            <div class="tier-icon-container">
+                <img src="{ICON_URL}" alt="{TIER}">
+            </div>
+        </a>
+        <span class="tier-{TIER}">{ELO}</span>
+    </div>
 </template>
 
 {% endblock %}
