@@ -916,9 +916,9 @@ def run_league_pipeline(league_config, all_leagues_list):
         extra = {"hall_of_fame": hall_of_fame_data} if page_id == "cache" else {}
         render_page(
             tmpl, f"{page_id}.html", page_id=page_id, is_archive=False, has_seasons=False, is_static=True,
-            title=p_info.get("title", "Match Simulator"), 
-            page_heading=p_info.get("page_heading", "Match Simulator"), 
-            description=p_info.get("description", "Simulate outcomes and Elo rating shifts for upcoming matches."), 
+            title=p_info.get("title", ""), 
+            page_heading=p_info.get("page_heading", ""), 
+            description=p_info.get("description", ""), 
             **extra
         )
 
