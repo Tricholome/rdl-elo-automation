@@ -6,7 +6,16 @@
         <p>Select four league players to simulate a match. <strong>Player 1</strong> is designated as the table winner. Adjust any values to test theoretical Elo shifts.</p>
     </div>
 
-    <!-- 1. Saisie des joueurs -->
+    <!-- Datalist alimentée par Jinja -->
+	<datalist id="simPlayerList">
+		{% if global_players %}
+			{% for player in global_players %}
+				<option value="{{ player }}"></option>
+			{% endfor %}
+		{% endif %}
+	</datalist>
+
+	<!-- 1. Saisie des joueurs -->
 	<table id="simTable" class="display responsive nowrap">
 		<thead>
 			<tr>
@@ -19,34 +28,30 @@
 		<tbody>
 			<tr class="sim-row">
 				<td><strong>1st (Winner)</strong></td>
-				<td><input type="text" class="sim-p-name" placeholder="Player 1"></td>
+				<td><input type="text" class="sim-p-name" list="simPlayerList" placeholder="Player 1" autocomplete="off"></td>
 				<td><input type="number" class="sim-p-elo" value="1200"></td>
 				<td><input type="number" class="sim-p-games" value="0"></td>
 			</tr>
 			<tr class="sim-row">
 				<td>2nd</td>
-				<td><input type="text" class="sim-p-name" placeholder="Player 2"></td>
+				<td><input type="text" class="sim-p-name" list="simPlayerList" placeholder="Player 2" autocomplete="off"></td>
 				<td><input type="number" class="sim-p-elo" value="1200"></td>
 				<td><input type="number" class="sim-p-games" value="0"></td>
 			</tr>
 			<tr class="sim-row">
 				<td>3rd</td>
-				<td><input type="text" class="sim-p-name" placeholder="Player 3"></td>
+				<td><input type="text" class="sim-p-name" list="simPlayerList" placeholder="Player 3" autocomplete="off"></td>
 				<td><input type="number" class="sim-p-elo" value="1200"></td>
 				<td><input type="number" class="sim-p-games" value="0"></td>
 			</tr>
 			<tr class="sim-row">
 				<td>4th</td>
-				<td><input type="text" class="sim-p-name" placeholder="Player 4"></td>
+				<td><input type="text" class="sim-p-name" list="simPlayerList" placeholder="Player 4" autocomplete="off"></td>
 				<td><input type="number" class="sim-p-elo" value="1200"></td>
 				<td><input type="number" class="sim-p-games" value="0"></td>
 			</tr>
 		</tbody>
 	</table>
-
-	<div style="margin: 20px 0; text-align: center;">
-		<button id="btnRunSimulation" class="btn">Simulate Match</button>
-	</div>
 
 	<!-- 2. Tableau de résultats (DataTables) -->
 	<table id="simResultTable" class="display responsive nowrap" style="width:100%">
@@ -61,7 +66,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<!-- Alimenté dynamiquement par JS -->
+			<!-- Injecté dynamiquement -->
 		</tbody>
 	</table>
 </div>
