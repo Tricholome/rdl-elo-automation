@@ -815,6 +815,15 @@ def run_league_pipeline(league_config, all_leagues_list):
 
     # HTML Page Rendering
     Logger.section("4. HTML RENDERING")
+    
+    player_data_map_json = json.dumps({
+        player_registry.get_clean_name(p): {
+            'elo': round(r),
+            'games': player_stats.get(p, {}).get('games', 0),
+            'is_ranked': player_registry.get_clean_name(p) in last_season_ranked_players
+        }
+        for p, r in elo_ratings.items()
+    })
 
     def render_page(template_name, output_name, **kwargs):
         template = env.get_template(template_name)
@@ -826,6 +835,7 @@ def run_league_pipeline(league_config, all_leagues_list):
             "generation_date": datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC'),
             "global_players": global_players_list,
             "player_profile_map_json": json.dumps(player_profile_map),
+            "player_data_map_json": player_data_map_json,
             "profile_base_url": profile_base_url,
             "current_league": slug,
             "league_config": league_config,
@@ -900,13 +910,16 @@ def run_league_pipeline(league_config, all_leagues_list):
             champ_match=champions_data.get(tag), suffix=f"_{tag}"
         )
 
-    # Render Static Pages (About, Undergrowth/Cache)
-    for page_id, tmpl in [("about", "about.html"), ("cache", "cache.html")]:
+    # Render Static Pages (About, Simulator, Cache)
+    for page_id, tmpl in [("about", "about.html"), ("simulator", "simulator.html"), ("cache", "cache.html")]:
         p_info = pages_content.get(page_id, {})
         extra = {"hall_of_fame": hall_of_fame_data} if page_id == "cache" else {}
         render_page(
             tmpl, f"{page_id}.html", page_id=page_id, is_archive=False, has_seasons=False, is_static=True,
-            title=p_info.get("title", ""), page_heading=p_info.get("page_heading", ""), description=p_info.get("description", ""), **extra
+            title=p_info.get("title", "Match Simulator"), 
+            page_heading=p_info.get("page_heading", "Match Simulator"), 
+            description=p_info.get("description", "Simulate outcomes and Elo rating shifts for upcoming matches."), 
+            **extra
         )
 
     # API JSON Generation
