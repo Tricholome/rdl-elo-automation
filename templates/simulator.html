@@ -3,66 +3,15 @@
 {% block content %}
 <div class="simulator-section">
     <div class="sim-intro window-box">
-        <p>Select four league players to simulate a match. <strong>Player 1</strong> is designated as the table winner, while Players 2, 3, and 4 are the losers. You can adjust Elo ratings or game counts ($N$) to test theoretical scenarios.</p>
+        <p>Select four league players to simulate a match. <strong>Player 1</strong> is designated as the table winner. Adjust any values to test theoretical Elo shifts.</p>
     </div>
 
-    <div class="sim-players-grid">
-        <!-- Player 1: Implicit Winner -->
-        <div class="sim-player-card winner-slot window-box" data-slot="1">
-            <div class="card-badge winner-badge">🏆 Winner (Player 1)</div>
-            
-            <div class="sim-field">
-                <label>Player Name:</label>
-                <input type="text" class="sim-p-name" list="playerAutocompleteList" placeholder="Search player..." autocomplete="off">
-            </div>
-
-            <div class="sim-field-row">
-                <div class="sim-field">
-                    <label>Initial Elo:</label>
-                    <input type="number" class="sim-p-elo" value="1200" step="1">
-                </div>
-                <div class="sim-field">
-                    <label>Games ($N$):</label>
-                    <input type="number" class="sim-p-games" value="0" min="0" step="1">
-                </div>
-            </div>
-        </div>
-
-        <!-- Players 2 to 4: Losers -->
-        {% for i in range(2, 5) %}
-        <div class="sim-player-card window-box" data-slot="{{ i }}">
-            <div class="card-badge loser-badge">❌ Player {{ i }}</div>
-
-            <div class="sim-field">
-                <label>Player Name:</label>
-                <input type="text" class="sim-p-name" list="playerAutocompleteList" placeholder="Search player..." autocomplete="off">
-            </div>
-
-            <div class="sim-field-row">
-                <div class="sim-field">
-                    <label>Initial Elo:</label>
-                    <input type="number" class="sim-p-elo" value="1200" step="1">
-                </div>
-                <div class="sim-field">
-                    <label>Games ($N$):</label>
-                    <input type="number" class="sim-p-games" value="0" min="0" step="1">
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-
-    <div class="sim-actions">
-        <button id="btnRunSimulation" class="sim-submit-btn">Simulate Match</button>
-    </div>
-
-    <!-- Results Table (hidden by default) -->
-    <div id="simResultsWrapper" class="sim-results-wrapper window-box" style="display: none;">
-        <h3>Simulation Results</h3>
-        <table class="sim-results-table">
+    <div class="sim-table-wrapper window-box">
+        <table class="sim-table">
             <thead>
                 <tr>
-                    <th>Role / Player</th>
+                    <th>Role</th>
+                    <th>Player Name</th>
                     <th>Initial Elo</th>
                     <th>Games ($N$)</th>
                     <th>K-Factor</th>
@@ -71,10 +20,42 @@
                     <th>New Elo</th>
                 </tr>
             </thead>
-            <tbody id="simResultsBody">
-                <!-- Dynamically populated via JS -->
+            <tbody>
+                <!-- Player 1: Winner -->
+                <tr class="sim-row winner-row" data-slot="1">
+                    <td class="role-cell"><span class="badge winner-badge">🏆 Winner</span></td>
+                    <td>
+                        <input type="text" class="sim-p-name" list="playerAutocompleteList" placeholder="Search player..." autocomplete="off">
+                    </td>
+                    <td><input type="number" class="sim-p-elo" value="1200" step="1"></td>
+                    <td><input type="number" class="sim-p-games" value="0" min="0" step="1"></td>
+                    <td class="res-k-factor">-</td>
+                    <td class="res-prob">-</td>
+                    <td class="res-delta">-</td>
+                    <td class="res-new-elo">-</td>
+                </tr>
+
+                <!-- Players 2 to 4: Losers -->
+                {% for i in range(2, 5) %}
+                <tr class="sim-row loser-row" data-slot="{{ i }}">
+                    <td class="role-cell"><span class="badge loser-badge">❌ Player {{ i }}</span></td>
+                    <td>
+                        <input type="text" class="sim-p-name" list="playerAutocompleteList" placeholder="Search player..." autocomplete="off">
+                    </td>
+                    <td><input type="number" class="sim-p-elo" value="1200" step="1"></td>
+                    <td><input type="number" class="sim-p-games" value="0" min="0" step="1"></td>
+                    <td class="res-k-factor">-</td>
+                    <td class="res-prob">-</td>
+                    <td class="res-delta">-</td>
+                    <td class="res-new-elo">-</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
+
+        <div class="sim-actions">
+            <button id="btnRunSimulation" class="sim-submit-btn">Simulate Match</button>
+        </div>
     </div>
 </div>
 {% endblock %}
