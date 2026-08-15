@@ -1,34 +1,83 @@
-<tbody>
-	<tr class="sim-row">
-		<td style="text-align: center;">
-			<input type="checkbox" class="checkbox sim-winner-toggle" checked>
-		</td>
-		<td><input type="text" class="input sim-p-name" list="simPlayerList" placeholder="Player 1" autocomplete="off"></td>
-		<td><input type="number" class="input sim-p-elo" value="1200" min="0" step="10"></td>
-		<td><input type="number" class="input sim-p-games" value="0" min="0"></td>
-	</tr>
-	<tr class="sim-row">
-		<td style="text-align: center;">
-			<input type="checkbox" class="checkbox sim-winner-toggle">
-		</td>
-		<td><input type="text" class="input sim-p-name" list="simPlayerList" placeholder="Player 2" autocomplete="off"></td>
-		<td><input type="number" class="input sim-p-elo" value="1200" min="0" step="10"></td>
-		<td><input type="number" class="input sim-p-games" value="0" min="0"></td>
-	</tr>
-	<tr class="sim-row">
-		<td style="text-align: center;">
-			<input type="checkbox" class="checkbox sim-winner-toggle">
-		</td>
-		<td><input type="text" class="input sim-p-name" list="simPlayerList" placeholder="Player 3" autocomplete="off"></td>
-		<td><input type="number" class="input sim-p-elo" value="1200" min="0" step="10"></td>
-		<td><input type="number" class="input sim-p-games" value="0" min="0"></td>
-	</tr>
-	<tr class="sim-row">
-		<td style="text-align: center;">
-			<input type="checkbox" class="checkbox sim-winner-toggle">
-		</td>
-		<td><input type="text" class="input sim-p-name" list="simPlayerList" placeholder="Player 4" autocomplete="off"></td>
-		<td><input type="number" class="input sim-p-elo" value="1200" min="0" step="10"></td>
-		<td><input type="number" class="input sim-p-games" value="0" min="0"></td>
-	</tr>
-</tbody>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="simulator-section">
+    
+	<datalist id="simPlayerList">
+		{% if global_players %}
+			{% for player in global_players %}
+				<option value="{{ player }}"></option>
+			{% endfor %}
+		{% endif %}
+	</datalist>
+
+	<table id="simTable" class="display responsive nowrap">
+		<thead>
+			<tr>
+				<th style="text-align: center;">Winner</th>
+				<th>Player Name</th>
+				<th>Current Elo</th>
+				<th>Games Played</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="sim-row">
+				<td style="text-align: center;">
+					<input type="checkbox" class="checkbox sim-winner-toggle" checked>
+				</td>
+				<td><input type="text" class="input sim-p-name" list="simPlayerList" placeholder="Player 1" autocomplete="off"></td>
+				<td><input type="number" class="input sim-p-elo" value="1200" min="0" step="10"></td>
+				<td><input type="number" class="input sim-p-games" value="0" min="0"></td>
+			</tr>
+			<tr class="sim-row">
+				<td style="text-align: center;">
+					<input type="checkbox" class="checkbox sim-winner-toggle">
+				</td>
+				<td><input type="text" class="input sim-p-name" list="simPlayerList" placeholder="Player 2" autocomplete="off"></td>
+				<td><input type="number" class="input sim-p-elo" value="1200" min="0" step="10"></td>
+				<td><input type="number" class="input sim-p-games" value="0" min="0"></td>
+			</tr>
+			<tr class="sim-row">
+				<td style="text-align: center;">
+					<input type="checkbox" class="checkbox sim-winner-toggle">
+				</td>
+				<td><input type="text" class="input sim-p-name" list="simPlayerList" placeholder="Player 3" autocomplete="off"></td>
+				<td><input type="number" class="input sim-p-elo" value="1200" min="0" step="10"></td>
+				<td><input type="number" class="input sim-p-games" value="0" min="0"></td>
+			</tr>
+			<tr class="sim-row">
+				<td style="text-align: center;">
+					<input type="checkbox" class="checkbox sim-winner-toggle">
+				</td>
+				<td><input type="text" class="input sim-p-name" list="simPlayerList" placeholder="Player 4" autocomplete="off"></td>
+				<td><input type="number" class="input sim-p-elo" value="1200" min="0" step="10"></td>
+				<td><input type="number" class="input sim-p-games" value="0" min="0"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table id="simResultTable" class="display responsive nowrap" style="width:100%">
+		<thead>
+			<tr>
+				<th>Player</th>
+				<th>Current Elo</th>
+				<th>k-factor</th>
+				<th>Win prob</th>
+				<th>change</th>
+				<th>New elo</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+
+<template id="simTierTemplate">
+    <a href="javascript:void(0)" onclick="handleTierClick(event, '{TIER}')" class="tier-anchor-link">
+        <div class="tier-icon-container">
+            <img src="{ICON_URL}" alt="{TIER}">
+        </div>
+    </a> <span class="tier-{TIER}">{ELO}</span>
+</template>
+
+{% endblock %}
