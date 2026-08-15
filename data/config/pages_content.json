@@ -20,6 +20,11 @@
     "page_heading": "Codex",
     "description": "Understanding the fundamental rules and&nbsp;mechanics&nbsp;of&nbsp;Rootelo."
   },
+  "simulator": {
+    "title": "Rootelo • Simulator",
+    "page_heading": "Simulator",
+    "description": "Simulate outcomes and Elo rating shifts for upcoming matches."
+  },
   "cache": {
     "title": "Rootelo • Undergrowth",
     "page_heading": "Undergrowth",
