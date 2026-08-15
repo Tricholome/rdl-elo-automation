@@ -19,7 +19,7 @@
 	<table id="simTable" class="display responsive nowrap">
 		<thead>
 			<tr>
-				<th>Position / Winner</th>
+				<th style="text-align: center;">Winner</th>
 				<th>Player Name</th>
 				<th>Current Elo</th>
 				<th>Games Played</th>
@@ -27,25 +27,33 @@
 		</thead>
 		<tbody>
 			<tr class="sim-row">
-				<td><strong>1st (Winner)</strong></td>
+				<td style="text-align: center;">
+					<input type="checkbox" class="sim-winner-toggle" checked>
+				</td>
 				<td><input type="text" class="sim-p-name" list="simPlayerList" placeholder="Player 1" autocomplete="off"></td>
 				<td><input type="number" class="sim-p-elo" value="1200"></td>
 				<td><input type="number" class="sim-p-games" value="0"></td>
 			</tr>
 			<tr class="sim-row">
-				<td>2nd</td>
+				<td style="text-align: center;">
+					<input type="checkbox" class="sim-winner-toggle">
+				</td>
 				<td><input type="text" class="sim-p-name" list="simPlayerList" placeholder="Player 2" autocomplete="off"></td>
 				<td><input type="number" class="sim-p-elo" value="1200"></td>
 				<td><input type="number" class="sim-p-games" value="0"></td>
 			</tr>
 			<tr class="sim-row">
-				<td>3rd</td>
+				<td style="text-align: center;">
+					<input type="checkbox" class="sim-winner-toggle">
+				</td>
 				<td><input type="text" class="sim-p-name" list="simPlayerList" placeholder="Player 3" autocomplete="off"></td>
 				<td><input type="number" class="sim-p-elo" value="1200"></td>
 				<td><input type="number" class="sim-p-games" value="0"></td>
 			</tr>
 			<tr class="sim-row">
-				<td>4th</td>
+				<td style="text-align: center;">
+					<input type="checkbox" class="sim-winner-toggle">
+				</td>
 				<td><input type="text" class="sim-p-name" list="simPlayerList" placeholder="Player 4" autocomplete="off"></td>
 				<td><input type="number" class="sim-p-elo" value="1200"></td>
 				<td><input type="number" class="sim-p-games" value="0"></td>
