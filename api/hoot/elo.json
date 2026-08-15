@@ -1,15 +1,15 @@
 {
-  "updated_at": "2026-08-14 00:27 UTC",
+  "updated_at": "2026-08-15 00:27 UTC",
   "players": {
     "uwtron": {
-      "elo": 1372,
+      "elo": 1357,
       "rank": 1,
       "tier": "rabbit",
       "bg_color": "#F2C14E",
       "icon_url": "https://tricholome.github.io/rootelo/assets/icons/rabbit.webp",
-      "games": 12,
+      "games": 13,
       "wins": 8.0,
-      "win_rate": "66.7%"
+      "win_rate": "61.5%"
     },
     "bw": {
       "elo": 1315,
@@ -131,16 +131,6 @@
       "wins": 4.0,
       "win_rate": "44.4%"
     },
-    "commanderasn": {
-      "elo": 1255,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 7,
-      "wins": 3.0,
-      "win_rate": "42.9%"
-    },
     "nadav253_57576": {
       "elo": 1253,
       "rank": "-",
@@ -150,6 +140,16 @@
       "games": 9,
       "wins": 4.0,
       "win_rate": "44.4%"
+    },
+    "talleyrand19": {
+      "elo": 1252,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 8,
+      "wins": 3.0,
+      "win_rate": "37.5%"
     },
     "kethem": {
       "elo": 1249,
@@ -201,15 +201,25 @@
       "wins": 2.0,
       "win_rate": "50.0%"
     },
-    "dekiru": {
-      "elo": 1238,
+    "commanderasn": {
+      "elo": 1245,
       "rank": "-",
       "tier": "unassigned",
       "bg_color": null,
       "icon_url": null,
-      "games": 5,
+      "games": 8,
+      "wins": 3.0,
+      "win_rate": "37.5%"
+    },
+    "dekiru": {
+      "elo": 1229,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 6,
       "wins": 2.0,
-      "win_rate": "40.0%"
+      "win_rate": "33.3%"
     },
     "jakattak14": {
       "elo": 1227,
@@ -243,16 +253,6 @@
     },
     "jaredjm41": {
       "elo": 1219,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 7,
-      "wins": 2.0,
-      "win_rate": "28.6%"
-    },
-    "talleyrand19": {
-      "elo": 1215,
       "rank": "-",
       "tier": "unassigned",
       "bg_color": null,
@@ -511,7 +511,7 @@
       "wins": 1.0,
       "win_rate": "20.0%"
     },
-    "nvt2508_78037": {
+    "rho_sternjaeger": {
       "elo": 1187,
       "rank": "-",
       "tier": "unassigned",
@@ -531,7 +531,7 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
-    "rho_sternjaeger": {
+    "nvt2508_78037": {
       "elo": 1187,
       "rank": "-",
       "tier": "unassigned",
