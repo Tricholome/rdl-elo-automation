@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block subnav %}
+<div class="season-selector-group">
+    <div class="season-selector">
+        <a href="about.html#view" class="season-btn {{ 'active' if page_id == 'about' else '' }}">Overview</a>
+        <a href="simulator.html#view" class="season-btn {{ 'active' if page_id == 'simulator' else '' }}">Simulator</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="codex-section">
+    <h2>The Simulator</h2>
+    <p>Simulate any match to preview expected win chances, k-factors, and Elo changes. Choose existing players or manually enter custom parameters to test scenarios.</p>
+</div>
+
+<div class="simulator-section">
+    
+	<datalist id="simPlayerList">
+		{% if global_players %}
+			{% for player in global_players %}
+				<option value="{{ player }}"></option>
+			{% endfor %}
+		{% endif %}
+	</datalist>
+
+	<table id="simTable" class="display responsive nowrap">
+		<thead>
+			<tr>
+				<th style="text-align: center;">Winner</th>
+				<th>Player</th>
+				<th>Elo</th>
+				<th>Games</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for i in range(1, 5) %}
+			<tr class="sim-row">
+				<td style="text-align: center;">
+					<input type="checkbox" class="checkbox sim-winner-toggle" {% if i == 1 %}checked{% endif %}>
+				</td>
+				<td><input type="text" class="input sim-p-name" list="simPlayerList" placeholder="Player {{ i }}" autocomplete="off"></td>
+				<td><input type="number" class="input sim-p-elo" value="1200" min="0" step="10"></td>
+				<td><input type="number" class="input sim-p-games" value="0" min="0"></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<table id="simResultTable" class="display responsive nowrap" style="width:100%">
+		<thead>
+			<tr>
+				<th>Player</th>
+				<th>Base elo</th>
+				<th>k-factor</th>
+				<th>Exp. win</th>
+				<th>Change</th>
+				<th>New elo</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+
+<template id="simTierTemplate">
+    <div class="sim-tier-cell">
+        <a href="javascript:void(0)" onclick="handleTierClick(event, '{TIER}')" class="tier-anchor-link">
+            <div class="tier-icon-container">
+                <img src="{ICON_URL}" alt="{TIER}">
+            </div>
+        </a>
+        <span class="tier-{TIER}">{ELO}</span>
+    </div>
+</template>
+
+{% endblock %}

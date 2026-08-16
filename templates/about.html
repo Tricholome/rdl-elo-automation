@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% block subnav %}
+<div class="season-selector-group">
+    <div class="season-selector">
+        <a href="about.html#view" class="season-btn {{ 'active' if page_id == 'about' else '' }}">Overview</a>
+        <a href="simulator.html#view" class="season-btn {{ 'active' if page_id == 'simulator' else '' }}">Simulator</a>
+    </div>
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="codex-section">
     <h2>An Alternative Ladder</h2>
@@ -9,26 +18,44 @@
     <p>To ensure fairness in a four-player format, this leaderboard uses a multi-player <a class="cl" href="https://en.wikipedia.org/wiki/Elo_rating_system">Elo model</a>. The journey begins with a base rating of 1200 points. Unlike a simple win-count, the engine evaluates the “strength of schedule”: defeating high-ranked opponents boosts a rating significantly, while losing as the favorite results in a steeper drop. The Elo score is permanent, serving as a continuous record of performance over time.</p>
 
     <h2>The Dynamic Phases</h2>
-    <p>The <strong>K-Factor</strong> determines the maximum number of Elo points you can win or lose in a single match. As you play more games, your K-Factor decreases, protecting your hard-earned rank from wild swings and rewarding long-term consistency.</p>
-    
-    <table class="k-table">
+	<p>The <strong>K-Factor</strong> sets the maximum Elo change per match. Using an exponential decay model, ratings calibrate quickly in early games before smoothly stabilizing as experience grows.</p>
+
+	<table class="k-table">
 		<tr>
-			<td><strong>Calibration</strong></td>
-			<td>0-10 games</td>
-			<td class="k-val">K = 80</td>
-			<td>High volatility to find your true rank quickly.</td>
+			<td><strong>Starting</strong></td>
+			<td>No games</td>
+			<td class="k-val">K = 75</td>
+			<td>Initiation for previously unranked players.</td>
+		</tr>
+		<tr>
+			<td><strong>Returning</strong></td>
+			<td>No games</td>
+			<td class="k-val">K = 50</td>
+			<td>Soft-reset for previous season ranked players.</td>
+		</tr>
+		<tr>
+			<td><strong>Calibrating</strong></td>
+			<td>10 games</td>
+			<td class="k-val">K = 50</td>
+			<td>High mobility while establishing your rank.</td>
 		</tr>
 		<tr>
 			<td><strong>Active</strong></td>
-			<td>11-50 games</td>
-			<td class="k-val">K = 40</td>
-			<td>Balanced weighting to climb the ladder steadily.</td>
+			<td>20 games</td>
+			<td class="k-val">K = 31</td>
+			<td>Steady decay as match count grows.</td>
 		</tr>
 		<tr>
-			<td><strong>Veteran</strong></td>
-			<td>50+ games</td>
+			<td><strong>Stabilizing</strong></td>
+			<td>30 games</td>
+			<td class="k-val">K = 24</td>
+			<td>Fine-tuning near skill equilibrium.</td>
+		</tr>
+		<tr>
+			<td><strong>Veterans</strong></td>
+			<td>40+ games</td>
 			<td class="k-val">K = 20</td>
-			<td>Solid stability to protect your long-term standing.</td>
+			<td>Minimum floor for long-term rank stability.</td>
 		</tr>
 	</table>
     

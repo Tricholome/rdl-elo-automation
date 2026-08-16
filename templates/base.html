@@ -1,6 +1,7 @@
-{% set current_tier = config.page_tiers[page_id] if page_id in config.page_tiers else 'default' %}
+{% set active_section = section_id if section_id is defined else page_id %}
+{% set current_tier = config.page_tiers[active_section] if active_section in config.page_tiers else 'default' %}
 {% set theme_color = config.colors.tiers[current_tier] if current_tier in config.colors.tiers else config.colors.tiers.default %}
-{% set current_deco = config.assets.decorations[page_id] if page_id in config.assets.decorations else none %}
+{% set current_deco = config.assets.decorations[active_section] if active_section in config.assets.decorations else none %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +72,7 @@
 	{% block extra_css %}{% endblock %}
 </head>
 
-<body class="{% if is_archive %}archive-view{% endif %}" data-page="{{ page_id }}">
+<body class="{% if is_archive %}archive-view{% endif %}" data-page="{{ page_id }}" data-section="{{ active_section }}">
     
     <div class="container">
 	
@@ -123,9 +124,10 @@
 					{% else %}
 						{% set target = base ~ '.html' %}
 					{% endif %}
-					<a href="{{ target }}" class="{{ 'active' if page_id == base else '' }}">{{ label }}</a>
+					{% set is_active = (page_id == base) or (active_section == base) or (base == 'about' and active_section == 'codex') %}
+					<a href="{{ target }}" class="{{ 'active' if is_active else '' }}">{{ label }}</a>
 				{% endfor %}
-				<a href="cache.html" class="nav-secret {{ 'active' if page_id == 'cache' else '' }}">Undergrowth</a>
+				<a href="cache.html" class="nav-secret {{ 'active' if page_id == 'cache' or active_section == 'cache' else '' }}">Undergrowth</a>
 			</nav>
 			
         </header>
@@ -140,6 +142,8 @@
             <header class="page-intro">
 				<h2>{{ page_heading }}</h2>
 				{% if description %}<p>{{ description }}</p>{% endif %}
+
+				{% block subnav %}{% endblock %}
 
 				<div class="season-selector-group">
 				
@@ -274,7 +278,9 @@
     
     <script>
 		window.PLAYER_PROFILE_MAP = {{ player_profile_map_json | safe if player_profile_map_json is defined else '{}' }};
+		window.PLAYER_DATA_MAP = {{ player_data_map_json | safe if player_data_map_json is defined else '{}' }};
 		window.PROFILE_BASE_URL = {{ profile_base_url | tojson if profile_base_url is defined else 'null' }};
+		window.K_CONFIG = {{ (league_config.k_factor if league_config is defined and league_config.k_factor is defined else {}) | tojson }};
 
 		const PATH_PREFIX = "{{ path_prefix }}";
 
