@@ -9,6 +9,7 @@
    6. Dynamic Trends
    7. Narrative Journey
    8. Global Player Search
+   9. Match Simulator Engine
    
    --- EASTER EGGS ---
    11. Secrets Engine
@@ -264,8 +265,35 @@ $(document).ready(function() {
 			]
 		});
 	}
+	
+	// --- 3. SIMULATOR RESULT TABLE ---
+	if ($('#simResultTable').length > 0) {
+		$('#simResultTable').DataTable({
+			"paging": false,
+			"searching": false,
+			"info": false,
+			"ordering": false,
+			"responsive": true,
+			"dom": 'rt',
+			"createdRow": function(row, data) {
+            var val = parseFloat($('<div>' + data[4] + '</div>').text());
+            
+            if (!isNaN(val) && val < 0) {
+                $(row).addClass('loser');
+            }
+        },
+			"columnDefs": [
+				{ "targets": 0, "className": "player-name-cell" },
+				{ "className": "numeric-cell", "targets": [1, 2, 3, 4, 5] },
+				{ "responsivePriority": 1, "targets": [0, 5] },
+				{ "responsivePriority": 2, "targets": [4] },
+				{ "responsivePriority": 3, "targets": [3] },
+				{ "responsivePriority": 4, "targets": [1, 2] }
+			]
+		});
+	}
 
-    // --- 3. HALL OF FAME ---
+    // --- 4. HALL OF FAME ---
 	if ($('#hall_of_fame').length > 0) {
 		$('#hall_of_fame').DataTable({
 			"responsive": true,
@@ -288,7 +316,7 @@ $(document).ready(function() {
 		});
 	}
 	
-	// --- 4. VISITOR TABLE ---
+	// --- 5. VISITOR TABLE ---
 	if ($('#visitor_table').length > 0) {
 		$('#visitor_table').DataTable({
 			"responsive": true,
@@ -303,7 +331,7 @@ $(document).ready(function() {
 		});
 	}
 	
-	// --- 5. GLOBAL FIX FOR ORIENTATION & RESIZE ---
+	// --- 6. GLOBAL FIX FOR ORIENTATION & RESIZE ---
     window.addEventListener('resize', () => {
         $('.dataTable').each(function() {
             if ($.fn.dataTable.isDataTable(this)) {
@@ -712,6 +740,157 @@ $(document).ready(function() {
     }
 });
 
+/* =========================================================================
+   --- 9. MATCH SIMULATOR ENGINE ---
+   ========================================================================= */
+
+$(document).ready(function() {
+    if ($('#simTable').length === 0 || $('#simResultTable').length === 0) return;
+
+    const REQUIRED_K_KEYS = ['k_floor', 'k_start', 'exp_decay', 'k_cap_ranked', 'k_cap_new'];
+    const kConfig = window.K_CONFIG || {};
+
+    const isConfigValid = REQUIRED_K_KEYS.every(
+        key => key in kConfig && kConfig[key] !== null && kConfig[key] !== undefined && kConfig[key] !== ''
+    );
+
+    if (!isConfigValid) {
+        console.warn("Simulator disabled: Missing K_CONFIG keys in league.json", kConfig);
+        $('#simTable, #simResultTable').hide();
+        return;
+    }
+
+    const playerData = window.PLAYER_DATA_MAP || {};
+
+    function calculateKFactor(gamesCount, isRanked) {
+        const kFloor = parseFloat(kConfig.k_floor);
+        const kStart = parseFloat(kConfig.k_start);
+        const expDecay = parseFloat(kConfig.exp_decay);
+        const kCap = parseFloat(kConfig[isRanked ? 'k_cap_ranked' : 'k_cap_new']);
+
+        const kBase = kFloor + (kStart - kFloor) * Math.exp(-gamesCount / expDecay);
+        return Math.min(kCap, kBase);
+    }
+
+    function getTierFromElo(elo, gamesCount) {
+        if (gamesCount < 10) return 'unassigned';
+        if (elo >= 1600) return 'stag';
+        if (elo >= 1500) return 'bird';
+        if (elo >= 1400) return 'fox';
+        if (elo >= 1300) return 'rabbit';
+        if (elo >= 1200) return 'mouse';
+        return 'squirrel';
+    }
+
+    function renderTierCell(elo, gamesCount) {
+        const tier = getTierFromElo(elo, gamesCount);
+        
+        if (tier === 'unassigned' || typeof CONFIG === 'undefined' || !CONFIG.icons || !CONFIG.icons[tier]) {
+            return elo.toString();
+        }
+
+        const templateEl = document.getElementById('simTierTemplate');
+        if (!templateEl) return elo.toString();
+
+        return templateEl.innerHTML
+            .replaceAll('{TIER}', tier)
+            .replace('{ICON_URL}', CONFIG.icons[tier])
+            .replace('{ELO}', elo);
+    }
+
+    $(document).on('change', '.sim-winner-toggle', function() {
+        const checkedToggles = $('.sim-winner-toggle:checked');
+        
+        if (checkedToggles.length > 2) {
+            $(this).prop('checked', false);
+            return;
+        }
+        
+        runSimulation();
+    });
+
+    $(document).on('input change', '.sim-p-name', function() {
+        const row = $(this).closest('tr');
+        const typedName = $(this).val().trim();
+        
+        const matchedKey = Object.keys(playerData).find(
+            key => key.toLowerCase() === typedName.toLowerCase()
+        );
+
+        if (matchedKey) {
+            const info = playerData[matchedKey];
+            row.find('.sim-p-elo').val(info.elo);
+            row.find('.sim-p-games').val(info.games);
+            row.data('is_ranked', info.is_ranked || false);
+        } else {
+            row.data('is_ranked', false);
+        }
+        runSimulation();
+    });
+
+    function runSimulation() {
+        const rows = $('#simTable tbody tr');
+        const players = [];
+
+        const winnerCount = $('.sim-winner-toggle:checked').length;
+        const scorePerWinner = winnerCount > 0 ? (1.0 / winnerCount) : 0.0;
+
+        rows.each(function(index) {
+            const row = $(this);
+            const isWinner = row.find('.sim-winner-toggle').is(':checked');
+            const name = row.find('.sim-p-name').val().trim() || `Player ${index + 1}`;
+            const elo = parseFloat(row.find('.sim-p-elo').val()) || 1200;
+            const games = parseInt(row.find('.sim-p-games').val(), 10) || 0;
+            const isRanked = row.data('is_ranked') || false;
+
+            players.push({
+                name: name,
+                elo: elo,
+                games: games,
+                isRanked: isRanked,
+                actualScore: isWinner ? scorePerWinner : 0.0
+            });
+        });
+
+        if (players.length === 0) return;
+
+        const qScores = players.map(p => Math.pow(10, p.elo / 400));
+        const totalQ = qScores.reduce((sum, q) => sum + q, 0);
+
+		const formattedData = players.map((p, i) => {
+			const expected = totalQ > 0 ? (qScores[i] / totalQ) : (1 / players.length);
+			const k = calculateKFactor(p.games, p.isRanked);
+			const change = k * (p.actualScore - expected);
+			
+			const roundDelta = Math.round(change);
+			const currentEloRounded = Math.round(p.elo);
+			const newEloRounded = Math.round(p.elo + change);
+			
+			const winProbStr = (expected * 100).toFixed(1) + '%';
+
+			const deltaSign = roundDelta >= 0 ? '+' : '';
+			const deltaHtml = `${deltaSign}${roundDelta}`;
+
+			return [
+				p.name,
+				renderTierCell(currentEloRounded, p.games),
+				Math.round(k * 10) / 10,
+				winProbStr,
+				deltaHtml,
+				renderTierCell(newEloRounded, p.games + 1)
+			];
+		});
+
+        const simResultTable = $('#simResultTable').DataTable();
+        simResultTable.clear();
+        simResultTable.rows.add(formattedData);
+        simResultTable.draw();
+    }
+
+    $(document).on('input change', '.sim-p-elo, .sim-p-games', runSimulation);
+
+    runSimulation();
+});
 
 /* =========================================================================
    --- 11. SECRETS ENGINE ---
