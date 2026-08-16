@@ -18,26 +18,26 @@
     <p>To ensure fairness in a four-player format, this leaderboard uses a multi-player <a class="cl" href="https://en.wikipedia.org/wiki/Elo_rating_system">Elo model</a>. The journey begins with a base rating of 1200 points. Unlike a simple win-count, the engine evaluates the “strength of schedule”: defeating high-ranked opponents boosts a rating significantly, while losing as the favorite results in a steeper drop. The Elo score is permanent, serving as a continuous record of performance over time.</p>
 
     <h2>The Dynamic Phases</h2>
-    <p>The <strong>K-Factor</strong> determines the maximum number of Elo points you can win or lose in a single match. As you play more games, your K-Factor decreases, protecting your hard-earned rank from wild swings and rewarding long-term consistency.</p>
-    
-    <table class="k-table">
+	<p>The <strong>K-Factor</strong> determines the maximum number of Elo points you can win or lose in a single match. Instead of rigid brackets, the engine uses a continuous exponential decay model: your rating moves rapidly in early matches to find your skill level, then smoothly stabilizes as your match count grows.</p>
+
+	<table class="k-table">
 		<tr>
-			<td><strong>Calibration</strong></td>
-			<td>0-10 games</td>
-			<td class="k-val">K = 80</td>
-			<td>High volatility to find your true rank quickly.</td>
+			<td><strong>New Players</strong></td>
+			<td>First matches</td>
+			<td class="k-val">Max K = 75</td>
+			<td>High mobility to calibrate quickly, protected by a start cap.</td>
 		</tr>
 		<tr>
-			<td><strong>Active</strong></td>
-			<td>11-50 games</td>
-			<td class="k-val">K = 40</td>
-			<td>Balanced weighting to climb the ladder steadily.</td>
+			<td><strong>Returning Ranked</strong></td>
+			<td>Season start</td>
+			<td class="k-val">Max K = 50</td>
+			<td>Moderate boost for players who held a rank in the previous season.</td>
 		</tr>
 		<tr>
-			<td><strong>Veteran</strong></td>
-			<td>50+ games</td>
-			<td class="k-val">K = 20</td>
-			<td>Solid stability to protect your long-term standing.</td>
+			<td><strong>Established</strong></td>
+			<td>30+ games</td>
+			<td class="k-val">Min K = 20</td>
+			<td>Decays smoothly down to a stable floor to protect long-term standing.</td>
 		</tr>
 	</table>
     
