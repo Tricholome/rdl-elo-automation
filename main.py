@@ -911,11 +911,23 @@ def run_league_pipeline(league_config, all_leagues_list):
         )
 
     # Render Static Pages (About, Simulator, Cache)
-    for page_id, tmpl in [("about", "about.html"), ("simulator", "simulator.html"), ("cache", "cache.html")]:
-        p_info = pages_content.get(page_id, {})
+    static_pages = [
+        ("about", "about.html", "codex"),
+        ("simulator", "simulator.html", "codex"),
+        ("cache", "cache.html", "cache")
+    ]
+
+    for page_id, tmpl, section_id in static_pages:
+        p_info = pages_content.get(section_id, {})
         extra = {"hall_of_fame": hall_of_fame_data} if page_id == "cache" else {}
+
         render_page(
-            tmpl, f"{page_id}.html", page_id=page_id, is_archive=False, has_seasons=False, is_static=True,
+            tmpl, f"{page_id}.html",
+            page_id=page_id,
+            section_id=section_id,
+            is_archive=False,
+            has_seasons=False,
+            is_static=True,
             title=p_info.get("title", ""), 
             page_heading=p_info.get("page_heading", ""), 
             description=p_info.get("description", ""), 
