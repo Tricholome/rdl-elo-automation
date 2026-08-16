@@ -23,21 +23,39 @@
 	<table class="k-table">
 		<tr>
 			<td><strong>New Players</strong></td>
-			<td>First matches</td>
-			<td class="k-val">Max K = 75</td>
-			<td>High mobility to calibrate quickly, protected by a start cap.</td>
+			<td>0 games</td>
+			<td class="k-val">K = 75</td>
+			<td>Initial cap for unranked newcomers.</td>
 		</tr>
 		<tr>
 			<td><strong>Returning Ranked</strong></td>
-			<td>Season start</td>
-			<td class="k-val">Max K = 50</td>
-			<td>Moderate boost for players who held a rank in the previous season.</td>
+			<td>0 games</td>
+			<td class="k-val">K = 50</td>
+			<td>Initial cap after a seasonal reset.</td>
 		</tr>
 		<tr>
-			<td><strong>Established</strong></td>
-			<td>30+ games</td>
-			<td class="k-val">Min K = 20</td>
-			<td>Decays smoothly down to a stable floor to protect long-term standing.</td>
+			<td><strong>Calibrating</strong></td>
+			<td>10 games</td>
+			<td class="k-val">K = 50</td>
+			<td>High mobility while establishing your rank.</td>
+		</tr>
+		<tr>
+			<td><strong>Regulars</strong></td>
+			<td>20 games</td>
+			<td class="k-val">K = 30</td>
+			<td>Balanced weighting to climb steadily.</td>
+		</tr>
+		<tr>
+			<td><strong>Consolidating</strong></td>
+			<td>35 games</td>
+			<td class="k-val">K = 22</td>
+			<td>Fine-tuning near skill equilibrium.</td>
+		</tr>
+		<tr>
+			<td><strong>Veterans</strong></td>
+			<td>50+ games</td>
+			<td class="k-val">K = 20</td>
+			<td>Minimum floor for long-term rank stability.</td>
 		</tr>
 	</table>
     
