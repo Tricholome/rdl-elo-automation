@@ -15,15 +15,10 @@
     "page_heading": "Player's Journey",
     "description": "Search for a player to see their Elo&nbsp;evolution&nbsp;over&nbsp;the&nbsp;season."
   },
-  "about": {
+  "codex": {
     "title": "Rootelo • Codex",
     "page_heading": "Codex",
     "description": "Understanding the fundamental rules and&nbsp;mechanics&nbsp;of&nbsp;Rootelo."
-  },
-  "simulator": {
-    "title": "Rootelo • Simulator",
-    "page_heading": "Simulator",
-    "description": "Simulate outcomes and Elo rating shifts for upcoming matches."
   },
   "cache": {
     "title": "Rootelo • Undergrowth",
