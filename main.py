@@ -829,9 +829,13 @@ def run_league_pipeline(league_config, all_leagues_list):
         template = env.get_template(template_name)
         
         prefix = "../" if (output_dir and output_dir not in ('.', '')) else ""
+        
+        page_id = kwargs.get("page_id")
+        section_id = kwargs.get("section_id", page_id)
 
         full_vars = {
             "nav_items": NAV_ITEMS,
+            "section_id": section_id,
             "generation_date": datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC'),
             "global_players": global_players_list,
             "player_profile_map_json": json.dumps(player_profile_map),
