@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-20 00:27 UTC",
+  "updated_at": "2026-08-21 00:27 UTC",
   "players": {
     "uwtron": {
       "elo": 1345,
@@ -21,29 +21,29 @@
       "wins": 7.0,
       "win_rate": "58.3%"
     },
+    "wyvernelement": {
+      "elo": 1331,
+      "rank": "-",
+      "tier": "unassigned",
+      "bg_color": null,
+      "icon_url": null,
+      "games": 6,
+      "wins": 4.0,
+      "win_rate": "66.7%"
+    },
     "meryn": {
-      "elo": 1328,
+      "elo": 1318,
       "rank": 3,
       "tier": "rabbit",
       "bg_color": "#F2C14E",
       "icon_url": "https://tricholome.github.io/rootelo/assets/icons/rabbit.webp",
-      "games": 10,
+      "games": 11,
       "wins": 6.0,
-      "win_rate": "60.0%"
-    },
-    "bw": {
-      "elo": 1315,
-      "rank": 4,
-      "tier": "rabbit",
-      "bg_color": "#F2C14E",
-      "icon_url": "https://tricholome.github.io/rootelo/assets/icons/rabbit.webp",
-      "games": 15,
-      "wins": 7.0,
-      "win_rate": "46.7%"
+      "win_rate": "54.5%"
     },
     "slaith": {
       "elo": 1311,
-      "rank": 5,
+      "rank": 4,
       "tier": "rabbit",
       "bg_color": "#F2C14E",
       "icon_url": "https://tricholome.github.io/rootelo/assets/icons/rabbit.webp",
@@ -51,15 +51,15 @@
       "wins": 6.0,
       "win_rate": "50.0%"
     },
-    "wyvernelement": {
-      "elo": 1297,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 5,
-      "wins": 3.0,
-      "win_rate": "60.0%"
+    "bw": {
+      "elo": 1306,
+      "rank": 5,
+      "tier": "rabbit",
+      "bg_color": "#F2C14E",
+      "icon_url": "https://tricholome.github.io/rootelo/assets/icons/rabbit.webp",
+      "games": 16,
+      "wins": 7.0,
+      "win_rate": "43.8%"
     },
     "chicken_x": {
       "elo": 1285,
@@ -451,16 +451,6 @@
       "wins": 1.0,
       "win_rate": "20.0%"
     },
-    "aedalus": {
-      "elo": 1191,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 9,
-      "wins": 2.0,
-      "win_rate": "22.2%"
-    },
     "green_flame": {
       "elo": 1191,
       "rank": "-",
@@ -590,6 +580,16 @@
       "games": 1,
       "wins": 0.0,
       "win_rate": "0.0%"
+    },
+    "aedalus": {
+      "elo": 1186,
+      "rank": "-",
+      "tier": "squirrel",
+      "bg_color": "#94C160",
+      "icon_url": "https://tricholome.github.io/rootelo/assets/icons/squirrel.webp",
+      "games": 10,
+      "wins": 2.0,
+      "win_rate": "20.0%"
     },
     "bustin": {
       "elo": 1186,
