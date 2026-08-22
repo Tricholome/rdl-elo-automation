@@ -121,17 +121,27 @@ class PlayerRegistry:
     def __init__(self):
         self.player_map = {}
 
-    def initialize(self, all_raw_names):
-        base_names = [str(n).split('+')[0].split('#')[0].strip() for n in all_raw_names if n]
+    def initialize(self, all_raw_names, name_overrides=None):
+        if name_overrides is None:
+            name_overrides = {}
+
+        base_names = []
+        for n in all_raw_names:
+            if not n:
+                continue
+            name_str = str(n)
+            base = name_overrides.get(name_str) or name_str.split('+')[0].split('#')[0].strip()
+            base_names.append(base)
+
         counts = Counter(base_names)
 
         for name in all_raw_names:
             if not name:
                 continue
             name_str = str(name)
-            base = name_str.split('+')[0].split('#')[0].strip()
+            base = name_overrides.get(name_str) or name_str.split('+')[0].split('#')[0].strip()
 
-            if counts[base] > 1:
+            if counts[base] > 1 and name not in name_overrides:
                 tag = ""
                 if '#' in name_str:
                     tag = name_str.split('#')[-1].strip()
@@ -241,6 +251,7 @@ def fetch_raw_matches(league_config):
                     raw_data.append({
                         'GameID': m['id'],
                         'Player': p.get('player'),
+                        'Player_Name': p.get('player_name'),
                         'Score': float(p.get('tournament_score', 0.0)),
                         'Date_Closed': m.get('date_closed')
                     })
@@ -273,6 +284,7 @@ def fetch_raw_matches(league_config):
                     raw_data.append({
                         'GameID': m['id'],
                         'Player': p.get('player'),
+                        'Player_Name': p.get('player_name') or p.get('player'),
                         'Score': float(p.get('tournament_score', 0.0)),
                         'Date_Closed': m.get('date_closed')
                     })
@@ -619,6 +631,12 @@ def run_league_pipeline(league_config, all_leagues_list):
         df = df.sort_values(by='Date_Closed').reset_index(drop=True)
 
     # Player Registry Initialization
+    name_overrides = {
+        item['Player']: item['Player_Name']
+        for item in raw_data
+        if item.get('Player') and item.get('Player_Name')
+    }
+
     all_raw_names = set()
     if not df.empty:
         all_raw_names.update(df['Player'].unique())
@@ -629,7 +647,7 @@ def run_league_pipeline(league_config, all_leagues_list):
         if archives_raw_data[tag]['history']:
             all_raw_names.update(archives_raw_data[tag]['history'].keys())
 
-    player_registry.initialize(all_raw_names)
+    player_registry.initialize(all_raw_names, name_overrides=name_overrides)
     global_players_list = sorted(list({player_registry.get_clean_name(name) for name in all_raw_names if name}))
     Logger.success(f"Player registry initialized ({len(global_players_list)} unique player names)")
 
