@@ -284,6 +284,7 @@ def fetch_raw_matches(league_config):
                     raw_data.append({
                         'GameID': m['id'],
                         'Player': p.get('player'),
+                        'Player_Name': p.get('player_name') or p.get('player'),
                         'Score': float(p.get('tournament_score', 0.0)),
                         'Date_Closed': m.get('date_closed')
                     })
