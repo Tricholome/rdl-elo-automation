@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-23 00:27 UTC",
+  "updated_at": "2026-08-24 00:27 UTC",
   "players": {
     "uwtron": {
       "elo": 1345,
@@ -10,16 +10,6 @@
       "games": 14,
       "wins": 8.0,
       "win_rate": "57.1%"
-    },
-    "pokerface126_11986": {
-      "elo": 1331,
-      "rank": 2,
-      "tier": "rabbit",
-      "bg_color": "#F2C14E",
-      "icon_url": "https://tricholome.github.io/rootelo/assets/icons/rabbit.webp",
-      "games": 12,
-      "wins": 7.0,
-      "win_rate": "58.3%"
     },
     "wyvernelement": {
       "elo": 1331,
@@ -33,7 +23,7 @@
     },
     "bw": {
       "elo": 1323,
-      "rank": 3,
+      "rank": 2,
       "tier": "rabbit",
       "bg_color": "#F2C14E",
       "icon_url": "https://tricholome.github.io/rootelo/assets/icons/rabbit.webp",
@@ -43,13 +33,23 @@
     },
     "meryn": {
       "elo": 1318,
-      "rank": 4,
+      "rank": 3,
       "tier": "rabbit",
       "bg_color": "#F2C14E",
       "icon_url": "https://tricholome.github.io/rootelo/assets/icons/rabbit.webp",
       "games": 11,
       "wins": 6.0,
       "win_rate": "54.5%"
+    },
+    "pokerface126_11986": {
+      "elo": 1317,
+      "rank": 4,
+      "tier": "rabbit",
+      "bg_color": "#F2C14E",
+      "icon_url": "https://tricholome.github.io/rootelo/assets/icons/rabbit.webp",
+      "games": 13,
+      "wins": 7.0,
+      "win_rate": "53.8%"
     },
     "slaith": {
       "elo": 1311,
@@ -241,9 +241,19 @@
       "wins": 2.0,
       "win_rate": "33.3%"
     },
+    "jaredjm41": {
+      "elo": 1227,
+      "rank": 11,
+      "tier": "mouse",
+      "bg_color": "#F49E52",
+      "icon_url": "https://tricholome.github.io/rootelo/assets/icons/mouse.webp",
+      "games": 10,
+      "wins": 3.0,
+      "win_rate": "30.0%"
+    },
     "simber_2925": {
       "elo": 1226,
-      "rank": 11,
+      "rank": 12,
       "tier": "mouse",
       "bg_color": "#F49E52",
       "icon_url": "https://tricholome.github.io/rootelo/assets/icons/mouse.webp",
@@ -293,7 +303,7 @@
     },
     "cosmiccant": {
       "elo": 1206,
-      "rank": 12,
+      "rank": 13,
       "tier": "mouse",
       "bg_color": "#F49E52",
       "icon_url": "https://tricholome.github.io/rootelo/assets/icons/mouse.webp",
@@ -361,16 +371,6 @@
       "wins": 1.0,
       "win_rate": "25.0%"
     },
-    "jaredjm41": {
-      "elo": 1200,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 9,
-      "wins": 2.0,
-      "win_rate": "22.2%"
-    },
     "lesslobster": {
       "elo": 1200,
       "rank": "-",
@@ -410,16 +410,6 @@
       "games": 5,
       "wins": 1.0,
       "win_rate": "20.0%"
-    },
-    "nattykash": {
-      "elo": 1196,
-      "rank": "-",
-      "tier": "unassigned",
-      "bg_color": null,
-      "icon_url": null,
-      "games": 9,
-      "wins": 2.0,
-      "win_rate": "22.2%"
     },
     "gregoola": {
       "elo": 1196,
@@ -501,6 +491,16 @@
       "wins": 1.0,
       "win_rate": "20.0%"
     },
+    "nattykash": {
+      "elo": 1190,
+      "rank": "-",
+      "tier": "squirrel",
+      "bg_color": "#94C160",
+      "icon_url": "https://tricholome.github.io/rootelo/assets/icons/squirrel.webp",
+      "games": 10,
+      "wins": 2.0,
+      "win_rate": "20.0%"
+    },
     "doe": {
       "elo": 1189,
       "rank": "-",
@@ -571,16 +571,6 @@
       "wins": 0.0,
       "win_rate": "0.0%"
     },
-    "aedalus": {
-      "elo": 1186,
-      "rank": "-",
-      "tier": "squirrel",
-      "bg_color": "#94C160",
-      "icon_url": "https://tricholome.github.io/rootelo/assets/icons/squirrel.webp",
-      "games": 10,
-      "wins": 2.0,
-      "win_rate": "20.0%"
-    },
     "bustin": {
       "elo": 1186,
       "rank": "-",
@@ -590,6 +580,16 @@
       "games": 1,
       "wins": 0.0,
       "win_rate": "0.0%"
+    },
+    "aedalus": {
+      "elo": 1180,
+      "rank": "-",
+      "tier": "squirrel",
+      "bg_color": "#94C160",
+      "icon_url": "https://tricholome.github.io/rootelo/assets/icons/squirrel.webp",
+      "games": 11,
+      "wins": 2.0,
+      "win_rate": "18.2%"
     },
     "pheobii": {
       "elo": 1179,
