@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-27 00:27 UTC",
+  "updated_at": "2026-08-28 00:27 UTC",
   "players": {
     "uwtron": {
       "elo": 1365,
@@ -51,7 +51,7 @@
       "wins": 6.0,
       "win_rate": "50.0%"
     },
-    "lylethebrick": {
+    "lylethebrick-1438": {
       "elo": 1310,
       "rank": 5,
       "tier": "rabbit",
