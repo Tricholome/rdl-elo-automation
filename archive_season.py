@@ -16,11 +16,11 @@ CUTOFF_DATE = datetime.strptime(CUTOFF_DATE_STR, "%Y-%m-%d").date()
 API_TOKEN = os.getenv('API_TOKEN')
 HEADERS = {'Authorization': f'Token {API_TOKEN}'} if API_TOKEN else {}
 
-DATA_DIR = "data"
-CONFIG_DIR = os.path.join(DATA_DIR, "config")
+LEAGUE_SLUG = "rdl"
+DATA_DIR = os.path.join("data", LEAGUE_SLUG)
 SEASON_DIR = os.path.join(DATA_DIR, "archives", SEASON_TAG)
 
-CORRECTIONS_PATH = os.path.join(CONFIG_DIR, "corrections.csv")
+CORRECTIONS_PATH = os.path.join(DATA_DIR, "corrections.csv")
 
 OUTPUT_RATINGS   = os.path.join(SEASON_DIR, "ratings.csv")
 OUTPUT_HISTORY   = os.path.join(SEASON_DIR, "history.json")
@@ -31,7 +31,7 @@ OUTPUT_RELATIONS = os.path.join(SEASON_DIR, "relations.json")
 # =========================================================================
 # --- 2. LOAD PREVIOUS SEASON BASELINE ---
 # =========================================================================
-print(f"\n=== INITIALIZING {SEASON_TAG.upper()} ===")
+print(f"\n=== INITIALIZING {SEASON_TAG.upper()} ({LEAGUE_SLUG.upper()}) ===")
 inherited_elo = {}
 
 if PREVIOUS_SEASON_TAG:
