@@ -152,12 +152,9 @@
 						<span class="season-label">League</span>
 						<select onchange="if (this.value) window.location.href=this.value;">
 							{% for l in all_leagues %}
-								{# Condition temporaire : masque l'option HOOT uniquement si la page actuelle est RDL #}
-								{% if (l.enabled or l.slug == league_config.slug) and not (league_config.slug == 'rdl' and l.slug == 'hoot') %}
-									<option value="{{ path_prefix }}{{ l.output_dir }}/{{ page_id }}.html" {% if l.slug == league_config.slug %}selected{% endif %}>
-										{{ l.name|upper }}
-									</option>
-								{% endif %}
+								<option value="{{ path_prefix }}{{ l.output_dir }}/{{ page_id }}.html" {% if l.slug == league_config.slug %}selected{% endif %}>
+									{{ l.name|upper }}
+								</option>
 							{% endfor %}
 						</select>	
 					</div>
